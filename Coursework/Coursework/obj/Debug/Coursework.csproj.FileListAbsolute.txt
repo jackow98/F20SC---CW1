@@ -1,0 +1,9 @@
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\bin\Debug\Coursework.exe.config
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\bin\Debug\Coursework.exe
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\bin\Debug\Coursework.pdb
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.csprojAssemblyReference.cache
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.Properties.Resources.resources
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.csproj.GenerateResource.cache
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.csproj.CoreCompileInputs.cache
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.exe
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.pdb
