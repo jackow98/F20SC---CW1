@@ -38,7 +38,7 @@ namespace Coursewok
                 {
                     response = (HttpWebResponse)request.GetResponse();
 
-                    //Display statu inlabel
+                    //Display statuS in label
                     this.HTTPResponseStatus.Text = ((HttpWebResponse)response).StatusDescription;
 
                     // Get the stream containing content returned by the server. 
@@ -60,11 +60,11 @@ namespace Coursewok
                     if (exception.Status == WebExceptionStatus.ProtocolError)
                     {
                         response = (HttpWebResponse)exception.Response;
-                        this.HTTPResponseStatus.Text = ((int)response.StatusCode).ToString();
+                        this.HTTPResponseStatus.Text = response.StatusDescription;
                     }
                     else
                     {
-                        this.HTTPResponseStatus.Text = ((int)exception.Status).ToString();
+                        this.HTTPResponseStatus.Text = response.StatusDescription;
                     }
                 }
                 finally
