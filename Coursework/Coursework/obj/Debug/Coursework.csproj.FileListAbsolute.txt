@@ -7,3 +7,11 @@ C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.cspro
 C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.csproj.CoreCompileInputs.cache
 C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.exe
 C:\Users\Owner\.ssh\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.pdb
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\bin\Debug\Coursework.exe.config
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.exe
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.pdb
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.csprojResolveAssemblyReference.cache
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.Properties.Resources.resources
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\obj\Debug\Coursework.csproj.GenerateResource.Cache
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\bin\Debug\Coursework.exe
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\Coursework\bin\Debug\Coursework.pdb

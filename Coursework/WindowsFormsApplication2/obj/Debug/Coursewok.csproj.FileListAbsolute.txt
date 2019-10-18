@@ -1,0 +1,9 @@
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe.config
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.pdb
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\Coursewok.csprojResolveAssemblyReference.cache
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\Coursewok.Form1.resources
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Properties.Resources.resources
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\Coursewok.csproj.GenerateResource.Cache
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.exe
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.pdb

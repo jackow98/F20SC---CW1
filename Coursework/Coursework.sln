@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coursework", "Coursework\Coursework.csproj", "{DBDCA13B-381E-4079-9FBA-4368FA893906}"
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coursewok", "WindowsFormsApplication2\Coursewok.csproj", "{3C3B9913-92F3-41D6-A03C-41AC94B8D0BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +11,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DBDCA13B-381E-4079-9FBA-4368FA893906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBDCA13B-381E-4079-9FBA-4368FA893906}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBDCA13B-381E-4079-9FBA-4368FA893906}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBDCA13B-381E-4079-9FBA-4368FA893906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C3B9913-92F3-41D6-A03C-41AC94B8D0BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C3B9913-92F3-41D6-A03C-41AC94B8D0BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C3B9913-92F3-41D6-A03C-41AC94B8D0BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C3B9913-92F3-41D6-A03C-41AC94B8D0BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
