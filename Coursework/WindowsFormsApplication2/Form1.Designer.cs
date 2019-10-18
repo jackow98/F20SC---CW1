@@ -31,18 +31,17 @@
             this.RequestButton = new System.Windows.Forms.Button();
             this.HTTPResponseStatus = new System.Windows.Forms.Label();
             this.HTTPResponseLabel = new System.Windows.Forms.Label();
-            this.HTTPStreamLabel = new System.Windows.Forms.Label();
-            this.HTTPStreamContent = new System.Windows.Forms.Label();
             this.URLContent = new System.Windows.Forms.TextBox();
-            this.URLLabel = new System.Windows.Forms.Label();
+            this.HTTPStreamLabel = new System.Windows.Forms.Label();
+            this.HTTPStreamContent = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // RequestButton
             // 
             this.RequestButton.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.RequestButton.Location = new System.Drawing.Point(78, 201);
+            this.RequestButton.Location = new System.Drawing.Point(78, 615);
             this.RequestButton.Name = "RequestButton";
-            this.RequestButton.Size = new System.Drawing.Size(181, 82);
+            this.RequestButton.Size = new System.Drawing.Size(985, 82);
             this.RequestButton.TabIndex = 0;
             this.RequestButton.Text = "Make HTTP Request";
             this.RequestButton.UseVisualStyleBackColor = true;
@@ -67,10 +66,18 @@
             this.HTTPResponseLabel.Text = "HTTP Response";
             this.HTTPResponseLabel.Click += new System.EventHandler(this.label1_Click);
             // 
+            // URLContent
+            // 
+            this.URLContent.Location = new System.Drawing.Point(81, 47);
+            this.URLContent.Name = "URLContent";
+            this.URLContent.Size = new System.Drawing.Size(982, 20);
+            this.URLContent.TabIndex = 5;
+            this.URLContent.Text = "Enter URL";
+            // 
             // HTTPStreamLabel
             // 
             this.HTTPStreamLabel.AutoSize = true;
-            this.HTTPStreamLabel.Location = new System.Drawing.Point(78, 131);
+            this.HTTPStreamLabel.Location = new System.Drawing.Point(75, 165);
             this.HTTPStreamLabel.Name = "HTTPStreamLabel";
             this.HTTPStreamLabel.Size = new System.Drawing.Size(40, 13);
             this.HTTPStreamLabel.TabIndex = 3;
@@ -78,39 +85,19 @@
             // 
             // HTTPStreamContent
             // 
-            this.HTTPStreamContent.AutoSize = true;
-            this.HTTPStreamContent.Location = new System.Drawing.Point(182, 131);
+            this.HTTPStreamContent.Location = new System.Drawing.Point(78, 181);
             this.HTTPStreamContent.Name = "HTTPStreamContent";
-            this.HTTPStreamContent.Size = new System.Drawing.Size(16, 13);
-            this.HTTPStreamContent.TabIndex = 4;
-            this.HTTPStreamContent.Text = "...";
-            this.HTTPStreamContent.Click += new System.EventHandler(this.label1_Click_1);
-            // 
-            // URLContent
-            // 
-            this.URLContent.Location = new System.Drawing.Point(137, 49);
-            this.URLContent.Name = "URLContent";
-            this.URLContent.Size = new System.Drawing.Size(122, 20);
-            this.URLContent.TabIndex = 5;
-            // 
-            // URLLabel
-            // 
-            this.URLLabel.AutoSize = true;
-            this.URLLabel.Location = new System.Drawing.Point(78, 55);
-            this.URLLabel.Name = "URLLabel";
-            this.URLLabel.Size = new System.Drawing.Size(29, 13);
-            this.URLLabel.TabIndex = 6;
-            this.URLLabel.Text = "URL";
-            this.URLLabel.Click += new System.EventHandler(this.label1_Click_2);
+            this.HTTPStreamContent.Size = new System.Drawing.Size(985, 415);
+            this.HTTPStreamContent.TabIndex = 6;
+            this.HTTPStreamContent.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 340);
-            this.Controls.Add(this.URLLabel);
-            this.Controls.Add(this.URLContent);
+            this.ClientSize = new System.Drawing.Size(1127, 718);
             this.Controls.Add(this.HTTPStreamContent);
+            this.Controls.Add(this.URLContent);
             this.Controls.Add(this.HTTPStreamLabel);
             this.Controls.Add(this.HTTPResponseLabel);
             this.Controls.Add(this.HTTPResponseStatus);
@@ -127,10 +114,9 @@
         private System.Windows.Forms.Button RequestButton;
         private System.Windows.Forms.Label HTTPResponseStatus;
         private System.Windows.Forms.Label HTTPResponseLabel;
-        private System.Windows.Forms.Label HTTPStreamLabel;
-        private System.Windows.Forms.Label HTTPStreamContent;
         private System.Windows.Forms.TextBox URLContent;
-        private System.Windows.Forms.Label URLLabel;
+        private System.Windows.Forms.Label HTTPStreamLabel;
+        private System.Windows.Forms.RichTextBox HTTPStreamContent;
     }
 }
 
