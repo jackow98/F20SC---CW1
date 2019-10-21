@@ -3,9 +3,27 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using System.Data.SQLite;
+using System.Linq;
 
 namespace Coursewok
 {
+    [ Table ( Name = " favourites ") ]
+    public class Favourites
+    {
+        [ Column ]
+        public string URL { get ; set ; }
+        [ Column ]
+        public string title { get ; set ; }
+        [ Column ]
+        public string rawHTML { get ; set ; }
+        [ Column ]
+        public int visits { get ; set ; }
+        [ Column ]
+        public string lastLoad { get ; set ; }
+    }
     public partial class Form1 : Form
     {
         public Form1()
@@ -77,19 +95,37 @@ namespace Coursewok
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-
+            throw new System.NotImplementedException();
         }
 
-        private void label1_Click_1(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-
+            throw new System.NotImplementedException();
         }
 
-        private void label1_Click_2(object sender, EventArgs e)
+        private void groupBox1_Enter(object sender, EventArgs e)
         {
+            throw new System.NotImplementedException();
+        }
 
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            string relativePath = @"demo.DB";
+            var parentdir = Path.GetDirectoryName(Application.StartupPath);
+            string myString = parentdir.Remove(parentdir.Length -34, 34);
+            string absolutePath = Path.Combine(myString, relativePath);
+            string connectionString = string.Format("Data Source={0}",absolutePath);
+           
+            DataContext db = new DataContext(connectionString);
+
+            Table<Favourites> FavouriteTable = db.GetTable<Favourites>();
+            IQueryable<Favourites> dbQuery = from favourite in FavouriteTable select favourite;
+            
+            foreach ( var url in dbQuery ) {
+                var result = MessageBox.Show( ("URL : "+ url) ); 
+            }
         }
     }
 }
