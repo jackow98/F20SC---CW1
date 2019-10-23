@@ -6,11 +6,12 @@ using System.IO;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Coursewok
 {
-    [ Table ( Name = " favourites ") ]
+    [ Table ( Name = "Favourites") ]
     public class Favourites
     {
         [ Column ]
@@ -102,7 +103,7 @@ namespace Coursewok
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -114,17 +115,20 @@ namespace Coursewok
         {
             string relativePath = @"demo.DB";
             var parentdir = Path.GetDirectoryName(Application.StartupPath);
-            string myString = parentdir.Remove(parentdir.Length -34, 34);
-            string absolutePath = Path.Combine(myString, relativePath);
+    
+            string absolutePath = Path.Combine(parentdir, "Debug", "demo.DB");
             string connectionString = string.Format("Data Source={0}",absolutePath);
+
+            var connection = new SQLiteConnection(connectionString);
+            textLabel.Text = connectionString;
            
-            DataContext db = new DataContext(connectionString);
+            DataContext db = new DataContext(connection);
 
             Table<Favourites> FavouriteTable = db.GetTable<Favourites>();
-            IQueryable<Favourites> dbQuery = from favourite in FavouriteTable select favourite;
+            IQueryable<Favourites> dbQuery = from URL in FavouriteTable select URL;
             
-            foreach ( var url in dbQuery ) {
-                var result = MessageBox.Show( ("URL : "+ url) ); 
+            foreach ( var favourite in dbQuery ) {
+                var result = MessageBox.Show( "URL : "+ favourite.URL ); 
             }
         }
     }
