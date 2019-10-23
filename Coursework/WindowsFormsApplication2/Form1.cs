@@ -35,16 +35,10 @@ namespace Coursewok
         private void button1_Click(object sender, EventArgs e)
         {
 
-            this.HTTPResponseStatus.Text = "";
-            this.HTTPStreamContent.Text = "";
+            this.StatusCodeLabel.Text = "";
+            this.HTMLPageDisplay.Text = "";
 
-            var values = new Dictionary<string, string>
-            {
-                {"thing1", "hello" },
-                {"thing2", "world" }
-            };
-
-            string URL = this.URLContent.Text;
+            string URL = this.SearchBar.Text;
 
             //Create a request for the URL
             if (URL != "")
@@ -58,7 +52,7 @@ namespace Coursewok
                     response = (HttpWebResponse)request.GetResponse();
 
                     //Display statuS in label
-                    this.HTTPResponseStatus.Text = ((HttpWebResponse)response).StatusDescription;
+                    this.StatusCodeLabel.Text = ((HttpWebResponse)response).StatusDescription;
 
                     // Get the stream containing content returned by the server. 
                     // The using block ensures the stream is automatically closed. 
@@ -69,7 +63,7 @@ namespace Coursewok
                         // Read the content.  
                         string responseFromServer = reader.ReadToEnd();
                         // Display the content.  
-                        this.HTTPStreamContent.Text = responseFromServer;
+                        this.HTMLPageDisplay.Text = responseFromServer;
                     }
 
                     response.Close();
@@ -79,11 +73,11 @@ namespace Coursewok
                     if (exception.Status == WebExceptionStatus.ProtocolError)
                     {
                         response = (HttpWebResponse)exception.Response;
-                        this.HTTPResponseStatus.Text = response.StatusDescription;
+                        this.StatusCodeLabel.Text = response.StatusDescription;
                     }
                     else
                     {
-                        this.HTTPResponseStatus.Text = response.StatusDescription;
+                        this.StatusCodeLabel.Text = response.StatusDescription;
                     }
                 }
                 finally
@@ -98,7 +92,7 @@ namespace Coursewok
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+           
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -108,7 +102,7 @@ namespace Coursewok
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+          
         }
 
         private void button1_Click_2(object sender, EventArgs e)
@@ -120,7 +114,6 @@ namespace Coursewok
             string connectionString = string.Format("Data Source={0}",absolutePath);
 
             var connection = new SQLiteConnection(connectionString);
-            textLabel.Text = connectionString;
            
             DataContext db = new DataContext(connection);
 

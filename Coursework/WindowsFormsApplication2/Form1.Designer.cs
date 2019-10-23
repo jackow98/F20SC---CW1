@@ -28,108 +28,169 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.RequestButton = new System.Windows.Forms.Button();
-            this.HTTPResponseStatus = new System.Windows.Forms.Label();
-            this.HTTPResponseLabel = new System.Windows.Forms.Label();
-            this.URLContent = new System.Windows.Forms.TextBox();
-            this.HTTPStreamLabel = new System.Windows.Forms.Label();
-            this.HTTPStreamContent = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textLabel = new System.Windows.Forms.Label();
+            this.SearchButton = new System.Windows.Forms.Button();
+            this.SearchBar = new System.Windows.Forms.TextBox();
+            this.HomeButton = new System.Windows.Forms.Button();
+            this.FavouritesButton = new System.Windows.Forms.Button();
+            this.HistoryButton = new System.Windows.Forms.Button();
+            this.TabsDropdown = new System.Windows.Forms.ComboBox();
+            this.AddTabButton = new System.Windows.Forms.Button();
+            this.CloseTabButton = new System.Windows.Forms.Button();
+            this.ReloadButton = new System.Windows.Forms.Button();
+            this.HTMLPageDisplay = new System.Windows.Forms.RichTextBox();
+            this.WebPageTitleLabel = new System.Windows.Forms.Label();
+            this.StatusCodeLabel = new System.Windows.Forms.Label();
+            this.DisplayTypeDropdown = new System.Windows.Forms.ComboBox();
+            this.AddFavouriteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // RequestButton
+            // SearchButton
             // 
-            this.RequestButton.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.RequestButton.Location = new System.Drawing.Point(172, 431);
-            this.RequestButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.RequestButton.Name = "RequestButton";
-            this.RequestButton.Size = new System.Drawing.Size(341, 95);
-            this.RequestButton.TabIndex = 0;
-            this.RequestButton.Text = "Make HTTP Request";
-            this.RequestButton.UseVisualStyleBackColor = true;
-            this.RequestButton.Click += new System.EventHandler(this.button1_Click);
+            this.SearchButton.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.SearchButton.Location = new System.Drawing.Point(525, 52);
+            this.SearchButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SearchButton.Name = "SearchButton";
+            this.SearchButton.Size = new System.Drawing.Size(65, 25);
+            this.SearchButton.TabIndex = 0;
+            this.SearchButton.Text = "Search";
+            this.SearchButton.UseVisualStyleBackColor = true;
+            this.SearchButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // HTTPResponseStatus
+            // SearchBar
             // 
-            this.HTTPResponseStatus.AutoSize = true;
-            this.HTTPResponseStatus.Location = new System.Drawing.Point(213, 103);
-            this.HTTPResponseStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.HTTPResponseStatus.Name = "HTTPResponseStatus";
-            this.HTTPResponseStatus.Size = new System.Drawing.Size(16, 15);
-            this.HTTPResponseStatus.TabIndex = 1;
-            this.HTTPResponseStatus.Text = "...";
+            this.SearchBar.Location = new System.Drawing.Point(153, 52);
+            this.SearchBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SearchBar.Name = "SearchBar";
+            this.SearchBar.Size = new System.Drawing.Size(364, 23);
+            this.SearchBar.TabIndex = 5;
+            this.SearchBar.Text = "Enter URL";
             // 
-            // HTTPResponseLabel
+            // HomeButton
             // 
-            this.HTTPResponseLabel.AutoSize = true;
-            this.HTTPResponseLabel.Location = new System.Drawing.Point(88, 103);
-            this.HTTPResponseLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.HTTPResponseLabel.Name = "HTTPResponseLabel";
-            this.HTTPResponseLabel.Size = new System.Drawing.Size(88, 15);
-            this.HTTPResponseLabel.TabIndex = 2;
-            this.HTTPResponseLabel.Text = "HTTP Response";
+            this.HomeButton.Location = new System.Drawing.Point(69, 48);
+            this.HomeButton.Name = "HomeButton";
+            this.HomeButton.Size = new System.Drawing.Size(64, 29);
+            this.HomeButton.TabIndex = 7;
+            this.HomeButton.Text = "Home";
+            this.HomeButton.UseVisualStyleBackColor = true;
             // 
-            // URLContent
+            // FavouritesButton
             // 
-            this.URLContent.Location = new System.Drawing.Point(150, 37);
-            this.URLContent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.URLContent.Name = "URLContent";
-            this.URLContent.Size = new System.Drawing.Size(364, 23);
-            this.URLContent.TabIndex = 5;
-            this.URLContent.Text = "Enter URL";
+            this.FavouritesButton.Location = new System.Drawing.Point(624, 52);
+            this.FavouritesButton.Name = "FavouritesButton";
+            this.FavouritesButton.Size = new System.Drawing.Size(87, 25);
+            this.FavouritesButton.TabIndex = 8;
+            this.FavouritesButton.Text = "Favourites";
+            this.FavouritesButton.UseVisualStyleBackColor = true;
+            this.FavouritesButton.Click += new System.EventHandler(this.button1_Click_2);
             // 
-            // HTTPStreamLabel
+            // HistoryButton
             // 
-            this.HTTPStreamLabel.AutoSize = true;
-            this.HTTPStreamLabel.Location = new System.Drawing.Point(88, 190);
-            this.HTTPStreamLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.HTTPStreamLabel.Name = "HTTPStreamLabel";
-            this.HTTPStreamLabel.Size = new System.Drawing.Size(44, 15);
-            this.HTTPStreamLabel.TabIndex = 3;
-            this.HTTPStreamLabel.Text = "Stream";
+            this.HistoryButton.Location = new System.Drawing.Point(717, 51);
+            this.HistoryButton.Name = "HistoryButton";
+            this.HistoryButton.Size = new System.Drawing.Size(98, 26);
+            this.HistoryButton.TabIndex = 9;
+            this.HistoryButton.Text = "History";
+            this.HistoryButton.UseVisualStyleBackColor = true;
             // 
-            // HTTPStreamContent
+            // TabsDropdown
             // 
-            this.HTTPStreamContent.Location = new System.Drawing.Point(88, 209);
-            this.HTTPStreamContent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.HTTPStreamContent.Name = "HTTPStreamContent";
-            this.HTTPStreamContent.Size = new System.Drawing.Size(500, 204);
-            this.HTTPStreamContent.TabIndex = 6;
-            this.HTTPStreamContent.Text = "";
+            this.TabsDropdown.FormattingEnabled = true;
+            this.TabsDropdown.Location = new System.Drawing.Point(4, 1);
+            this.TabsDropdown.Name = "TabsDropdown";
+            this.TabsDropdown.Size = new System.Drawing.Size(677, 23);
+            this.TabsDropdown.TabIndex = 10;
+            this.TabsDropdown.Text = "CurrentTab";
             // 
-            // button1
+            // AddTabButton
             // 
-            this.button1.Location = new System.Drawing.Point(347, 122);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(173, 46);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_2);
+            this.AddTabButton.Location = new System.Drawing.Point(688, 1);
+            this.AddTabButton.Name = "AddTabButton";
+            this.AddTabButton.Size = new System.Drawing.Size(68, 23);
+            this.AddTabButton.TabIndex = 11;
+            this.AddTabButton.Text = "Add Tab";
+            this.AddTabButton.UseVisualStyleBackColor = true;
             // 
-            // textLabel
+            // CloseTabButton
             // 
-            this.textLabel.Location = new System.Drawing.Point(92, 172);
-            this.textLabel.Name = "textLabel";
-            this.textLabel.Size = new System.Drawing.Size(472, 18);
-            this.textLabel.TabIndex = 8;
-            this.textLabel.Text = "label1";
+            this.CloseTabButton.Location = new System.Drawing.Point(762, 1);
+            this.CloseTabButton.Name = "CloseTabButton";
+            this.CloseTabButton.Size = new System.Drawing.Size(68, 23);
+            this.CloseTabButton.TabIndex = 12;
+            this.CloseTabButton.Text = "Close Tab";
+            this.CloseTabButton.UseVisualStyleBackColor = true;
+            // 
+            // ReloadButton
+            // 
+            this.ReloadButton.Location = new System.Drawing.Point(4, 48);
+            this.ReloadButton.Name = "ReloadButton";
+            this.ReloadButton.Size = new System.Drawing.Size(59, 29);
+            this.ReloadButton.TabIndex = 13;
+            this.ReloadButton.Text = "Reload";
+            this.ReloadButton.UseVisualStyleBackColor = true;
+            // 
+            // HTMLPageDisplay
+            // 
+            this.HTMLPageDisplay.Location = new System.Drawing.Point(4, 168);
+            this.HTMLPageDisplay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.HTMLPageDisplay.Name = "HTMLPageDisplay";
+            this.HTMLPageDisplay.Size = new System.Drawing.Size(836, 338);
+            this.HTMLPageDisplay.TabIndex = 6;
+            this.HTMLPageDisplay.Text = "";
+            // 
+            // WebPageTitleLabel
+            // 
+            this.WebPageTitleLabel.Location = new System.Drawing.Point(5, 136);
+            this.WebPageTitleLabel.Name = "WebPageTitleLabel";
+            this.WebPageTitleLabel.Size = new System.Drawing.Size(536, 32);
+            this.WebPageTitleLabel.TabIndex = 14;
+            this.WebPageTitleLabel.Text = "CurrentWebPage";
+            // 
+            // StatusCodeLabel
+            // 
+            this.StatusCodeLabel.Location = new System.Drawing.Point(547, 136);
+            this.StatusCodeLabel.Name = "StatusCodeLabel";
+            this.StatusCodeLabel.Size = new System.Drawing.Size(133, 32);
+            this.StatusCodeLabel.TabIndex = 15;
+            this.StatusCodeLabel.Text = "Staus Code";
+            // 
+            // DisplayTypeDropdown
+            // 
+            this.DisplayTypeDropdown.FormattingEnabled = true;
+            this.DisplayTypeDropdown.Location = new System.Drawing.Point(680, 133);
+            this.DisplayTypeDropdown.Name = "DisplayTypeDropdown";
+            this.DisplayTypeDropdown.Size = new System.Drawing.Size(160, 23);
+            this.DisplayTypeDropdown.TabIndex = 16;
+            this.DisplayTypeDropdown.Text = "Raw HTML";
+            // 
+            // AddFavouriteButton
+            // 
+            this.AddFavouriteButton.Location = new System.Drawing.Point(717, 513);
+            this.AddFavouriteButton.Name = "AddFavouriteButton";
+            this.AddFavouriteButton.Size = new System.Drawing.Size(113, 24);
+            this.AddFavouriteButton.TabIndex = 17;
+            this.AddFavouriteButton.Text = "Add Favourite";
+            this.AddFavouriteButton.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(631, 536);
-            this.Controls.Add(this.textLabel);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.HTTPStreamContent);
-            this.Controls.Add(this.URLContent);
-            this.Controls.Add(this.HTTPStreamLabel);
-            this.Controls.Add(this.HTTPResponseLabel);
-            this.Controls.Add(this.HTTPResponseStatus);
-            this.Controls.Add(this.RequestButton);
+            this.ClientSize = new System.Drawing.Size(842, 541);
+            this.Controls.Add(this.AddFavouriteButton);
+            this.Controls.Add(this.DisplayTypeDropdown);
+            this.Controls.Add(this.StatusCodeLabel);
+            this.Controls.Add(this.WebPageTitleLabel);
+            this.Controls.Add(this.ReloadButton);
+            this.Controls.Add(this.CloseTabButton);
+            this.Controls.Add(this.AddTabButton);
+            this.Controls.Add(this.TabsDropdown);
+            this.Controls.Add(this.HistoryButton);
+            this.Controls.Add(this.FavouritesButton);
+            this.Controls.Add(this.HomeButton);
+            this.Controls.Add(this.HTMLPageDisplay);
+            this.Controls.Add(this.SearchBar);
+            this.Controls.Add(this.SearchButton);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -140,14 +201,20 @@
 
         #endregion
 
-        private System.Windows.Forms.Button RequestButton;
-        private System.Windows.Forms.Label HTTPResponseStatus;
-        private System.Windows.Forms.Label HTTPResponseLabel;
-        private System.Windows.Forms.TextBox URLContent;
-        private System.Windows.Forms.Label HTTPStreamLabel;
-        private System.Windows.Forms.RichTextBox HTTPStreamContent;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label textLabel;
+        private System.Windows.Forms.Button HomeButton;
+        private System.Windows.Forms.TextBox SearchBar;
+        private System.Windows.Forms.Button SearchButton;
+        private System.Windows.Forms.Button HistoryButton;
+        private System.Windows.Forms.Button FavouritesButton;
+        private System.Windows.Forms.Button CloseTabButton;
+        private System.Windows.Forms.Button AddTabButton;
+        private System.Windows.Forms.ComboBox TabsDropdown;
+        private System.Windows.Forms.Label StatusCodeLabel;
+        private System.Windows.Forms.Label WebPageTitleLabel;
+        private System.Windows.Forms.Button ReloadButton;
+        private System.Windows.Forms.ComboBox DisplayTypeDropdown;
+        private System.Windows.Forms.RichTextBox HTMLPageDisplay;
+        private System.Windows.Forms.Button AddFavouriteButton;
     }
 }
 
