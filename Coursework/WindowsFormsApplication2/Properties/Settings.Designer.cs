@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Coursewok.Properties
+namespace Browser.Properties
 {
 
 

@@ -1,6 +1,8 @@
-﻿namespace Coursewok
+﻿using System.Windows.Forms;
+
+namespace Browser
 {
-    partial class Form1
+    partial class BrowserWindow<T> : Form  where T : IWebpage
     {
         /// <summary>
         /// Required designer variable.
@@ -47,48 +49,50 @@
             // SearchButton
             // 
             this.SearchButton.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.SearchButton.Location = new System.Drawing.Point(525, 52);
-            this.SearchButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SearchButton.Location = new System.Drawing.Point(600, 69);
+            this.SearchButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.SearchButton.Name = "SearchButton";
-            this.SearchButton.Size = new System.Drawing.Size(65, 25);
+            this.SearchButton.Size = new System.Drawing.Size(74, 34);
             this.SearchButton.TabIndex = 0;
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = true;
-            this.SearchButton.Click += new System.EventHandler(this.button1_Click);
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
             // SearchBar
             // 
-            this.SearchBar.Location = new System.Drawing.Point(153, 52);
-            this.SearchBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SearchBar.Location = new System.Drawing.Point(175, 69);
+            this.SearchBar.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.SearchBar.Name = "SearchBar";
-            this.SearchBar.Size = new System.Drawing.Size(364, 23);
+            this.SearchBar.Size = new System.Drawing.Size(415, 27);
             this.SearchBar.TabIndex = 5;
             this.SearchBar.Text = "Enter URL";
             // 
             // HomeButton
             // 
-            this.HomeButton.Location = new System.Drawing.Point(69, 48);
+            this.HomeButton.Location = new System.Drawing.Point(79, 64);
+            this.HomeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.HomeButton.Name = "HomeButton";
-            this.HomeButton.Size = new System.Drawing.Size(64, 29);
+            this.HomeButton.Size = new System.Drawing.Size(73, 39);
             this.HomeButton.TabIndex = 7;
             this.HomeButton.Text = "Home";
             this.HomeButton.UseVisualStyleBackColor = true;
             // 
             // FavouritesButton
             // 
-            this.FavouritesButton.Location = new System.Drawing.Point(624, 52);
+            this.FavouritesButton.Location = new System.Drawing.Point(713, 69);
+            this.FavouritesButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.FavouritesButton.Name = "FavouritesButton";
-            this.FavouritesButton.Size = new System.Drawing.Size(87, 25);
+            this.FavouritesButton.Size = new System.Drawing.Size(99, 34);
             this.FavouritesButton.TabIndex = 8;
             this.FavouritesButton.Text = "Favourites";
             this.FavouritesButton.UseVisualStyleBackColor = true;
-            this.FavouritesButton.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // HistoryButton
             // 
-            this.HistoryButton.Location = new System.Drawing.Point(717, 51);
+            this.HistoryButton.Location = new System.Drawing.Point(819, 68);
+            this.HistoryButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.HistoryButton.Name = "HistoryButton";
-            this.HistoryButton.Size = new System.Drawing.Size(98, 26);
+            this.HistoryButton.Size = new System.Drawing.Size(112, 35);
             this.HistoryButton.TabIndex = 9;
             this.HistoryButton.Text = "History";
             this.HistoryButton.UseVisualStyleBackColor = true;
@@ -96,87 +100,93 @@
             // TabsDropdown
             // 
             this.TabsDropdown.FormattingEnabled = true;
-            this.TabsDropdown.Location = new System.Drawing.Point(4, 1);
+            this.TabsDropdown.Location = new System.Drawing.Point(5, 1);
+            this.TabsDropdown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TabsDropdown.Name = "TabsDropdown";
-            this.TabsDropdown.Size = new System.Drawing.Size(677, 23);
+            this.TabsDropdown.Size = new System.Drawing.Size(773, 28);
             this.TabsDropdown.TabIndex = 10;
             this.TabsDropdown.Text = "CurrentTab";
             // 
             // AddTabButton
             // 
-            this.AddTabButton.Location = new System.Drawing.Point(688, 1);
+            this.AddTabButton.Location = new System.Drawing.Point(786, 1);
+            this.AddTabButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AddTabButton.Name = "AddTabButton";
-            this.AddTabButton.Size = new System.Drawing.Size(68, 23);
+            this.AddTabButton.Size = new System.Drawing.Size(78, 31);
             this.AddTabButton.TabIndex = 11;
             this.AddTabButton.Text = "Add Tab";
             this.AddTabButton.UseVisualStyleBackColor = true;
             // 
             // CloseTabButton
             // 
-            this.CloseTabButton.Location = new System.Drawing.Point(762, 1);
+            this.CloseTabButton.Location = new System.Drawing.Point(871, 1);
+            this.CloseTabButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CloseTabButton.Name = "CloseTabButton";
-            this.CloseTabButton.Size = new System.Drawing.Size(68, 23);
+            this.CloseTabButton.Size = new System.Drawing.Size(78, 31);
             this.CloseTabButton.TabIndex = 12;
             this.CloseTabButton.Text = "Close Tab";
             this.CloseTabButton.UseVisualStyleBackColor = true;
             // 
             // ReloadButton
             // 
-            this.ReloadButton.Location = new System.Drawing.Point(4, 48);
+            this.ReloadButton.Location = new System.Drawing.Point(5, 64);
+            this.ReloadButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ReloadButton.Name = "ReloadButton";
-            this.ReloadButton.Size = new System.Drawing.Size(59, 29);
+            this.ReloadButton.Size = new System.Drawing.Size(67, 39);
             this.ReloadButton.TabIndex = 13;
             this.ReloadButton.Text = "Reload";
             this.ReloadButton.UseVisualStyleBackColor = true;
             // 
             // HTMLPageDisplay
             // 
-            this.HTMLPageDisplay.Location = new System.Drawing.Point(4, 168);
-            this.HTMLPageDisplay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.HTMLPageDisplay.Location = new System.Drawing.Point(5, 224);
+            this.HTMLPageDisplay.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.HTMLPageDisplay.Name = "HTMLPageDisplay";
-            this.HTMLPageDisplay.Size = new System.Drawing.Size(836, 338);
+            this.HTMLPageDisplay.Size = new System.Drawing.Size(955, 449);
             this.HTMLPageDisplay.TabIndex = 6;
             this.HTMLPageDisplay.Text = "";
             // 
             // WebPageTitleLabel
             // 
-            this.WebPageTitleLabel.Location = new System.Drawing.Point(5, 136);
+            this.WebPageTitleLabel.Location = new System.Drawing.Point(6, 181);
             this.WebPageTitleLabel.Name = "WebPageTitleLabel";
-            this.WebPageTitleLabel.Size = new System.Drawing.Size(536, 32);
+            this.WebPageTitleLabel.Size = new System.Drawing.Size(613, 42);
             this.WebPageTitleLabel.TabIndex = 14;
             this.WebPageTitleLabel.Text = "CurrentWebPage";
             // 
             // StatusCodeLabel
             // 
-            this.StatusCodeLabel.Location = new System.Drawing.Point(547, 136);
+            this.StatusCodeLabel.Location = new System.Drawing.Point(625, 181);
             this.StatusCodeLabel.Name = "StatusCodeLabel";
-            this.StatusCodeLabel.Size = new System.Drawing.Size(133, 32);
+            this.StatusCodeLabel.Size = new System.Drawing.Size(152, 42);
             this.StatusCodeLabel.TabIndex = 15;
             this.StatusCodeLabel.Text = "Staus Code";
             // 
             // DisplayTypeDropdown
             // 
             this.DisplayTypeDropdown.FormattingEnabled = true;
-            this.DisplayTypeDropdown.Location = new System.Drawing.Point(680, 133);
+            this.DisplayTypeDropdown.Location = new System.Drawing.Point(777, 178);
+            this.DisplayTypeDropdown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.DisplayTypeDropdown.Name = "DisplayTypeDropdown";
-            this.DisplayTypeDropdown.Size = new System.Drawing.Size(160, 23);
+            this.DisplayTypeDropdown.Size = new System.Drawing.Size(182, 28);
             this.DisplayTypeDropdown.TabIndex = 16;
             this.DisplayTypeDropdown.Text = "Raw HTML";
             // 
             // AddFavouriteButton
             // 
-            this.AddFavouriteButton.Location = new System.Drawing.Point(717, 513);
+            this.AddFavouriteButton.Location = new System.Drawing.Point(819, 684);
+            this.AddFavouriteButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AddFavouriteButton.Name = "AddFavouriteButton";
-            this.AddFavouriteButton.Size = new System.Drawing.Size(113, 24);
+            this.AddFavouriteButton.Size = new System.Drawing.Size(129, 32);
             this.AddFavouriteButton.TabIndex = 17;
             this.AddFavouriteButton.Text = "Add Favourite";
             this.AddFavouriteButton.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // BrowserWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(842, 541);
+            this.ClientSize = new System.Drawing.Size(962, 721);
             this.Controls.Add(this.AddFavouriteButton);
             this.Controls.Add(this.DisplayTypeDropdown);
             this.Controls.Add(this.StatusCodeLabel);
@@ -191,10 +201,9 @@
             this.Controls.Add(this.HTMLPageDisplay);
             this.Controls.Add(this.SearchBar);
             this.Controls.Add(this.SearchButton);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Name = "BrowserWindow";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
         }

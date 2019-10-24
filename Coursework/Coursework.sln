@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coursewok", "WindowsFormsApplication2\Coursewok.csproj", "{3C3B9913-92F3-41D6-A03C-41AC94B8D0BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "F20SCCoursework1", "WindowsFormsApplication2\F20SCCoursework1.csproj", "{3C3B9913-92F3-41D6-A03C-41AC94B8D0BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
