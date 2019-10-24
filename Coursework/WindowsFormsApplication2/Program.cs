@@ -7,7 +7,7 @@ using System.Data.Linq.Mapping;
 
 namespace Browser
 {
-    static class Program<T> where T : IWebpage
+    static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -18,7 +18,8 @@ namespace Browser
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BrowserWindow<T>());
+            //TODO: Make generic
+            Application.Run(new BrowserWindow<HTMLPage>());
         }
     }
 }
