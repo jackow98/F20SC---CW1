@@ -11,7 +11,6 @@
       <e p="WindowsFormsApplication2" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="BrowserPage.cs" t="Include" />
         <e p="BrowserWindow.cs" t="Include" />
         <e p="DatabaseFunctionality.cs" t="Include" />
         <e p="F20SCCoursework1.csproj" t="IncludeRecursive" />
@@ -31,6 +30,7 @@
           <e p="Settings.settings" t="Include" />
         </e>
         <e p="TabFunctionality.cs" t="Include" />
+        <e p="Tables.cs" t="Include" />
         <e p="WebPages.cs" t="Include" />
       </e>
     </e>

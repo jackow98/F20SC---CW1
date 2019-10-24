@@ -5,13 +5,22 @@ namespace Browser
 {
     public class HTMLPage : IWebpage
     {
-        private string URL;
-        private string title;
-        private int status;
-        private string rawHTML;
-        private int visits;
-        private DateTime accessDateTime;
+        public string url;
+        public string title;
+        public string status;
+        public string rawHTML;
+        public int visits;
+        public DateTime accessDateTime;
 
+        public HTMLPage(string url, string title, string status, string rawHtml)
+        {
+            this.url = url;
+            this.title = title;
+            this.status = status;
+            this.rawHTML = rawHtml;
+            this.visits = 0;
+            this.accessDateTime = DateTime.Now;
+        }
         public void Reload()
         {
             throw new System.NotImplementedException();

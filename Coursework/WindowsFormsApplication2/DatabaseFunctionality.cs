@@ -1,68 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Net;
+﻿using System.Windows.Forms;
 using System.IO;
 using System.Data.Linq;
-using System.Data.Linq.Mapping;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Browser
 {
-    [ Table ( Name = "Favourites") ]
-    public class Favourites
-    {
-        [ Column ]
-        public string URL { get ; set ; }
-        [ Column ]
-        public string title { get ; set ; }
-        [ Column ]
-        public string rawHTML { get ; set ; }
-        [ Column ]
-        public int visits { get ; set ; }
-        [ Column ]
-        public string lastLoad { get ; set ; }
-    }
-    
-    [ Table ( Name = "History") ]
-    public class History
-    {
-        [ Column ]
-        public string URL { get ; set ; }
-        [ Column ]
-        public string title { get ; set ; }
-        [ Column ]
-        public string rawHTML { get ; set ; }
-        [ Column ]
-        public int visits { get ; set ; }
-        [ Column ]
-        public string lastLoad { get ; set ; }
-    }
-    
-    [ Table ( Name = "Tabs") ]
-    public class Tabs
-    {
-        [ Column ]
-        public string URL { get ; set ; }
-        [ Column ]
-        public string title { get ; set ; }
-        [ Column ]
-        public string rawHTML { get ; set ; }
-        [ Column ]
-        public int visits { get ; set ; }
-        [ Column ]
-        public string lastLoad { get ; set ; }
-    }
-    
-    [ Table ( Name = "Home") ]
-    public class Home
-    {
-        [ Column ]
-        public string URL { get ; set ; }
-    }
-    
     public class DatabaseFunctionality
     {
         private DataContext databaseConnection;
@@ -82,13 +25,14 @@ namespace Browser
 
         private void makeConnection()
         {
-            string relativePath = @"demo.DB";
             var parentdir = Path.GetDirectoryName(Application.StartupPath);
             string absolutePath = Path.Combine(parentdir, "Debug", "demo.DB");
             string connectionString = string.Format("Data Source={0}",absolutePath);
             var connection = new SQLiteConnection(connectionString);
             databaseConnection =  new DataContext(connection);
         }
+
+        //TODO: Make generic
         private void loadFavourites()
         {
             FavouriteTable = databaseConnection.GetTable<Favourites>();

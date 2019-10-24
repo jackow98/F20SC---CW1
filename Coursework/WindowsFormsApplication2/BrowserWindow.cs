@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Net;
-using System.IO;
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
-using System.Data.SQLite;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Browser
 {
@@ -19,17 +11,21 @@ namespace Browser
         //private WebPages<T> favourites; 
         //private WebPages<T> tabs;
         //private HTMLPage Home;
+        public DatabaseFunctionality Db;
+        public TabFunctionality<T> currentTab;
         
         public BrowserWindow()
         {
-            DatabaseFunctionality db = new DatabaseFunctionality();
+            Db =  new DatabaseFunctionality();
+            currentTab =  new TabFunctionality<T>(this, true);
             InitializeComponent();
         }
         
         //Tab GUI 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            HTMLPage page = currentTab.search_string(this.SearchBar.Text);
+            HTMLPageDisplay.Text =  page.rawHTML;
         }
 
         private void CloseTabButton_Click(object sender, EventArgs e)

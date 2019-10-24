@@ -68,7 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserPage.cs" />
     <Compile Include="BrowserWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +81,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabFunctionality.cs" />
+    <Compile Include="Tables.cs" />
     <Compile Include="WebPages.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>BrowserWindow.cs</DependentUpon>
