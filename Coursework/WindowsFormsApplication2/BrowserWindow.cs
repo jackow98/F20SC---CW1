@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Browser
@@ -26,9 +27,7 @@ namespace Browser
         {
             //TODO: Handle exceptions
             HTMLPage searchedPage = currentTab.search_string(this.SearchBar.Text);
-            HTMLPageDisplay.Text =  searchedPage.rawHTML;
-            StatusCodeLabel.Text =  searchedPage.status;
-            WebPageTitleLabel.Text =  searchedPage.title;
+            updateHtmlGUI(searchedPage);
         }
 
         private void CloseTabButton_Click(object sender, EventArgs e)
@@ -38,14 +37,25 @@ namespace Browser
         
         private void ReloadButton_Click(object sender, EventArgs e)
         {
-            HTMLPageDisplay.Text = currentTab.reload_page().rawHTML;
+            HTMLPage reloadedPage = currentTab.reload_page();
+            updateHtmlGUI(reloadedPage);
+
         }
         
         //Browser GUI 
 
         private void HomeButton_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            HTMLPage homePage = null;
+            
+            foreach (var home in Db.HomeTable)
+            {
+                var msg = MessageBox.Show(home.URL);
+                homePage = currentTab.search_string(home.URL);
+                break;
+            }
+            
+            updateHtmlGUI(homePage);
         }
 
         private void FavouritesButton_Click(object sender, EventArgs e)
@@ -66,6 +76,13 @@ namespace Browser
         private void DisplayTypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             throw new System.NotImplementedException();
+        }
+
+        private void updateHtmlGUI(HTMLPage newPage)
+        {
+            HTMLPageDisplay.Text =  newPage.rawHTML;
+            StatusCodeLabel.Text =  newPage.status;
+            WebPageTitleLabel.Text =  newPage.title;
         }
     }
 }
