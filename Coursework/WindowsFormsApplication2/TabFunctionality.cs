@@ -4,9 +4,9 @@ namespace Browser
 {
     public class TabFunctionality<T> where T: IWebpage
     {
-        private T currentPage;
-        private Boolean pageHidden;
-        private HttpFunctionality http;
+        public T currentPage;
+        public Boolean pageHidden;
+        public HttpFunctionality http;
 
         public TabFunctionality(BrowserWindow<T> browser, Boolean pageHidden)
         {
@@ -19,9 +19,9 @@ namespace Browser
             throw new System.NotImplementedException();
         }
         
-        public void reload_page()
+        public HTMLPage reload_page()
         {
-            currentPage.Reload();
+            return http.MakeRequest();
         }
 
         public HTMLPage search_string(string url)
@@ -29,6 +29,7 @@ namespace Browser
             http = new HttpFunctionality(url);
             return http.MakeRequest();
         }
+        
 
         public void close_tab()
         {

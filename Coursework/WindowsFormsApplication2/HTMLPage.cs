@@ -21,10 +21,6 @@ namespace Browser
             this.visits = 0;
             this.accessDateTime = DateTime.Now;
         }
-        public void Reload()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public GroupBox DisplayElement()
         {

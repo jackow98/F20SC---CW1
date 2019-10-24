@@ -5,7 +5,7 @@ namespace Browser
 {
     public interface IWebpage
     {
-        void Reload();
+        //TODO: Make generic
         GroupBox DisplayElement();
     }
 }

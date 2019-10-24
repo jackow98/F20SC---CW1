@@ -24,8 +24,11 @@ namespace Browser
         //Tab GUI 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            HTMLPage page = currentTab.search_string(this.SearchBar.Text);
-            HTMLPageDisplay.Text =  page.rawHTML;
+            //TODO: Handle exceptions
+            HTMLPage searchedPage = currentTab.search_string(this.SearchBar.Text);
+            HTMLPageDisplay.Text =  searchedPage.rawHTML;
+            StatusCodeLabel.Text =  searchedPage.status;
+            WebPageTitleLabel.Text =  searchedPage.title;
         }
 
         private void CloseTabButton_Click(object sender, EventArgs e)
@@ -35,7 +38,7 @@ namespace Browser
         
         private void ReloadButton_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            HTMLPageDisplay.Text = currentTab.reload_page().rawHTML;
         }
         
         //Browser GUI 

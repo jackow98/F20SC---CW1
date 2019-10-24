@@ -17,11 +17,12 @@ namespace Browser
         public HttpFunctionality(string url)
         {
             this.url = url;
-            this.request = (HttpWebRequest) HttpWebRequest.Create(url);
         }
 
         public HTMLPage MakeRequest()
         {
+            this.request = (HttpWebRequest) HttpWebRequest.Create(url);
+            
             // Get the response
             try
             {
