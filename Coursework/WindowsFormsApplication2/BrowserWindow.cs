@@ -11,27 +11,60 @@ using System.Linq;
 
 namespace Browser
 {
-
+    
     public partial class BrowserWindow <T> where T : IWebpage
     {
-        private WebPages<T> history; 
-        private WebPages<T> favourites; 
-        private WebPages<T> tabs;
-        private HTMLPage Home;
+        //TODO: Refactor so only used DatabaseFunctionality
+        //private WebPages<T> history; 
+        //private WebPages<T> favourites; 
+        //private WebPages<T> tabs;
+        //private HTMLPage Home;
         
         public BrowserWindow()
         {
+            DatabaseFunctionality db = new DatabaseFunctionality();
             InitializeComponent();
-        }
-
-        //Browser GUI 
-        private void ReloadButton_Click(object sender, EventArgs e)
-        {
-             
         }
         
         //Tab GUI 
         private void SearchButton_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void CloseTabButton_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+        
+        private void ReloadButton_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+        
+        //Browser GUI 
+
+        private void HomeButton_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void FavouritesButton_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void HistoryButton_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void AddTabButton_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void DisplayTypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             throw new System.NotImplementedException();
         }

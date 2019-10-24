@@ -76,6 +76,7 @@ namespace Browser
             this.HomeButton.TabIndex = 7;
             this.HomeButton.Text = "Home";
             this.HomeButton.UseVisualStyleBackColor = true;
+            this.HomeButton.Click += new System.EventHandler(this.HomeButton_Click);
             // 
             // FavouritesButton
             // 
@@ -86,6 +87,7 @@ namespace Browser
             this.FavouritesButton.TabIndex = 8;
             this.FavouritesButton.Text = "Favourites";
             this.FavouritesButton.UseVisualStyleBackColor = true;
+            this.FavouritesButton.Click += new System.EventHandler(this.FavouritesButton_Click);
             // 
             // HistoryButton
             // 
@@ -96,6 +98,7 @@ namespace Browser
             this.HistoryButton.TabIndex = 9;
             this.HistoryButton.Text = "History";
             this.HistoryButton.UseVisualStyleBackColor = true;
+            this.HistoryButton.Click += new System.EventHandler(this.HistoryButton_Click);
             // 
             // TabsDropdown
             // 
@@ -116,6 +119,7 @@ namespace Browser
             this.AddTabButton.TabIndex = 11;
             this.AddTabButton.Text = "Add Tab";
             this.AddTabButton.UseVisualStyleBackColor = true;
+            this.AddTabButton.Click += new System.EventHandler(this.AddTabButton_Click);
             // 
             // CloseTabButton
             // 
@@ -126,6 +130,7 @@ namespace Browser
             this.CloseTabButton.TabIndex = 12;
             this.CloseTabButton.Text = "Close Tab";
             this.CloseTabButton.UseVisualStyleBackColor = true;
+            this.CloseTabButton.Click += new System.EventHandler(this.CloseTabButton_Click);
             // 
             // ReloadButton
             // 
@@ -171,6 +176,8 @@ namespace Browser
             this.DisplayTypeDropdown.Size = new System.Drawing.Size(182, 28);
             this.DisplayTypeDropdown.TabIndex = 16;
             this.DisplayTypeDropdown.Text = "Raw HTML";
+            this.DisplayTypeDropdown.SelectedIndexChanged +=
+                new System.EventHandler(this.DisplayTypeDropdown_SelectedIndexChanged);
             // 
             // AddFavouriteButton
             // 

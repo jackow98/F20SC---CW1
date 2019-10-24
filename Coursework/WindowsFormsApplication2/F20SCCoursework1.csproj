@@ -72,10 +72,12 @@
     <Compile Include="BrowserWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DatabaseFunctionality.cs" />
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>BrowserWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="HTMLPage.cs" />
+    <Compile Include="HTTPFunctionality.cs" />
     <Compile Include="IWebpage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
