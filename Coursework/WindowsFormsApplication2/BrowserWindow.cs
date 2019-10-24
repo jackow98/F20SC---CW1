@@ -43,18 +43,9 @@ namespace Browser
         }
         
         //Browser GUI 
-
         private void HomeButton_Click(object sender, EventArgs e)
         {
-            HTMLPage homePage = null;
-            
-            foreach (var home in Db.HomeTable)
-            {
-                var msg = MessageBox.Show(home.URL);
-                homePage = currentTab.search_string(home.URL);
-                break;
-            }
-            
+            HTMLPage homePage = currentTab.search_string(Db.HomeURL);
             updateHtmlGUI(homePage);
         }
 

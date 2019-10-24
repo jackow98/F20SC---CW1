@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using System.IO;
 using System.Data.Linq;
 using System.Data.SQLite;
@@ -12,7 +13,7 @@ namespace Browser
         public Table<Favourites> FavouriteTable;
         public Table<Tabs> TabTable;
         public Table<History> HistoryTable;
-        public Table<Home> HomeTable;
+        public string HomeURL;
         
         public DatabaseFunctionality()
         {
@@ -47,10 +48,14 @@ namespace Browser
         {
             HistoryTable = databaseConnection.GetTable<History>();
         }
-        
+
         private void loadHome()
         {
-            HomeTable = databaseConnection.GetTable<Home>();
+            Table<Home> homeTable = databaseConnection.GetTable<Home>();
+            foreach (var home in homeTable)
+            {
+                HomeURL = home.URL;
+            }
         }
 
         public IQueryable<Favourites> GetFavouritesQueryable()
