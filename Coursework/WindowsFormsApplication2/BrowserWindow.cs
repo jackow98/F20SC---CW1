@@ -51,7 +51,13 @@ namespace Browser
 
         private void FavouritesButton_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            int count = 0;
+            foreach (var favourite in Db.FavouriteTable)
+            {
+                this.HTMLPageDisplay.Text +=
+                    favourite.URL + "visited " + favourite.visits +
+                    " times. Most recently" + favourite.lastLoad + "/n";
+            } 
         }
 
         private void HistoryButton_Click(object sender, EventArgs e)
