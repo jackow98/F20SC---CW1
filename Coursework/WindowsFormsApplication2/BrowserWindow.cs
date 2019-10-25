@@ -25,9 +25,10 @@ namespace Browser
         //Tab GUI 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            LoadingState();
             //TODO: Handle exceptions
             HTMLPage searchedPage = currentTab.search_string(this.SearchBar.Text);
-            updateHtmlGUI(searchedPage);
+            UpdateHtmlPageGui(searchedPage);
         }
 
         private void CloseTabButton_Click(object sender, EventArgs e)
@@ -37,27 +38,32 @@ namespace Browser
         
         private void ReloadButton_Click(object sender, EventArgs e)
         {
+            LoadingState();
             HTMLPage reloadedPage = currentTab.reload_page();
-            updateHtmlGUI(reloadedPage);
+            UpdateHtmlPageGui(reloadedPage);
 
         }
         
         //Browser GUI 
         private void HomeButton_Click(object sender, EventArgs e)
         {
+            LoadingState();
             HTMLPage homePage = currentTab.search_string(Db.HomeURL);
-            updateHtmlGUI(homePage);
+            UpdateHtmlPageGui(homePage);
         }
 
         private void FavouritesButton_Click(object sender, EventArgs e)
         {
+            LoadingState();
             int count = 0;
             foreach (var favourite in Db.FavouriteTable)
             {
-                this.HTMLPageDisplay.Text +=
-                    favourite.URL + "visited " + favourite.visits +
-                    " times. Most recently" + favourite.lastLoad + "/n";
-            } 
+                this.BrowserPageUrlDisplay.Items.Add(favourite.URL);
+                this.BrowserPageDateDisplay.Items.Add(favourite.lastLoad);
+                this.BrowserPageVisitsDisplay.Items.Add(favourite.visits);
+            }
+
+            UpdateBrowserPageGui("Favourites");
         }
 
         private void HistoryButton_Click(object sender, EventArgs e)
@@ -75,11 +81,49 @@ namespace Browser
             throw new System.NotImplementedException();
         }
 
-        private void updateHtmlGUI(HTMLPage newPage)
+        private void UpdateHtmlPageGui(HTMLPage newPage)
         {
-            HTMLPageDisplay.Text =  newPage.rawHTML;
+            DisplayTypeDropdown.Visible = true;
+            AddFavouriteButton.Visible = true;
+            HtmlPageDisplay.Visible = true;
+            
+            BrowswerPageUrlLabel.Visible = false;
+            BrowserPageUrlDisplay.Visible = false;
+            BrowserPageDateDisplay.Visible = false;
+            BrowserPageDateLabel.Visible = false;
+            BrowserPageVisitsDisplay.Visible = false;
+            BrowserPageVisitsLabel.Visible = false;
+            
+            HtmlPageDisplay.Text =  newPage.rawHTML;
             StatusCodeLabel.Text =  newPage.status;
             WebPageTitleLabel.Text =  newPage.title;
+            
         }
+        
+        private void UpdateBrowserPageGui(string title)
+        {
+            BrowswerPageUrlLabel.Visible = true;
+            BrowserPageUrlDisplay.Visible = true;
+            BrowserPageDateDisplay.Visible = true;
+            BrowserPageDateLabel.Visible = true;
+            BrowserPageVisitsDisplay.Visible = true;
+            BrowserPageVisitsLabel.Visible = true;
+            
+            DisplayTypeDropdown.Visible = false;
+            AddFavouriteButton.Visible = false;
+            HtmlPageDisplay.Visible = false;
+            
+            WebPageTitleLabel.Text =  title;
+        }
+
+        private void LoadingState()
+        {;
+            StatusCodeLabel.Text =  "";
+            WebPageTitleLabel.Text =  "Loading...";
+            BrowserPageUrlDisplay.Items.Clear();
+            BrowserPageDateDisplay.Items.Clear();
+            BrowserPageVisitsDisplay.Items.Clear();
+        }
+
     }
 }
