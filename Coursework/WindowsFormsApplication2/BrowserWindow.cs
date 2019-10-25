@@ -15,8 +15,22 @@ namespace Browser
         {
             Db =  new DatabaseFunctionality();
             InitializeComponent();
-            currentTab =  new TabFunctionality<T>(this, true);
+            loadTabsToGui();
+        }
 
+        private void loadTabsToGui()
+        {
+            foreach (var tab in Db.TabTable)
+            {
+                TabsDropdown.Items.Add(tab.title);
+                SearchBar.Text = tab.URL;
+                WebPageTitleLabel.Text = tab.title;
+            }
+
+            TabsDropdown.SelectedIndex = 0;
+            currentTab =  new TabFunctionality<T>(this, false);
+            HTMLPage defaultTabPage = currentTab.search_string(this.SearchBar.Text);
+            UpdateHtmlPageGui(defaultTabPage);
         }
         
         //Tab GUI 
@@ -181,5 +195,5 @@ namespace Browser
                 new HTMLPage(urlTextBox.Text, nameTextBox.Text,"","")
                 : null;
         }
-    }    
+    }
 }

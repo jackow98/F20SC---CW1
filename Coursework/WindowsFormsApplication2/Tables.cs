@@ -30,15 +30,15 @@ namespace Browser
 
     [Table(Name = "Tabs")]
     public class Tabs
-    {
-        [Column(IsPrimaryKey = true)] 
+    {    
+        [Column] 
         public string URL { get; set; }
         [Column] 
         public string title { get; set; }
         [Column] 
         public string rawHTML { get; set; }
-        [Column] 
-        public string ID { get; set; }
+        [Column(IsPrimaryKey = true)] 
+        public int ID { get; set; }
 
     }
 
