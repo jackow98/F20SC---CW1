@@ -5,52 +5,47 @@ namespace Browser
     [ Table ( Name = "Favourites") ]
     public class Favourites
     {
-        [ Column ]
+        [ Column (IsPrimaryKey=true)]
         public string URL { get ; set ; }
         [ Column ]
-        public string title { get ; set ; }
-        [ Column ]
-        public string rawHTML { get ; set ; }
+        public string name { get ; set ; }
         [ Column ]
         public int visits { get ; set ; }
-        [ Column ]
+        [ Column (IsPrimaryKey=true)]
         public string lastLoad { get ; set ; }
     }
     
     [ Table ( Name = "History") ]
     public class History
     {
-        [ Column ]
+        [ Column (IsPrimaryKey=true)]
         public string URL { get ; set ; }
         [ Column ]
         public string title { get ; set ; }
         [ Column ]
-        public string rawHTML { get ; set ; }
-        [ Column ]
         public int visits { get ; set ; }
-        [ Column ]
+        [ Column (IsPrimaryKey=true)]
         public string lastLoad { get ; set ; }
     }
-    
-    [ Table ( Name = "Tabs") ]
+
+    [Table(Name = "Tabs")]
     public class Tabs
     {
-        [ Column ]
-        public string URL { get ; set ; }
-        [ Column ]
-        public string title { get ; set ; }
-        [ Column ]
-        public string rawHTML { get ; set ; }
-        [ Column ]
-        public int visits { get ; set ; }
-        [ Column ]
-        public string lastLoad { get ; set ; }
+        [Column(IsPrimaryKey = true)] 
+        public string URL { get; set; }
+        [Column] 
+        public string title { get; set; }
+        [Column] 
+        public string rawHTML { get; set; }
+        [Column] 
+        public string ID { get; set; }
+
     }
-    
+
     [ Table ( Name = "Home") ]
     public class Home
     {
-        [ Column ]
+        [ Column (IsPrimaryKey=true)]
         public string URL { get ; set ; }
     }
 }

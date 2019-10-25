@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Data.Linq;
@@ -58,19 +59,28 @@ namespace Browser
             }
         }
 
-        public IQueryable<Favourites> GetFavouritesQueryable()
+        public void AddFavourite(string url, string name)
         {
-            return from favourite in FavouriteTable select favourite;
-        }
-        
-        public IQueryable<History> GetHistoryQueryable()
-        {
-            return from history in HistoryTable select history;
-        }
-        
-        public IQueryable<Tabs> GetTabsQueryable()
-        {
-            return from tab in TabTable select tab;
+            //TODO: Check if already in table and update if yes
+            Favourites fav = new Favourites
+            {
+                URL = url,
+                name = name,
+                visits = 1,
+                lastLoad = DateTime.Now.ToString()
+            };
+            
+            FavouriteTable.InsertOnSubmit(fav);
+            
+            try
+            {
+                databaseConnection.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                databaseConnection.SubmitChanges();
+            }
         }
     }
 }

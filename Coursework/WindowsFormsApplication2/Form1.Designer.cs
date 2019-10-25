@@ -49,16 +49,20 @@ namespace Browser
             this.BrowswerPageUrlLabel = new System.Windows.Forms.Label();
             this.BrowserPageDateLabel = new System.Windows.Forms.Label();
             this.BrowserPageVisitsLabel = new System.Windows.Forms.Label();
+            this.NextButton = new System.Windows.Forms.Button();
+            this.BackButton = new System.Windows.Forms.Button();
+            this.BrowserPageTitleLabel = new System.Windows.Forms.Label();
+            this.BrowserPageTitleDisplay = new System.Windows.Forms.ListBox();
             this.HtmlPageDisplay = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // SearchButton
             // 
             this.SearchButton.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.SearchButton.Location = new System.Drawing.Point(600, 69);
+            this.SearchButton.Location = new System.Drawing.Point(557, 64);
             this.SearchButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.SearchButton.Name = "SearchButton";
-            this.SearchButton.Size = new System.Drawing.Size(74, 34);
+            this.SearchButton.Size = new System.Drawing.Size(74, 35);
             this.SearchButton.TabIndex = 0;
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = true;
@@ -66,19 +70,19 @@ namespace Browser
             // 
             // SearchBar
             // 
-            this.SearchBar.Location = new System.Drawing.Point(175, 69);
+            this.SearchBar.Location = new System.Drawing.Point(159, 68);
             this.SearchBar.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.SearchBar.Name = "SearchBar";
-            this.SearchBar.Size = new System.Drawing.Size(415, 27);
+            this.SearchBar.Size = new System.Drawing.Size(388, 27);
             this.SearchBar.TabIndex = 5;
             this.SearchBar.Text = "Enter URL";
             // 
             // HomeButton
             // 
-            this.HomeButton.Location = new System.Drawing.Point(79, 64);
+            this.HomeButton.Location = new System.Drawing.Point(78, 64);
             this.HomeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.HomeButton.Name = "HomeButton";
-            this.HomeButton.Size = new System.Drawing.Size(73, 39);
+            this.HomeButton.Size = new System.Drawing.Size(73, 35);
             this.HomeButton.TabIndex = 7;
             this.HomeButton.Text = "Home";
             this.HomeButton.UseVisualStyleBackColor = true;
@@ -86,10 +90,10 @@ namespace Browser
             // 
             // FavouritesButton
             // 
-            this.FavouritesButton.Location = new System.Drawing.Point(713, 69);
+            this.FavouritesButton.Location = new System.Drawing.Point(777, 64);
             this.FavouritesButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.FavouritesButton.Name = "FavouritesButton";
-            this.FavouritesButton.Size = new System.Drawing.Size(99, 34);
+            this.FavouritesButton.Size = new System.Drawing.Size(85, 35);
             this.FavouritesButton.TabIndex = 8;
             this.FavouritesButton.Text = "Favourites";
             this.FavouritesButton.UseVisualStyleBackColor = true;
@@ -97,10 +101,10 @@ namespace Browser
             // 
             // HistoryButton
             // 
-            this.HistoryButton.Location = new System.Drawing.Point(819, 68);
+            this.HistoryButton.Location = new System.Drawing.Point(864, 64);
             this.HistoryButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.HistoryButton.Name = "HistoryButton";
-            this.HistoryButton.Size = new System.Drawing.Size(112, 35);
+            this.HistoryButton.Size = new System.Drawing.Size(85, 35);
             this.HistoryButton.TabIndex = 9;
             this.HistoryButton.Text = "History";
             this.HistoryButton.UseVisualStyleBackColor = true;
@@ -143,7 +147,7 @@ namespace Browser
             this.ReloadButton.Location = new System.Drawing.Point(5, 64);
             this.ReloadButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ReloadButton.Name = "ReloadButton";
-            this.ReloadButton.Size = new System.Drawing.Size(67, 39);
+            this.ReloadButton.Size = new System.Drawing.Size(67, 35);
             this.ReloadButton.TabIndex = 13;
             this.ReloadButton.Text = "Reload";
             this.ReloadButton.UseVisualStyleBackColor = true;
@@ -185,15 +189,16 @@ namespace Browser
             this.AddFavouriteButton.TabIndex = 17;
             this.AddFavouriteButton.Text = "Add Favourite";
             this.AddFavouriteButton.UseVisualStyleBackColor = true;
+            this.AddFavouriteButton.Click += new System.EventHandler(this.AddFavouriteButton_Click);
             // 
             // BrowserPageUrlDisplay
             // 
             this.BrowserPageUrlDisplay.FormattingEnabled = true;
             this.BrowserPageUrlDisplay.ItemHeight = 20;
-            this.BrowserPageUrlDisplay.Location = new System.Drawing.Point(12, 262);
+            this.BrowserPageUrlDisplay.Location = new System.Drawing.Point(223, 262);
             this.BrowserPageUrlDisplay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.BrowserPageUrlDisplay.Name = "BrowserPageUrlDisplay";
-            this.BrowserPageUrlDisplay.Size = new System.Drawing.Size(627, 404);
+            this.BrowserPageUrlDisplay.Size = new System.Drawing.Size(416, 404);
             this.BrowserPageUrlDisplay.TabIndex = 18;
             // 
             // BrowserPageDateDisplay
@@ -205,7 +210,7 @@ namespace Browser
             this.BrowserPageDateDisplay.Name = "BrowserPageDateDisplay";
             this.BrowserPageDateDisplay.Size = new System.Drawing.Size(167, 404);
             this.BrowserPageDateDisplay.TabIndex = 19;
-             // 
+            // 
             // BrowserPageVisitsDisplay
             // 
             this.BrowserPageVisitsDisplay.FormattingEnabled = true;
@@ -218,9 +223,9 @@ namespace Browser
             // 
             // BrowswerPageUrlLabel
             // 
-            this.BrowswerPageUrlLabel.Location = new System.Drawing.Point(12, 222);
+            this.BrowswerPageUrlLabel.Location = new System.Drawing.Point(223, 232);
             this.BrowswerPageUrlLabel.Name = "BrowswerPageUrlLabel";
-            this.BrowswerPageUrlLabel.Size = new System.Drawing.Size(192, 38);
+            this.BrowswerPageUrlLabel.Size = new System.Drawing.Size(192, 28);
             this.BrowswerPageUrlLabel.TabIndex = 21;
             this.BrowswerPageUrlLabel.Text = "URL";
             // 
@@ -240,15 +245,53 @@ namespace Browser
             this.BrowserPageVisitsLabel.TabIndex = 23;
             this.BrowserPageVisitsLabel.Text = "Visits";
             // 
+            // NextButton
+            // 
+            this.NextButton.Location = new System.Drawing.Point(704, 64);
+            this.NextButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.NextButton.Name = "NextButton";
+            this.NextButton.Size = new System.Drawing.Size(54, 35);
+            this.NextButton.TabIndex = 25;
+            this.NextButton.Text = "Next";
+            this.NextButton.UseVisualStyleBackColor = true;
+            // 
+            // BackButton
+            // 
+            this.BackButton.Location = new System.Drawing.Point(642, 64);
+            this.BackButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BackButton.Name = "BackButton";
+            this.BackButton.Size = new System.Drawing.Size(56, 35);
+            this.BackButton.TabIndex = 26;
+            this.BackButton.Text = "Back";
+            this.BackButton.UseVisualStyleBackColor = true;
+            // 
+            // BrowserPageTitleLabel
+            // 
+            this.BrowserPageTitleLabel.Location = new System.Drawing.Point(14, 232);
+            this.BrowserPageTitleLabel.Name = "BrowserPageTitleLabel";
+            this.BrowserPageTitleLabel.Size = new System.Drawing.Size(166, 28);
+            this.BrowserPageTitleLabel.TabIndex = 27;
+            this.BrowserPageTitleLabel.Text = "Title";
+            // 
+            // BrowserPageTitleDisplay
+            // 
+            this.BrowserPageTitleDisplay.FormattingEnabled = true;
+            this.BrowserPageTitleDisplay.ItemHeight = 20;
+            this.BrowserPageTitleDisplay.Location = new System.Drawing.Point(14, 262);
+            this.BrowserPageTitleDisplay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BrowserPageTitleDisplay.Name = "BrowserPageTitleDisplay";
+            this.BrowserPageTitleDisplay.Size = new System.Drawing.Size(196, 404);
+            this.BrowserPageTitleDisplay.TabIndex = 28;
+            // 
             // HtmlPageDisplay
             // 
-            this.HtmlPageDisplay.Location = new System.Drawing.Point(12, 222);
+            this.HtmlPageDisplay.Location = new System.Drawing.Point(12, 218);
             this.HtmlPageDisplay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HtmlPageDisplay.Multiline = true;
             this.HtmlPageDisplay.Name = "HtmlPageDisplay";
             this.HtmlPageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.HtmlPageDisplay.Size = new System.Drawing.Size(947, 458);
-            this.HtmlPageDisplay.TabIndex = 24;
+            this.HtmlPageDisplay.Size = new System.Drawing.Size(941, 448);
+            this.HtmlPageDisplay.TabIndex = 29;
             // 
             // BrowserWindow
             // 
@@ -256,6 +299,10 @@ namespace Browser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(965, 721);
             this.Controls.Add(this.HtmlPageDisplay);
+            this.Controls.Add(this.BrowserPageTitleDisplay);
+            this.Controls.Add(this.BrowserPageTitleLabel);
+            this.Controls.Add(this.BackButton);
+            this.Controls.Add(this.NextButton);
             this.Controls.Add(this.BrowserPageVisitsLabel);
             this.Controls.Add(this.BrowserPageDateLabel);
             this.Controls.Add(this.BrowswerPageUrlLabel);
@@ -300,10 +347,14 @@ namespace Browser
         private System.Windows.Forms.Label BrowserPageDateLabel;
         private System.Windows.Forms.Label BrowserPageVisitsLabel;
         private System.Windows.Forms.ListBox BrowserPageVisitsDisplay;
-        private System.Windows.Forms.TextBox HtmlPageDisplay;
         private System.Windows.Forms.Label BrowswerPageUrlLabel;
         private System.Windows.Forms.ListBox BrowserPageUrlDisplay;
         private System.Windows.Forms.ListBox BrowserPageDateDisplay;
+        private System.Windows.Forms.Button BackButton;
+        private System.Windows.Forms.Button NextButton;
+        private System.Windows.Forms.Label BrowserPageTitleLabel;
+        private System.Windows.Forms.ListBox BrowserPageTitleDisplay;
+        private System.Windows.Forms.TextBox HtmlPageDisplay;
     }
 }
 

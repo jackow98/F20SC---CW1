@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Browser
 {
@@ -64,8 +65,11 @@ namespace Browser
                 }
             }
             
-            //TODO: Implement title
-            HTMLPage returnPage = new HTMLPage(this.url, "test", this.status, this.html);
+            //Regex code sourced from https://stackoverflow.com/questions/329307/how-to-get-website-title-from-c-sharp
+            string title = Regex.Match(this.html, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", 
+                RegexOptions.IgnoreCase).Groups["Title"].Value;
+            
+            HTMLPage returnPage = new HTMLPage(this.url, title, this.status, this.html);
             return returnPage;
         }
     }   
