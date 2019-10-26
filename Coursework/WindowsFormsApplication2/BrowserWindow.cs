@@ -5,14 +5,18 @@ using System.Windows.Forms;
 
 namespace Browser
 {
-    public partial class BrowserWindow <T> where T : IWebpage
+    /// <summary>
+    /// Class to handle changes to the GUI split into Tab and Browser interactions 
+    /// </summary>
+    /// <typeparam name="TWebPage">The generic that implements a Web Page</typeparam>
+    public partial class BrowserWindow <TWebPage> where TWebPage : IWebpage
     {
-        public DatabaseFunctionality Db;
-        public TabFunctionality<T> currentTab;
+        private readonly DatabaseFunctionality _db;
+        private TabFunctionality<TWebPage> _currentTab;
         
         public BrowserWindow()
         {
-            Db =  new DatabaseFunctionality();
+            _db =  new DatabaseFunctionality();
             InitializeComponent();
             loadTabsToGui();
         }
@@ -20,23 +24,23 @@ namespace Browser
         //Tab GUI 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            LoadingState();
+            DisplayLoadingState();
             //TODO: Handle exceptions
             //TODO: Refactor so search string called in one place, should add to history and update tab table and favourites visits
-            HTMLPage searchedPage = currentTab.search_string(this.SearchBar.Text);
+            HTMLPage searchedPage = _currentTab.search_string(this.SearchBar.Text);
             UpdateHtmlPageGui(searchedPage);
         }
 
         private void CloseTabButton_Click(object sender, EventArgs e)
         {
-            Db.DeleteTab(TabsDropdown.Text);
+            _db.DeleteTab(TabsDropdown.Text);
             loadTabsToGui();
         }
         
         private void ReloadButton_Click(object sender, EventArgs e)
         {
-            LoadingState();
-            HTMLPage reloadedPage = currentTab.reload_page();
+            DisplayLoadingState();
+            HTMLPage reloadedPage = _currentTab.reload_page();
             UpdateHtmlPageGui(reloadedPage);
 
         }
@@ -46,35 +50,34 @@ namespace Browser
         {
             TabsDropdown.Items.Clear();
             int count = 0;
-           // //todo: Better error handling
-           // if (!Db.TabsTable.Any())
-           // {
-           //     //TODO: Remove duplicte code in add tab
-           //     Db.AddTab();
-           //     SearchBar.Text = "";
-           //     LoadingState();
-           //     UpdateHtmlPageGui(new HTMLPage("","","",""));
-           //     loadTabsToGui();
-           // }
-           // else
-           // {
-           //     foreach (var tab in Db.TabsTable)
-           //     {
-           //         TabsDropdown.Items.Add(tab.Title);
-           //         SearchBar.Text = tab.Url;
-           //         WebPageTitleLabel.Text = tab.Title;
-           //         count++;
-           //     }
-           //     
-           //     TabsDropdown.SelectedIndex = count - 1;
-           // }
-            
+            //todo: Better error handling
+            if (_db.TabsTable.Any())
+            {
+                //TODO: Remove duplicte code in add tab
+                _db.AddTab();
+                SearchBar.Text = "";
+                DisplayLoadingState();
+                UpdateHtmlPageGui(new HTMLPage("","","",""));
+                loadTabsToGui();
+            }
+            else
+            {
+                foreach (var tab in _db.TabsTable)
+                {
+                    TabsDropdown.Items.Add(tab.Title);
+                    SearchBar.Text = tab.Url;
+                    WebPageTitleLabel.Text = tab.Title;
+                    count++;
+                }
+                
+                TabsDropdown.SelectedIndex = count - 1;
+            }
         }
         
         private void HomeButton_Click(object sender, EventArgs e)
         {
-            LoadingState();
-            HTMLPage homePage = currentTab.search_string(Db.HomeUrl);
+            DisplayLoadingState();
+            HTMLPage homePage = _currentTab.search_string(_db.HomeUrl);
             //TODO: Can this be better handled
             SearchBar.Text = homePage.url;
             UpdateHtmlPageGui(homePage);
@@ -82,9 +85,9 @@ namespace Browser
 
         private void FavouritesButton_Click(object sender, EventArgs e)
         {
-            LoadingState();
+            DisplayLoadingState();
             int count = 0;
-            foreach (var favourite in Db.FavouritesTable)
+            foreach (var favourite in _db.FavouritesTable)
             {
                 this.BrowserPageTitleDisplay.Items.Add(favourite.Title);
                 this.BrowserPageUrlDisplay.Items.Add(favourite.Url);
@@ -97,9 +100,9 @@ namespace Browser
 
         private void HistoryButton_Click(object sender, EventArgs e)
         {
-            LoadingState();
+            DisplayLoadingState();
             int count = 0;
-            foreach (var favourite in Db.HistoryTable)
+            foreach (var favourite in _db.HistoryTable)
             {
                 this.BrowserPageUrlDisplay.Items.Add(favourite.Url);
                 this.BrowserPageDateDisplay.Items.Add(favourite.LastLoad);
@@ -118,15 +121,15 @@ namespace Browser
                 SearchBar.Text
                 );
             
-            Db.AddFavourite(favourite.url, favourite.title);
+            _db.AddFavourite(favourite.url, favourite.title);
             //TODO: Add some sort of feedback for user
         }
         
         private void AddTabButton_Click(object sender, EventArgs e)
         {
-            Db.AddTab();
+            _db.AddTab();
             SearchBar.Text = "";
-            LoadingState();
+            DisplayLoadingState();
             UpdateHtmlPageGui(new HTMLPage("","","",""));
             loadTabsToGui();
         }
@@ -169,7 +172,7 @@ namespace Browser
             WebPageTitleLabel.Text =  title;
         }
 
-        private void LoadingState()
+        private void DisplayLoadingState()
         {;
             StatusCodeLabel.Text =  "";
             WebPageTitleLabel.Text =  "Loading...";
@@ -184,7 +187,7 @@ namespace Browser
             //TODO: Refactor to use better IDs
             string url = "";
             int tabNo = 0;
-            foreach (var tab in Db.TabsTable)
+            foreach (var tab in _db.TabsTable)
             {
                 if (tabNo == TabsDropdown.SelectedIndex)
                 {
@@ -195,8 +198,8 @@ namespace Browser
             }
 
             SearchBar.Text = url;
-            currentTab =  new TabFunctionality<T>(this, false);
-            HTMLPage defaultTabPage = currentTab.search_string(this.SearchBar.Text);
+            _currentTab =  new TabFunctionality<TWebPage>(this, false);
+            HTMLPage defaultTabPage = _currentTab.search_string(this.SearchBar.Text);
             UpdateHtmlPageGui(defaultTabPage);
         }
     }

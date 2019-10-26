@@ -2,7 +2,7 @@
 
 namespace Browser
 {
-    partial class BrowserWindow<T> : Form  where T : IWebpage
+    partial class BrowserWindow<TWebPage> : Form  where TWebPage : IWebpage
     {
         /// <summary>
         /// Required designer variable.

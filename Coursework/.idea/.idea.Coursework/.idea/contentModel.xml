@@ -11,6 +11,7 @@
       <e p="WindowsFormsApplication2" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="BrowserFunctionality.cs" t="Include" />
         <e p="BrowserWindow.cs" t="Include" />
         <e p="DatabaseFunctionality.cs" t="Include" />
         <e p="F20SCCoursework1.csproj" t="IncludeRecursive" />

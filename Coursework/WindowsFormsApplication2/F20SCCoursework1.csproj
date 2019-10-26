@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrowserFunctionality.cs" />
     <Compile Include="BrowserWindow.cs">
       <SubType>Form</SubType>
     </Compile>
