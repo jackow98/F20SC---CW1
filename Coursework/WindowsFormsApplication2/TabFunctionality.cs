@@ -25,21 +25,17 @@ namespace Browser
             return http.MakeRequest();
         }
 
+        /// <summary>
+        /// Makes HTTP request after checking format of URL passed in and returns a HTML page
+        /// </summary>
+        /// <param name="url"> The string of the URL to be searched </param>
+        /// <returns> A blank HTML Page if URL is badly formatted otherwise a filled HTTML Page</returns>
         public HTMLPage search_string(string url)
         {
+            if (HelperMethods.checkUrl(url)) { return new HttpFunctionality(url).MakeRequest();}
             
-            
-            
-            if (HelperMethods.checkUrl(url))
-            {
-                 http = new HttpFunctionality(url);
-                 return http.MakeRequest();
-            }
-            else
-            {
-                //TODO: Handle exceptions
-                return new HTMLPage("Enter URL", "", "", "");
-            }
+            //TODO: Handle exceptions
+            return new HTMLPage("Enter URL", "", "", "");
         }
 
         public void close_tab()
