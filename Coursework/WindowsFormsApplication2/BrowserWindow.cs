@@ -9,6 +9,7 @@ namespace Browser
     /// Class to handle changes to the GUI split into Tab and Browser interactions 
     /// </summary>
     /// <typeparam name="TWebPage">The generic that implements a Web Page</typeparam>
+    //TODO: Handle GUI exception cases in this class
     public partial class BrowserWindow <TWebPage> where TWebPage : IWebpage
     {
         private readonly DatabaseFunctionality _db;
@@ -22,12 +23,29 @@ namespace Browser
         }
 
         //Tab GUI 
+        
+        /// <summary>
+        /// When user clicks search button, searches URL in search bar using current tab and loads web page
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void SearchButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            //TODO: Refactor so search string called in one place, should add to history and update tab table and favourites visits
             UpdateHtmlPageGui(_currentTab.search_string(this.SearchBar.Text));
         }
+        
+        /// <summary>
+        /// When user clicks reload button, reloads page using current tab and displays newly retrieved web page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReloadButton_Click(object sender, EventArgs e)
+        {
+            DisplayLoadingState();
+            UpdateHtmlPageGui(_currentTab.load_page());
+        }
+
 
         private void CloseTabButton_Click(object sender, EventArgs e)
         {
@@ -35,13 +53,7 @@ namespace Browser
             loadTabsToGui();
         }
         
-        private void ReloadButton_Click(object sender, EventArgs e)
-        {
-            DisplayLoadingState();
-            HTMLPage reloadedPage = _currentTab.reload_page();
-            UpdateHtmlPageGui(reloadedPage);
-
-        }
+       
         
         //Browser GUI 
         private void loadTabsToGui()
@@ -196,7 +208,7 @@ namespace Browser
             }
 
             SearchBar.Text = url;
-            _currentTab =  new TabFunctionality<TWebPage>(this, false);
+            _currentTab =  new TabFunctionality<TWebPage>();
             HTMLPage defaultTabPage = _currentTab.search_string(this.SearchBar.Text);
             UpdateHtmlPageGui(defaultTabPage);
         }

@@ -33,6 +33,7 @@
         </e>
         <e p="TabFunctionality.cs" t="Include" />
         <e p="Tables.cs" t="Include" />
+        <e p="testSite.html" t="Include" />
         <e p="WebPages.cs" t="Include" />
       </e>
     </e>

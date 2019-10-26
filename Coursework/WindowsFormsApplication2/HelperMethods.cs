@@ -13,6 +13,7 @@ namespace Browser
         /// <returns>True if correctly formatted and false otherwise</returns>
         public static bool checkUrl(string url)
         {
+            //TODO: Formatting of url should be less strict
             Match urlFormatted = Regex.Match(
                 url, 
                 @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)", 
