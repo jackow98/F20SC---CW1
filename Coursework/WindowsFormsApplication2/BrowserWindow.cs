@@ -5,7 +5,6 @@ using System.Windows.Forms;
 
 namespace Browser
 {
-    
     public partial class BrowserWindow <T> where T : IWebpage
     {
         public DatabaseFunctionality Db;
@@ -18,26 +17,12 @@ namespace Browser
             loadTabsToGui();
         }
 
-        private void loadTabsToGui()
-        {
-            foreach (var tab in Db.TabTable)
-            {
-                TabsDropdown.Items.Add(tab.title);
-                SearchBar.Text = tab.URL;
-                WebPageTitleLabel.Text = tab.title;
-            }
-
-            TabsDropdown.SelectedIndex = 0;
-            currentTab =  new TabFunctionality<T>(this, false);
-            HTMLPage defaultTabPage = currentTab.search_string(this.SearchBar.Text);
-            UpdateHtmlPageGui(defaultTabPage);
-        }
-        
         //Tab GUI 
         private void SearchButton_Click(object sender, EventArgs e)
         {
             LoadingState();
             //TODO: Handle exceptions
+            //TODO: Refactor so search string called in one place, should add to history and update tab table and favourites visits
             HTMLPage searchedPage = currentTab.search_string(this.SearchBar.Text);
             UpdateHtmlPageGui(searchedPage);
         }
@@ -56,6 +41,35 @@ namespace Browser
         }
         
         //Browser GUI 
+        private void loadTabsToGui()
+        {
+            TabsDropdown.Items.Clear();
+            int count = 0;
+            //todo: Better error handling
+            if (!Db.TabTable.Any())
+            {
+                //TODO: Remove duplicte code in add tab
+                Db.AddTab();
+                SearchBar.Text = "";
+                LoadingState();
+                UpdateHtmlPageGui(new HTMLPage("","","",""));
+                loadTabsToGui();
+            }
+            else
+            {
+                foreach (var tab in Db.TabTable)
+                {
+                    TabsDropdown.Items.Add(tab.title);
+                    SearchBar.Text = tab.URL;
+                    WebPageTitleLabel.Text = tab.title;
+                    count++;
+                }
+                
+                TabsDropdown.SelectedIndex = count - 1;
+            }
+            
+        }
+        
         private void HomeButton_Click(object sender, EventArgs e)
         {
             LoadingState();
@@ -109,14 +123,13 @@ namespace Browser
         
         private void AddTabButton_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            Db.AddTab();
+            SearchBar.Text = "";
+            LoadingState();
+            UpdateHtmlPageGui(new HTMLPage("","","",""));
+            loadTabsToGui();
         }
-
-        private void DisplayTypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         private void UpdateHtmlPageGui(HTMLPage newPage)
         {
             DisplayTypeDropdown.Visible = true;
@@ -163,6 +176,27 @@ namespace Browser
             BrowserPageUrlDisplay.Items.Clear();
             BrowserPageDateDisplay.Items.Clear();
             BrowserPageVisitsDisplay.Items.Clear();
+        }
+
+        private void TabsDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //TODO: Refactor to use better IDs
+            string url = "";
+            int tabNo = 0;
+            foreach (var tab in Db.TabTable)
+            {
+                if (tabNo == TabsDropdown.SelectedIndex)
+                {
+                    url = tab.URL;
+                } 
+                
+                tabNo++;
+            }
+
+            SearchBar.Text = url;
+            currentTab =  new TabFunctionality<T>(this, false);
+            HTMLPage defaultTabPage = currentTab.search_string(this.SearchBar.Text);
+            UpdateHtmlPageGui(defaultTabPage);
         }
     }
     

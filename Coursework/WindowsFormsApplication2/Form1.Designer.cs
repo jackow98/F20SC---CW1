@@ -119,6 +119,7 @@ namespace Browser
             this.TabsDropdown.Size = new System.Drawing.Size(773, 28);
             this.TabsDropdown.TabIndex = 10;
             this.TabsDropdown.Text = "CurrentTab";
+            this.TabsDropdown.SelectedIndexChanged += new System.EventHandler(this.TabsDropdown_SelectedIndexChanged);
             // 
             // AddTabButton
             // 
@@ -177,8 +178,6 @@ namespace Browser
             this.DisplayTypeDropdown.TabIndex = 16;
             this.DisplayTypeDropdown.Text = "Raw HTML";
             this.DisplayTypeDropdown.Visible = false;
-            this.DisplayTypeDropdown.SelectedIndexChanged +=
-                new System.EventHandler(this.DisplayTypeDropdown_SelectedIndexChanged);
             // 
             // AddFavouriteButton
             // 

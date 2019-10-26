@@ -30,16 +30,15 @@ namespace Browser
 
     [Table(Name = "Tabs")]
     public class Tabs
-    {    
-        [Column] 
-        public string URL { get; set; }
-        [Column] 
-        public string title { get; set; }
-        [Column] 
-        public string rawHTML { get; set; }
-        [Column(IsPrimaryKey = true)] 
-        public int ID { get; set; }
+    {
+        [Column(IsPrimaryKey=true)] public string URL { get; set; }
+        [Column] public string title { get; set; }
+        [Column] public string rawHTML { get; set; }
+        [ Column (IsPrimaryKey=true)]
+        public string firstLoad { get ; set ; }
 
+        //[Column (Name = "ID", IsPrimaryKey = true)]
+        //public int? ID { get; set; }
     }
 
     [ Table ( Name = "Home") ]

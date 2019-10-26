@@ -62,6 +62,7 @@ namespace Browser
         public void AddFavourite(string url, string name)
         {
             //TODO: Check if already in table and update if yes
+            //TODO: Use a unique primary key for all tables
             Favourites fav = new Favourites
             {
                 URL = url,
@@ -72,6 +73,28 @@ namespace Browser
             
             FavouriteTable.InsertOnSubmit(fav);
             
+            WriteToDatabse();
+        }
+        
+        public void AddTab()
+        {
+            Tabs tab = new Tabs();
+
+            tab.URL = "";
+            tab.rawHTML = "";
+            tab.title = "";
+            tab.firstLoad = DateTime.Now.ToString();
+            
+            this.loadTabs();
+            TabTable.InsertOnSubmit(tab);
+            
+            WriteToDatabse();
+
+            //MessageBox.Show(tab.ID.ToString());
+        }
+
+        public void WriteToDatabse()
+        {
             try
             {
                 databaseConnection.SubmitChanges();
@@ -81,6 +104,8 @@ namespace Browser
                 Console.WriteLine(e);
                 databaseConnection.SubmitChanges();
             }
+            
+            databaseConnection.Refresh(RefreshMode.KeepCurrentValues);
         }
     }
 }

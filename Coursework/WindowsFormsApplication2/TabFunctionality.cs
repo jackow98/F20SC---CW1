@@ -26,8 +26,16 @@ namespace Browser
 
         public HTMLPage search_string(string url)
         {
-            http = new HttpFunctionality(url);
-            return http.MakeRequest();
+            //TODO: Handle checking of URL format better
+            if (url != "")
+            {
+                 http = new HttpFunctionality(url);
+                 return http.MakeRequest();
+            }
+            else
+            {
+                return new HTMLPage("", "", "", "");
+            }
         }
         
 
