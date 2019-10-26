@@ -17,6 +17,7 @@
         <e p="F20SCCoursework1.csproj" t="IncludeRecursive" />
         <e p="Form1.Designer.cs" t="Include" />
         <e p="Form1.resx" t="Include" />
+        <e p="HelperMethods.cs" t="Include" />
         <e p="HTMLPage.cs" t="Include" />
         <e p="HTTPFunctionality.cs" t="Include" />
         <e p="IWebpage.cs" t="Include" />

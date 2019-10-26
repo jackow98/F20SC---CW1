@@ -76,6 +76,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>BrowserWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperMethods.cs" />
     <Compile Include="HTMLPage.cs" />
     <Compile Include="HTTPFunctionality.cs" />
     <Compile Include="IWebpage.cs" />

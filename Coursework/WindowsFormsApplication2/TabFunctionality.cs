@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Browser
 {
@@ -26,18 +27,20 @@ namespace Browser
 
         public HTMLPage search_string(string url)
         {
-            //TODO: Handle checking of URL format better
-            if (url != "")
+            
+            
+            
+            if (HelperMethods.checkUrl(url))
             {
                  http = new HttpFunctionality(url);
                  return http.MakeRequest();
             }
             else
             {
-                return new HTMLPage("", "", "", "");
+                //TODO: Handle exceptions
+                return new HTMLPage("Enter URL", "", "", "");
             }
         }
-        
 
         public void close_tab()
         {

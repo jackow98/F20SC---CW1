@@ -25,10 +25,8 @@ namespace Browser
         private void SearchButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            //TODO: Handle exceptions
             //TODO: Refactor so search string called in one place, should add to history and update tab table and favourites visits
-            HTMLPage searchedPage = _currentTab.search_string(this.SearchBar.Text);
-            UpdateHtmlPageGui(searchedPage);
+            UpdateHtmlPageGui(_currentTab.search_string(this.SearchBar.Text));
         }
 
         private void CloseTabButton_Click(object sender, EventArgs e)
