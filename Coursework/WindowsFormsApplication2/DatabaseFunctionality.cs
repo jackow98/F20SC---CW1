@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Data.Linq;
@@ -8,104 +7,125 @@ using System.Linq;
 
 namespace Browser
 {
+    /// <summary>
+    /// Class to handle connection and transactions with local SQLite database
+    /// </summary>
     public class DatabaseFunctionality
     {
-        private DataContext databaseConnection;
-        public Table<Favourites> FavouriteTable;
-        public Table<Tabs> TabTable;
+        private DataContext _mappedDatabase;
+        public Table<Favourites> FavouritesTable;
+        public Table<Tabs> TabsTable;
         public Table<History> HistoryTable;
-        public string HomeURL;
-        
+        public string HomeUrl;
+
         public DatabaseFunctionality()
         {
-            this.makeConnection();
-            this.loadFavourites();
-            this.loadTabs();
-            this.loadHistory();
-            this.loadHome();
+            this.MakeConnection();
+            FavouritesTable = loadTable<Favourites>();
+            TabsTable = loadTable<Tabs>();
+            HistoryTable = loadTable<History>();
+            this.LoadHome();
         }
 
-        private void makeConnection()
+        /// <summary>
+        /// Connects and maps SQLite database using LINQ
+        /// </summary>
+        private void MakeConnection()
         {
             var parentdir = Path.GetDirectoryName(Application.StartupPath);
             string absolutePath = Path.Combine(parentdir, "Debug", "demo.DB");
             string connectionString = string.Format("Data Source={0}",absolutePath);
             var connection = new SQLiteConnection(connectionString);
-            databaseConnection =  new DataContext(connection);
+            _mappedDatabase =  new DataContext(connection);
         }
 
-        //TODO: Make generic
-        private void loadFavourites()
+        /// <summary>
+        /// Maps SQLite table to LINQ table
+        /// </summary>
+        /// <typeparam name="TTable"> The type of the table to be fetched and returned </typeparam>
+        /// <returns> A LINQ table of the type provided</returns>
+        private Table<TTable> loadTable<TTable>() where TTable : WebPageTable
         {
-            FavouriteTable = databaseConnection.GetTable<Favourites>();
-        }
-        
-        private void loadTabs()
-        {
-            TabTable = databaseConnection.GetTable<Tabs>();
-        }
-        
-        private void loadHistory()
-        {
-            HistoryTable = databaseConnection.GetTable<History>();
+            //TODO: Handle exceptions
+            return _mappedDatabase.GetTable<TTable>(); 
         }
 
-        private void loadHome()
+        /// <summary>
+        /// Gets homepage URL from SQLite
+        /// </summary>
+        private void LoadHome()
         {
-            Table<Home> homeTable = databaseConnection.GetTable<Home>();
+            //TODO: Handle exceptions
+            Table<Home> homeTable = _mappedDatabase.GetTable<Home>();
             foreach (var home in homeTable)
             {
-                HomeURL = home.URL;
+                HomeUrl = home.Url;
             }
         }
-
-        public void AddFavourite(string url, string name)
+        
+        /// <summary>
+        /// Adds a new favourite to the database if no entry with the same URL already exists
+        /// </summary>
+        /// <param name="url"> A string of the URL corresponding to the new favourite to be added </param>
+        /// <param name="title"> A string of the title corresponding to the new favourite to be added </param>
+        public void AddFavourite(string url, string title)
         {
-            //TODO: Check if already in table and update if yes
-            //TODO: Use a unique primary key for all tables
+            if (FavouritesTable.Any(favourite => favourite.Url == url)) return;
+            
             Favourites fav = new Favourites
             {
-                URL = url,
-                name = name,
-                visits = 1,
-                lastLoad = DateTime.Now.ToString()
+                Url = url,
+                Title = title,
+                Visits = 0,
+                LastLoad = ""
             };
-            
-            FavouriteTable.InsertOnSubmit(fav);
-            
-            WriteToDatabse();
+            FavouritesTable.InsertOnSubmit(fav);
+            WriteToDatabase();
+            loadTable<Favourites>();
         }
         
+        /// <summary>
+        /// Adds a new blank tab to the database
+        /// </summary>
         public void AddTab()
         {
-            Tabs tab = new Tabs();
+            Tabs tab = new Tabs()
+            {
+                Url = "",
+                Title = "",
+                Visits = 0,
+                LastLoad = ""
+            };
 
-            tab.URL = "";
-            tab.rawHTML = "";
-            tab.title = "";
-            tab.firstLoad = DateTime.Now.ToString();
-            
-            this.loadTabs();
-            TabTable.InsertOnSubmit(tab);
-            
-            WriteToDatabse();
-
-            //MessageBox.Show(tab.ID.ToString());
+            TabsTable.InsertOnSubmit(tab);
+            WriteToDatabase();
+            loadTable<Tabs>();
         }
 
-        public void WriteToDatabse()
+        public void DeleteTab(string tabName)
+        {
+            //var deleteTabQuery =
+            //    from tab in databaseConnection.GetTable<Tabs>() where tab.title == tabName select tab;
+            //
+            //TabTable.DeleteOnSubmit(deleteTabQuery);
+        }
+
+        /// <summary>
+        /// Writes changes to the SQLite database 
+        /// </summary>
+        private void WriteToDatabase()
         {
             try
             {
-                databaseConnection.SubmitChanges();
+                _mappedDatabase.SubmitChanges();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                databaseConnection.SubmitChanges();
+                _mappedDatabase.SubmitChanges();
             }
             
-            databaseConnection.Refresh(RefreshMode.KeepCurrentValues);
+            _mappedDatabase.Refresh(RefreshMode.KeepCurrentValues);
         }
     }
 }

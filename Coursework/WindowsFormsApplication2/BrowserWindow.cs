@@ -29,7 +29,8 @@ namespace Browser
 
         private void CloseTabButton_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            Db.DeleteTab(TabsDropdown.Text);
+            loadTabsToGui();
         }
         
         private void ReloadButton_Click(object sender, EventArgs e)
@@ -45,35 +46,35 @@ namespace Browser
         {
             TabsDropdown.Items.Clear();
             int count = 0;
-            //todo: Better error handling
-            if (!Db.TabTable.Any())
-            {
-                //TODO: Remove duplicte code in add tab
-                Db.AddTab();
-                SearchBar.Text = "";
-                LoadingState();
-                UpdateHtmlPageGui(new HTMLPage("","","",""));
-                loadTabsToGui();
-            }
-            else
-            {
-                foreach (var tab in Db.TabTable)
-                {
-                    TabsDropdown.Items.Add(tab.title);
-                    SearchBar.Text = tab.URL;
-                    WebPageTitleLabel.Text = tab.title;
-                    count++;
-                }
-                
-                TabsDropdown.SelectedIndex = count - 1;
-            }
+           // //todo: Better error handling
+           // if (!Db.TabsTable.Any())
+           // {
+           //     //TODO: Remove duplicte code in add tab
+           //     Db.AddTab();
+           //     SearchBar.Text = "";
+           //     LoadingState();
+           //     UpdateHtmlPageGui(new HTMLPage("","","",""));
+           //     loadTabsToGui();
+           // }
+           // else
+           // {
+           //     foreach (var tab in Db.TabsTable)
+           //     {
+           //         TabsDropdown.Items.Add(tab.Title);
+           //         SearchBar.Text = tab.Url;
+           //         WebPageTitleLabel.Text = tab.Title;
+           //         count++;
+           //     }
+           //     
+           //     TabsDropdown.SelectedIndex = count - 1;
+           // }
             
         }
         
         private void HomeButton_Click(object sender, EventArgs e)
         {
             LoadingState();
-            HTMLPage homePage = currentTab.search_string(Db.HomeURL);
+            HTMLPage homePage = currentTab.search_string(Db.HomeUrl);
             //TODO: Can this be better handled
             SearchBar.Text = homePage.url;
             UpdateHtmlPageGui(homePage);
@@ -83,12 +84,12 @@ namespace Browser
         {
             LoadingState();
             int count = 0;
-            foreach (var favourite in Db.FavouriteTable)
+            foreach (var favourite in Db.FavouritesTable)
             {
-                this.BrowserPageTitleDisplay.Items.Add(favourite.name);
-                this.BrowserPageUrlDisplay.Items.Add(favourite.URL);
-                this.BrowserPageDateDisplay.Items.Add(favourite.lastLoad);
-                this.BrowserPageVisitsDisplay.Items.Add(favourite.visits);
+                this.BrowserPageTitleDisplay.Items.Add(favourite.Title);
+                this.BrowserPageUrlDisplay.Items.Add(favourite.Url);
+                this.BrowserPageDateDisplay.Items.Add(favourite.LastLoad);
+                this.BrowserPageVisitsDisplay.Items.Add(favourite.Visits);
             }
             
             UpdateBrowserPageGui("Favourites");
@@ -100,9 +101,9 @@ namespace Browser
             int count = 0;
             foreach (var favourite in Db.HistoryTable)
             {
-                this.BrowserPageUrlDisplay.Items.Add(favourite.URL);
-                this.BrowserPageDateDisplay.Items.Add(favourite.lastLoad);
-                this.BrowserPageVisitsDisplay.Items.Add(favourite.visits);
+                this.BrowserPageUrlDisplay.Items.Add(favourite.Url);
+                this.BrowserPageDateDisplay.Items.Add(favourite.LastLoad);
+                this.BrowserPageVisitsDisplay.Items.Add(favourite.Visits);
             }
 
             UpdateBrowserPageGui("History");
@@ -183,11 +184,11 @@ namespace Browser
             //TODO: Refactor to use better IDs
             string url = "";
             int tabNo = 0;
-            foreach (var tab in Db.TabTable)
+            foreach (var tab in Db.TabsTable)
             {
                 if (tabNo == TabsDropdown.SelectedIndex)
                 {
-                    url = tab.URL;
+                    url = tab.Url;
                 } 
                 
                 tabNo++;

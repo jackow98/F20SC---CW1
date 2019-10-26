@@ -2,49 +2,37 @@
 
 namespace Browser
 {
-    [ Table ( Name = "Favourites") ]
-    public class Favourites
+
+    /// <summary>
+    /// Base class that stores details of a web page including a URL, Title, NO. of Visits and LastLoad
+    /// </summary>
+    public class WebPageTable
     {
-        [ Column (IsPrimaryKey=true)]
-        public string URL { get ; set ; }
-        [ Column ]
-        public string name { get ; set ; }
-        [ Column ]
-        public int visits { get ; set ; }
-        [ Column (IsPrimaryKey=true)]
-        public string lastLoad { get ; set ; }
+        [ Column (Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
+        public string Id { get ; set ; }
+        [ Column (Name = "Url")]
+        public string Url { get ; set ; }
+        [ Column (Name = "Title")]
+        public string Title { get ; set ; }
+        [ Column (Name = "Visits")]
+        public int Visits { get ; set ; }
+        [ Column (Name = "LastLoad")]
+        public string LastLoad { get ; set ; }
     }
     
+    [ Table ( Name = "Favourites") ]
+    public class Favourites : WebPageTable { }
+    
     [ Table ( Name = "History") ]
-    public class History
-    {
-        [ Column (IsPrimaryKey=true)]
-        public string URL { get ; set ; }
-        [ Column ]
-        public string title { get ; set ; }
-        [ Column ]
-        public int visits { get ; set ; }
-        [ Column (IsPrimaryKey=true)]
-        public string lastLoad { get ; set ; }
-    }
-
-    [Table(Name = "Tabs")]
-    public class Tabs
-    {
-        [Column(IsPrimaryKey=true)] public string URL { get; set; }
-        [Column] public string title { get; set; }
-        [Column] public string rawHTML { get; set; }
-        [ Column (IsPrimaryKey=true)]
-        public string firstLoad { get ; set ; }
-
-        //[Column (Name = "ID", IsPrimaryKey = true)]
-        //public int? ID { get; set; }
-    }
-
+    public class History : WebPageTable { }
+    
+    [ Table ( Name = "Tabs") ]
+    public class Tabs : WebPageTable { }
+    
     [ Table ( Name = "Home") ]
     public class Home
     {
-        [ Column (IsPrimaryKey=true)]
-        public string URL { get ; set ; }
+        [ Column (Name = "Url", IsPrimaryKey=true)]
+        public string Url { get ; set ; }
     }
 }
