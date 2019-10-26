@@ -51,7 +51,7 @@ namespace Browser
             TabsDropdown.Items.Clear();
             int count = 0;
             //todo: Better error handling
-            if (_db.TabsTable.Any())
+            if (!_db.TabsTable.Any())
             {
                 //TODO: Remove duplicte code in add tab
                 _db.AddTab();

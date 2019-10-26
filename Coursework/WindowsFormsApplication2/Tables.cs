@@ -11,7 +11,7 @@ namespace Browser
     public abstract class WebPageTable
     {
         [ Column (Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
-        public abstract string Id { get ; set ; }
+        public abstract int Id { get ; set ; }
         [ Column (Name = "Url")]
         public abstract string Url { get ; set ; }
         [ Column (Name = "Title")]
@@ -25,7 +25,7 @@ namespace Browser
     [Table(Name = "Favourites")]
     public class Favourites : WebPageTable
     {
-        public override string Id { get; set; }
+        public override int Id { get; set; }
         public override string Url { get; set; }
         public override string Title { get; set; }
         public override int Visits { get; set; }
@@ -34,7 +34,7 @@ namespace Browser
     
     [ Table ( Name = "History") ]
     public class History : WebPageTable {
-        public override string Id { get; set; }
+        public override int Id { get; set; }
         public override string Url { get; set; }
         public override string Title { get; set; }
         public override int Visits { get; set; }
@@ -43,8 +43,8 @@ namespace Browser
     
     [ Table ( Name = "Tabs") ]
     public class Tabs : WebPageTable {
-        [ Column (Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
-        public override string Id { get ; set ; }
+        [ Column (Name = "Id", IsPrimaryKey = true)]
+        public override int Id { get ; set ; }
         [ Column (Name = "Url")]
         public override string Url { get ; set ; }
         [ Column (Name = "Title")]
