@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
+using WindowsFormsApplication2.Functionality;
+using Browser;
 
-namespace Browser
+namespace WindowsFormsApplication2.GUI
 {
     /// <summary>
     /// Class to handle changes to the GUI split into Tab and Browser interactions 
@@ -38,8 +38,8 @@ namespace Browser
         /// <summary>
         /// When user clicks reload button, reloads page using current tab and displays newly retrieved web page
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void ReloadButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
@@ -47,16 +47,40 @@ namespace Browser
         }
 
 
-        //TODO: Implement
+        /// <summary>
+        /// When user clicks close tab button, removes current tab from database and GUI 
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void CloseTabButton_Click(object sender, EventArgs e)
         {
-            _db.DeleteTab(TabsDropdown.Text);
-            LoadTabsToGui();
+            int tabToCloseIndex = TabsDropdown.SelectedIndex;
+            
+            if (tabToCloseIndex == 0 && TabsDropdown.Items.Count > 1)
+            {
+                TabsDropdown.SelectedIndex = 1;
+            }else if (tabToCloseIndex == 0 && TabsDropdown.Items.Count == 1)
+            {
+                AddBlankTab();
+            }
+            else
+            {
+                TabsDropdown.SelectedIndex = tabToCloseIndex - 1;    
+            }
+            
+            TabsDropdown.Items.RemoveAt(tabToCloseIndex);
+            
+            _browser.CloseTab(tabToCloseIndex, TabsDropdown.SelectedIndex);
+            _db.CloseTab(tabToCloseIndex);
+            DisplayLoadingState();
+            _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.url);
         }
 
         //Browser GUI 
         
-        //TODO: Refactor this accordingly
+        /// <summary>
+        /// Load the tabs associated with the browser to the dropdown, loads blank if no tabs associated to browser
+        /// </summary>
         private void LoadTabsToGui()
         {
             TabsDropdown.Items.Clear();
@@ -64,7 +88,7 @@ namespace Browser
             //todo: Better error handling
             if (!_db.TabsTable.Any())
             {
-                AddBlankTabToGui();
+                AddBlankTab();
             }
             else
             {
@@ -79,19 +103,25 @@ namespace Browser
             }
         }
         
+        /// <summary>
+        /// When user clicks home button, loads home page associated with browser
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void HomeButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            HTMLPage homePage = _browser.CurrentTab.search_string(_db.HomeUrl);
-            //TODO: Can this be better handled
-            SearchBar.Text = homePage.url;
-            UpdateHtmlPageGui(homePage);
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(_db.HomeUrl));
         }
 
+        /// <summary>
+        /// When user clicks favourite button, loads favourites and details associated with them
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void FavouritesButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            int count = 0;
             foreach (var favourite in _db.FavouritesTable)
             {
                 this.BrowserPageTitleDisplay.Items.Add(favourite.Title);
@@ -99,24 +129,31 @@ namespace Browser
                 this.BrowserPageDateDisplay.Items.Add(favourite.LastLoad);
                 this.BrowserPageVisitsDisplay.Items.Add(favourite.Visits);
             }
-            
             UpdateBrowserPageGui("Favourites");
         }
-
+        
+        /// <summary>
+        /// When user clicks history button, loads history and details associated with them
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void HistoryButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            int count = 0;
-            foreach (var favourite in _db.HistoryTable)
+            foreach (var history in _db.HistoryTable)
             {
-                this.BrowserPageUrlDisplay.Items.Add(favourite.Url);
-                this.BrowserPageDateDisplay.Items.Add(favourite.LastLoad);
-                this.BrowserPageVisitsDisplay.Items.Add(favourite.Visits);
+                this.BrowserPageUrlDisplay.Items.Add(history.Url);
+                this.BrowserPageDateDisplay.Items.Add(history.LastLoad);
+                this.BrowserPageVisitsDisplay.Items.Add(history.Visits);
             }
-
             UpdateBrowserPageGui("History");
         }
-
+        
+        /// <summary>
+        /// Loads a pop up prompting user to make any changes to favourite before adding to database
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void AddFavouriteButton_Click(object sender, EventArgs e)
         {
             //TODO: Handle cases for no HTML, need to load page, 404 etc.
@@ -130,12 +167,33 @@ namespace Browser
             //TODO: Add some sort of feedback for user
         }
         
+        /// <summary>
+        /// When user clicks add tab button, adds a blank tab
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
         private void AddTabButton_Click(object sender, EventArgs e)
         {
-            AddBlankTabToGui();
+            AddBlankTab();
+        }
+        
+        /// <summary>
+        /// On chnage of tab, get tab and load the associated HTML page
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
+        private void TabsDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabFunctionality<HTMLPage> tab = _browser.GetTabFromIndex(TabsDropdown.SelectedIndex);
+            SearchBar.Text = tab.CurrentPage.url;
+            
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(this.SearchBar.Text));
         }
 
-        private void AddBlankTabToGui()
+        /// <summary>
+        /// Updates browser GUI to and adds tab to database
+        /// </summary>
+        private void AddBlankTab()
         {
             _db.AddTab();
             SearchBar.Text = "";
@@ -144,6 +202,10 @@ namespace Browser
             LoadTabsToGui();
         }
         
+        /// <summary>
+        /// Updates the GUI to display a HTML page and its associated information
+        /// </summary>
+        /// <param name="newPage"> The HTML page to display</param>
         private void UpdateHtmlPageGui(HTMLPage newPage)
         {
             DisplayTypeDropdown.Visible = true;
@@ -162,8 +224,13 @@ namespace Browser
             HtmlPageDisplay.Text =  newPage.rawHTML;
             StatusCodeLabel.Text =  newPage.status;
             WebPageTitleLabel.Text =  newPage.title;
+            SearchBar.Text = newPage.url;
         }
         
+        /// <summary>
+        /// Updates the GUI to display information data from a Web page table
+        /// </summary>
+        /// <param name="title">The title of the table </param>
         private void UpdateBrowserPageGui(string title)
         {
             BrowserPageTitleDisplay.Visible = true;
@@ -182,6 +249,9 @@ namespace Browser
             WebPageTitleLabel.Text =  title;
         }
 
+        /// <summary>
+        /// Updates the GUI to clear elements and display loading to user
+        /// </summary>
         private void DisplayLoadingState()
         {;
             StatusCodeLabel.Text =  "";
@@ -190,46 +260,6 @@ namespace Browser
             BrowserPageUrlDisplay.Items.Clear();
             BrowserPageDateDisplay.Items.Clear();
             BrowserPageVisitsDisplay.Items.Clear();
-        }
-
-        private void TabsDropdown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            TabFunctionality<HTMLPage> tab = _browser.GetTabFromIndex(TabsDropdown.SelectedIndex);
-            SearchBar.Text = tab.CurrentPage.url;
-            
-            HTMLPage defaultTabPage = _browser.CurrentTab.search_string(this.SearchBar.Text);
-            UpdateHtmlPageGui(defaultTabPage);
-        }
-    }
-    
-    public static class AddFavouritePopUp
-    {
-        public static HTMLPage ShowDialog(string caption, string nameDisplayText="", string urlDisplayText="")
-        {
-            Form sddFavouritePopUp = new Form()
-            {
-                Width = 500,
-                Height = 200,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = caption,
-                StartPosition = FormStartPosition.CenterScreen
-            };
-            Label nameLabel = new Label() { Left = 50, Top=50, Text="Name: " , Width=50};
-            Label urlLabel = new Label() { Left = 50, Top=80, Text="URL: ", Width=50};
-            TextBox nameTextBox = new TextBox() { Left = 110, Top=50, Width=350, Text = nameDisplayText};
-            TextBox urlTextBox = new TextBox() { Left = 110, Top=80, Width=350, Text = urlDisplayText};
-            Button confirmation = new Button() { Text = "Add", Left=350, Width=100, Top=130, DialogResult = DialogResult.OK };
-            confirmation.Click += (sender, e) => { sddFavouritePopUp.Close(); };
-            sddFavouritePopUp.Controls.Add(nameLabel);
-            sddFavouritePopUp.Controls.Add(urlLabel);
-            sddFavouritePopUp.Controls.Add(confirmation);
-            sddFavouritePopUp.Controls.Add(nameTextBox);
-            sddFavouritePopUp.Controls.Add(urlTextBox);
-            sddFavouritePopUp.AcceptButton = confirmation;
-
-            return sddFavouritePopUp.ShowDialog() == DialogResult.OK ? 
-                new HTMLPage(urlTextBox.Text, nameTextBox.Text,"","")
-                : null;
         }
     }
 }

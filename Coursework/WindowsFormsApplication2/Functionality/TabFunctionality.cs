@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using Browser;
 
-namespace Browser
+namespace WindowsFormsApplication2.Functionality
 {
     /// <summary>
     /// Class that tracks the information associated with a tab 

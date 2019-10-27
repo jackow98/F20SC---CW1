@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.IO;
 using System.Net;
-using System.IO;
 using System.Text.RegularExpressions;
+using Browser;
 
-namespace Browser
+namespace WindowsFormsApplication2.Functionality
 {
     public class HttpFunctionality
     {

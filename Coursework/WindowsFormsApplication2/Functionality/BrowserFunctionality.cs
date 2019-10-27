@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Browser;
 
-namespace Browser
+namespace WindowsFormsApplication2.Functionality
 {
     public class BrowserFunctionality
     {
-        public readonly List<TabFunctionality<HTMLPage>> Tabs = new List<TabFunctionality<HTMLPage>>();
+        public List<TabFunctionality<HTMLPage>> Tabs = new List<TabFunctionality<HTMLPage>>();
         public int CurrentTabIndex;
         public TabFunctionality<HTMLPage> CurrentTab;
         
+        /// <summary>
+        /// Loads tabs into 
+        /// </summary>
+        /// <param name="db"></param>
         public void LoadTabs(DatabaseFunctionality db)
         {
             foreach (var tab in db.TabsTable)
@@ -24,6 +29,13 @@ namespace Browser
             CurrentTab = Tabs[CurrentTabIndex];
         }
 
+        public void CloseTab(int tabToCloseIndex, int newTabIndex)
+        {
+            CurrentTabIndex = newTabIndex;
+            CurrentTab = Tabs[newTabIndex];
+            Tabs.RemoveAt(tabToCloseIndex);
+        }
+        
         public TabFunctionality<HTMLPage> GetTabFromIndex(int index)
         {
             return Tabs[index];   

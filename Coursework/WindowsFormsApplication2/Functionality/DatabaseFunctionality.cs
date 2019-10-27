@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Windows.Forms;
-using System.IO;
+using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
+using Browser;
 
-namespace Browser
+namespace WindowsFormsApplication2.Functionality
 {
     /// <summary>
     /// Class to handle connection and transactions with local SQLite database
@@ -101,13 +103,21 @@ namespace Browser
             WriteToDatabase();
             loadTable<Tabs>();
         }
-
-        public void DeleteTab(string tabName)
+        
+        public void CloseTab(int index)
         {
-            //var deleteTabQuery =
-            //    from tab in databaseConnection.GetTable<Tabs>() where tab.title == tabName select tab;
-            //
-            //TabTable.DeleteOnSubmit(deleteTabQuery);
+            int count = 0;
+            foreach (var tab in TabsTable)
+            {
+                if (index == count)
+                {
+                    TabsTable.DeleteOnSubmit(tab);
+                    break;
+                }
+                count++;
+            }
+            WriteToDatabase();
+            loadTable<Tabs>();
         }
 
         /// <summary>
