@@ -200,6 +200,7 @@ namespace WindowsFormsApplication2.GUI
             this.BrowserPageUrlDisplay.Name = "BrowserPageUrlDisplay";
             this.BrowserPageUrlDisplay.Size = new System.Drawing.Size(416, 404);
             this.BrowserPageUrlDisplay.TabIndex = 18;
+            this.BrowserPageUrlDisplay.MouseDoubleClick += new MouseEventHandler(this.BrowserPageUrlDisplay_MouseDoubleClick);
             // 
             // BrowserPageDateDisplay
             // 
