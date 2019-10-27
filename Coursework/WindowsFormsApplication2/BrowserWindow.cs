@@ -13,13 +13,13 @@ namespace Browser
     public partial class BrowserWindow <TWebPage> where TWebPage : IWebpage
     {
         private readonly DatabaseFunctionality _db;
-        private TabFunctionality<TWebPage> _currentTab;
-        
+        private BrowserFunctionality _browser = new BrowserFunctionality();
+
         public BrowserWindow()
         {
             _db =  new DatabaseFunctionality();
             InitializeComponent();
-            loadTabsToGui();
+            LoadTabsToGui();
         }
 
         //Tab GUI 
@@ -32,7 +32,7 @@ namespace Browser
         private void SearchButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            UpdateHtmlPageGui(_currentTab.search_string(this.SearchBar.Text));
+            UpdateHtmlPageGui(_browser.CurrentTab .search_string(this.SearchBar.Text));
         }
         
         /// <summary>
@@ -43,51 +43,46 @@ namespace Browser
         private void ReloadButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            UpdateHtmlPageGui(_currentTab.load_page());
+            UpdateHtmlPageGui(_browser.CurrentTab.load_page());
         }
 
 
+        //TODO: Implement
         private void CloseTabButton_Click(object sender, EventArgs e)
         {
             _db.DeleteTab(TabsDropdown.Text);
-            loadTabsToGui();
+            LoadTabsToGui();
         }
-        
-       
-        
+
         //Browser GUI 
-        private void loadTabsToGui()
+        
+        //TODO: Refactor this accordingly
+        private void LoadTabsToGui()
         {
             TabsDropdown.Items.Clear();
-            int count = 0;
+
             //todo: Better error handling
             if (!_db.TabsTable.Any())
             {
-                //TODO: Remove duplicte code in add tab
-                _db.AddTab();
-                SearchBar.Text = "";
-                DisplayLoadingState();
-                UpdateHtmlPageGui(new HTMLPage("","","",""));
-                loadTabsToGui();
+                AddBlankTabToGui();
             }
             else
             {
-                foreach (var tab in _db.TabsTable)
+                _browser.LoadTabs(_db);
+                foreach (var tab in _browser.Tabs)
                 {
-                    TabsDropdown.Items.Add(tab.Title);
-                    SearchBar.Text = tab.Url;
-                    WebPageTitleLabel.Text = tab.Title;
-                    count++;
+                    TabsDropdown.Items.Add(tab.CurrentPage.title);
                 }
-                
-                TabsDropdown.SelectedIndex = count - 1;
+                TabsDropdown.SelectedIndex = _browser.CurrentTabIndex;
+                SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
+                WebPageTitleLabel.Text = _browser.CurrentTab.CurrentPage.title;
             }
         }
         
         private void HomeButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            HTMLPage homePage = _currentTab.search_string(_db.HomeUrl);
+            HTMLPage homePage = _browser.CurrentTab.search_string(_db.HomeUrl);
             //TODO: Can this be better handled
             SearchBar.Text = homePage.url;
             UpdateHtmlPageGui(homePage);
@@ -137,11 +132,16 @@ namespace Browser
         
         private void AddTabButton_Click(object sender, EventArgs e)
         {
+            AddBlankTabToGui();
+        }
+
+        private void AddBlankTabToGui()
+        {
             _db.AddTab();
             SearchBar.Text = "";
             DisplayLoadingState();
             UpdateHtmlPageGui(new HTMLPage("","","",""));
-            loadTabsToGui();
+            LoadTabsToGui();
         }
         
         private void UpdateHtmlPageGui(HTMLPage newPage)
@@ -194,22 +194,10 @@ namespace Browser
 
         private void TabsDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //TODO: Refactor to use better IDs
-            string url = "";
-            int tabNo = 0;
-            foreach (var tab in _db.TabsTable)
-            {
-                if (tabNo == TabsDropdown.SelectedIndex)
-                {
-                    url = tab.Url;
-                } 
-                
-                tabNo++;
-            }
-
-            SearchBar.Text = url;
-            _currentTab =  new TabFunctionality<TWebPage>();
-            HTMLPage defaultTabPage = _currentTab.search_string(this.SearchBar.Text);
+            TabFunctionality<HTMLPage> tab = _browser.GetTabFromIndex(TabsDropdown.SelectedIndex);
+            SearchBar.Text = tab.CurrentPage.url;
+            
+            HTMLPage defaultTabPage = _browser.CurrentTab.search_string(this.SearchBar.Text);
             UpdateHtmlPageGui(defaultTabPage);
         }
     }

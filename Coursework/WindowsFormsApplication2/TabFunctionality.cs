@@ -12,6 +12,11 @@ namespace Browser
         public HTMLPage CurrentPage;
         public HttpFunctionality Http;
 
+        public TabFunctionality(HTMLPage page)
+        {
+            CurrentPage = page;
+        }
+        
         public string load_home_page()
         {
             throw new System.NotImplementedException();
@@ -43,21 +48,6 @@ namespace Browser
             
             //TODO: Handle exceptions
             return new HTMLPage("Enter URL", "", "", "");
-        }
-
-        public void close_tab()
-        {
-            
-        }
-
-        public void Show()
-        {
-            
-        }
-
-        public void Hide()
-        {
-            
         }
     }
 }
