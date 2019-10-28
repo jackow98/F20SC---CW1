@@ -14,7 +14,7 @@ namespace WindowsFormsApplication2.Functionality
     /// </summary>
     public class DatabaseFunctionality
     {
-        private DataContext _mappedDatabase;
+        private SQLiteConnection _connectedDatabase;
         public Table<Favourites> FavouritesTable;
         public Table<Tabs> TabsTable;
         public Table<History> HistoryTable;
@@ -37,8 +37,7 @@ namespace WindowsFormsApplication2.Functionality
             var parentdir = Path.GetDirectoryName(Application.StartupPath);
             string absolutePath = Path.Combine(parentdir, "Debug", "demo.DB");
             string connectionString = string.Format("Data Source={0}",absolutePath);
-            var connection = new SQLiteConnection(connectionString);
-            _mappedDatabase =  new DataContext(connection);
+            _connectedDatabase = new SQLiteConnection(connectionString);
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace WindowsFormsApplication2.Functionality
         private Table<TTable> loadTable<TTable>() where TTable : WebPageTable
         {
             //TODO: Handle exceptions
-            return _mappedDatabase.GetTable<TTable>(); 
+            return new MappedDatabase(_connectedDatabase).GetWebPageNameTable<TTable>();
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace WindowsFormsApplication2.Functionality
         private void LoadHome()
         {
             //TODO: Handle exceptions
-            Table<Home> homeTable = _mappedDatabase.GetTable<Home>();
+            Table<Home> homeTable = new MappedDatabase(_connectedDatabase).GetHomeTable();
             foreach (var home in homeTable)
             {
                 HomeUrl = home.Url;
@@ -96,9 +95,11 @@ namespace WindowsFormsApplication2.Functionality
                 Url = "",
                 Title = "",
                 Visits = 0,
-                LastLoad = ""
+                LastLoad = "",
+                Id = null
             };
 
+            
             TabsTable.InsertOnSubmit(tab);
             WriteToDatabase();
             loadTable<Tabs>();
@@ -127,15 +128,17 @@ namespace WindowsFormsApplication2.Functionality
         {
             try
             {
-                _mappedDatabase.SubmitChanges();
+                MappedDatabase db = new MappedDatabase(_connectedDatabase);
+                db.WriteChanges();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                _mappedDatabase.SubmitChanges();
+             
+                MappedDatabase db = new MappedDatabase(_connectedDatabase);
+                db.WriteChanges();
             }
             
-            _mappedDatabase.Refresh(RefreshMode.KeepCurrentValues);
         }
     }
 }

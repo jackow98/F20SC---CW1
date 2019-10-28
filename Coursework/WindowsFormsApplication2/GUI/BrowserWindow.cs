@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Forms;
 using WindowsFormsApplication2.Functionality;
 using Browser;
 
@@ -178,7 +179,7 @@ namespace WindowsFormsApplication2.GUI
         }
         
         /// <summary>
-        /// On chnage of tab, get tab and load the associated HTML page
+        /// On change of tab, get tab and load the associated HTML page
         /// </summary>
         /// <param name="sender">Auto generated argument by windows forms</param>
         /// <param name="e">Auto generated argument by windows forms</param>
@@ -260,6 +261,15 @@ namespace WindowsFormsApplication2.GUI
             BrowserPageUrlDisplay.Items.Clear();
             BrowserPageDateDisplay.Items.Clear();
             BrowserPageVisitsDisplay.Items.Clear();
+        }
+        
+        private void BrowserPageUrlDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int index = this.BrowserPageUrlDisplay.IndexFromPoint(e.Location);
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString()));
+            }
         }
     }
 }
