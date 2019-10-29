@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Functionality;
@@ -34,7 +35,7 @@ namespace WindowsFormsApplication2.GUI
         private void SearchButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            UpdateHtmlPageGui(_browser.CurrentTab .search_string(this.SearchBar.Text));
+            UpdateHtmlPageGui(_browser.CurrentTab .search_string(this.SearchBar.Text, false));
         }
         
         /// <summary>
@@ -45,7 +46,7 @@ namespace WindowsFormsApplication2.GUI
         private void ReloadButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            UpdateHtmlPageGui(_browser.CurrentTab.load_page());
+            UpdateHtmlPageGui(_browser.CurrentTab.load_page(false));
         }
 
 
@@ -75,7 +76,7 @@ namespace WindowsFormsApplication2.GUI
             _browser.CloseTab(tabToCloseIndex, TabsDropdown.SelectedIndex);
             _db.CloseTab(tabToCloseIndex);
             DisplayLoadingState();
-            _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.url);
+            _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.url, false);
         }
 
         //Browser GUI 
@@ -113,7 +114,7 @@ namespace WindowsFormsApplication2.GUI
         private void HomeButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(_db.HomeUrl));
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(_db.HomeUrl, false));
         }
 
         /// <summary>
@@ -199,7 +200,7 @@ namespace WindowsFormsApplication2.GUI
             TabFunctionality<HTMLPage> tab = _browser.GetTabFromIndex(TabsDropdown.SelectedIndex);
             SearchBar.Text = tab.CurrentPage.url;
             
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(this.SearchBar.Text));
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(this.SearchBar.Text, false));
         }
 
         /// <summary>
@@ -279,7 +280,7 @@ namespace WindowsFormsApplication2.GUI
             int index = this.BrowserPageUrlDisplay.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
-                UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString()));
+                UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString(), false));
             }
         }
 
@@ -309,7 +310,18 @@ namespace WindowsFormsApplication2.GUI
         private void searchToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int index = BrowserPageUrlDisplay.SelectedIndex;
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString()));
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString(),false));
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(true));
+        }
+
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            
+            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(false));
         }
     }
 }

@@ -263,6 +263,7 @@ namespace WindowsFormsApplication2.GUI
             this.NextButton.TabIndex = 25;
             this.NextButton.Text = "Next";
             this.NextButton.UseVisualStyleBackColor = true;
+            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
             // 
             // BackButton
             // 
@@ -273,6 +274,7 @@ namespace WindowsFormsApplication2.GUI
             this.BackButton.TabIndex = 26;
             this.BackButton.Text = "Back";
             this.BackButton.UseVisualStyleBackColor = true;
+            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
             // BrowserPageTitleLabel
             // 
@@ -308,19 +310,19 @@ namespace WindowsFormsApplication2.GUI
             this.FavouriteHandlerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
                 {this.editToolStripMenuItem, this.searchToolStripMenuItem});
             this.FavouriteHandlerStrip.Name = "contextMenuStrip1";
-            this.FavouriteHandlerStrip.Size = new System.Drawing.Size(176, 80);
+            this.FavouriteHandlerStrip.Size = new System.Drawing.Size(123, 52);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
             this.searchToolStripMenuItem.Text = "Search";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
             // 

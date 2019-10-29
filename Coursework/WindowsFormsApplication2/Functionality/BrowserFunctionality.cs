@@ -9,7 +9,7 @@ namespace WindowsFormsApplication2.Functionality
         public List<TabFunctionality<HTMLPage>> Tabs = new List<TabFunctionality<HTMLPage>>();
         public int CurrentTabIndex;
         public TabFunctionality<HTMLPage> CurrentTab;
-        
+
         /// <summary>
         /// Loads tabs into 
         /// </summary>
