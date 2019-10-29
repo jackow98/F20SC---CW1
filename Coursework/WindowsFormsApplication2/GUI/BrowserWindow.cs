@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Functionality;
 using Browser;
+using System.Drawing;
 
 namespace WindowsFormsApplication2.GUI
 {
@@ -271,5 +272,11 @@ namespace WindowsFormsApplication2.GUI
                 UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString()));
             }
         }
+
+        private void BrowserPageUrlDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            FavouriteHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
+        }
+        
     }
 }

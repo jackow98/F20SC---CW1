@@ -101,6 +101,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tables.cs" />
+    <EmbeddedResource Include="GUI\BrowserWindow.resx">
+      <DependentUpon>BrowserWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>BrowserWindow.cs</DependentUpon>
     </EmbeddedResource>
