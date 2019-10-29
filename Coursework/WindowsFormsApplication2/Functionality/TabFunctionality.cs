@@ -1,19 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Browser;
 
 namespace Coursework.Functionality
 {
     /// <summary>
-    /// Class that tracks the information associated with a tab 
+    ///     Class that tracks the information associated with a tab
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TabFunctionality<T> where T: IWebpage
+    public class TabFunctionality<T> where T : IWebpage
     {
-        public LinkedList<HTMLPage> RecentHistPages;
-        LinkedListNode<HTMLPage> currentNode;
+        private LinkedListNode<HTMLPage> currentNode;
         public HTMLPage CurrentPage;
-        public HttpFunctionality Http;
         public DatabaseFunctionality db;
+        public HttpFunctionality Http;
+        public LinkedList<HTMLPage> RecentHistPages;
 
         public TabFunctionality(ref DatabaseFunctionality db, HTMLPage page)
         {
@@ -22,35 +23,34 @@ namespace Coursework.Functionality
             RecentHistPages = new LinkedList<HTMLPage>();
             currentNode = RecentHistPages.Last;
         }
-        
+
         public string load_home_page()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
-        
+
         /// <summary>
-        /// Makes HTTP request for the page currently associated with the tab 
+        ///     Makes HTTP request for the page currently associated with the tab
         /// </summary>
         /// <returns>The HTML Page retrieved after making the request</returns>
         public HTMLPage load_page(bool navigateHistory)
         {
-            HTMLPage loadedPage = Http.MakeRequest();
+            //TODO: Exception handler same as search string
+            var loadedPage = Http.MakeRequest();
             RecentHistPages.AddLast(loadedPage);
-            if (!navigateHistory)
-            {
-                currentNode = RecentHistPages.Last;
-            }
+            if (!navigateHistory) currentNode = RecentHistPages.Last;
             db.AddHistory(loadedPage.url, loadedPage.title);
             return loadedPage;
         }
 
         /// <summary>
-        /// Loads page after checking format of URL passed in and returns a HTML page
+        ///     Loads page after checking format of URL passed in and returns a HTML page
         /// </summary>
         /// <param name="url"> The string of the URL to be searched </param>
         /// <returns> A blank HTML Page if URL is badly formatted otherwise a filled HTTML Page</returns>
         public HTMLPage search_string(string url, bool navigateHistory)
         {
+            //TODO: Exception handler returns blank web page with error searching
             if (HelperMethods.checkUrl(url))
             {
                 //TODO: should add to history and update tab table and favourites visits
@@ -66,14 +66,10 @@ namespace Coursework.Functionality
         public HTMLPage moveThroughHistory(bool moveBack)
         {
             if (moveBack)
-            {
                 currentNode = currentNode.Previous;
-            }
             else
-            {
                 currentNode = currentNode.Next;
-            }
-            
+
             CurrentPage = currentNode.Value;
             search_string(CurrentPage.url, true);
             return currentNode.Value;

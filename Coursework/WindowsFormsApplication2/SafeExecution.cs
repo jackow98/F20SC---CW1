@@ -21,7 +21,7 @@ namespace Browser
                     "Application Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
-                    );
+                );
                 Application.Exit();
             }
         }

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace Browser
+﻿namespace Browser
 {
     public interface IWebpage
     {
         //TODO: Make generic
-        
     }
 }
