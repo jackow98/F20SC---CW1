@@ -1,3 +1,6 @@
 ﻿
 # Default ignored files
 /.idea.Coursework/.idea/workspace.xml
+# Datasource local storage ignored files
+/.idea.Coursework/.idea/dataSources/
+/.idea.Coursework/.idea/dataSources.local.xml
