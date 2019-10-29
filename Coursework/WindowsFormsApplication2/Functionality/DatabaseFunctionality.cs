@@ -15,15 +15,10 @@ namespace WindowsFormsApplication2.Functionality
     public class DatabaseFunctionality
     {
         private SQLiteConnection _connectedDatabase;
-        public Table<Favourites> FavouritesTable;
-        public Table<History> HistoryTable;
-        public string HomeUrl;
 
         public DatabaseFunctionality()
         {
             this.MakeConnection();
-            FavouritesTable = loadTable<Favourites>();
-            HistoryTable = loadTable<History>();
             this.LoadHome();
         }
 
@@ -72,7 +67,7 @@ namespace WindowsFormsApplication2.Functionality
         /// <summary>
         /// Gets homepage URL from SQLite
         /// </summary>
-        private void LoadHome()
+        public string LoadHome()
         {
             //TODO: Handle exceptions
             using (DataContext db = new DataContext(_connectedDatabase))
@@ -81,8 +76,10 @@ namespace WindowsFormsApplication2.Functionality
 
                 foreach (var home in homeTable)
                 {
-                    HomeUrl = home.Url;
+                    return home.Url;
                 }
+
+                return "";
             }    
         }
         
@@ -149,6 +146,21 @@ namespace WindowsFormsApplication2.Functionality
                     count++;
                 }
                 
+                db.SubmitChanges();
+            }
+        }
+
+        public void UpdateHome(string url)
+        {
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                Table<Home> homeTable = db.GetTable<Home>();
+
+                foreach (var home in homeTable)
+                {
+                    home.Url = url;
+                }
+
                 db.SubmitChanges();
             }
         }

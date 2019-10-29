@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using Browser;
 
 namespace WindowsFormsApplication2.GUI
@@ -61,9 +62,6 @@ namespace WindowsFormsApplication2.GUI
             this.BrowserPageVisitsDisplay = new System.Windows.Forms.ListBox();
             this.FavouriteHandlerStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // SearchButton
-            // 
             this.SearchButton.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.SearchButton.Location = new System.Drawing.Point(487, 49);
             this.SearchButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -73,18 +71,12 @@ namespace WindowsFormsApplication2.GUI
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = true;
             this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
-            // 
-            // SearchBar
-            // 
             this.SearchBar.Location = new System.Drawing.Point(139, 51);
             this.SearchBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SearchBar.Name = "SearchBar";
             this.SearchBar.Size = new System.Drawing.Size(340, 23);
             this.SearchBar.TabIndex = 5;
             this.SearchBar.Text = "Enter URL";
-            // 
-            // HomeButton
-            // 
             this.HomeButton.Location = new System.Drawing.Point(67, 49);
             this.HomeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.HomeButton.Name = "HomeButton";
@@ -93,9 +85,7 @@ namespace WindowsFormsApplication2.GUI
             this.HomeButton.Text = "Home";
             this.HomeButton.UseVisualStyleBackColor = true;
             this.HomeButton.Click += new System.EventHandler(this.HomeButton_Click);
-            // 
-            // FavouritesButton
-            // 
+            this.HomeButton.MouseHover += new System.EventHandler(this.HomeButton_Hover);
             this.FavouritesButton.Location = new System.Drawing.Point(680, 49);
             this.FavouritesButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.FavouritesButton.Name = "FavouritesButton";
@@ -104,9 +94,6 @@ namespace WindowsFormsApplication2.GUI
             this.FavouritesButton.Text = "Favourites";
             this.FavouritesButton.UseVisualStyleBackColor = true;
             this.FavouritesButton.Click += new System.EventHandler(this.FavouritesButton_Click);
-            // 
-            // HistoryButton
-            // 
             this.HistoryButton.Location = new System.Drawing.Point(756, 49);
             this.HistoryButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.HistoryButton.Name = "HistoryButton";
@@ -115,9 +102,6 @@ namespace WindowsFormsApplication2.GUI
             this.HistoryButton.Text = "History";
             this.HistoryButton.UseVisualStyleBackColor = true;
             this.HistoryButton.Click += new System.EventHandler(this.HistoryButton_Click);
-            // 
-            // TabsDropdown
-            // 
             this.TabsDropdown.FormattingEnabled = true;
             this.TabsDropdown.Location = new System.Drawing.Point(4, 1);
             this.TabsDropdown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -126,9 +110,6 @@ namespace WindowsFormsApplication2.GUI
             this.TabsDropdown.TabIndex = 10;
             this.TabsDropdown.Text = "CurrentTab";
             this.TabsDropdown.SelectedIndexChanged += new System.EventHandler(this.TabsDropdown_SelectedIndexChanged);
-            // 
-            // AddTabButton
-            // 
             this.AddTabButton.Location = new System.Drawing.Point(689, 1);
             this.AddTabButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AddTabButton.Name = "AddTabButton";
@@ -137,9 +118,6 @@ namespace WindowsFormsApplication2.GUI
             this.AddTabButton.Text = "Add Tab";
             this.AddTabButton.UseVisualStyleBackColor = true;
             this.AddTabButton.Click += new System.EventHandler(this.AddTabButton_Click);
-            // 
-            // CloseTabButton
-            // 
             this.CloseTabButton.Location = new System.Drawing.Point(762, 1);
             this.CloseTabButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CloseTabButton.Name = "CloseTabButton";
@@ -148,9 +126,6 @@ namespace WindowsFormsApplication2.GUI
             this.CloseTabButton.Text = "Close Tab";
             this.CloseTabButton.UseVisualStyleBackColor = true;
             this.CloseTabButton.Click += new System.EventHandler(this.CloseTabButton_Click);
-            // 
-            // ReloadButton
-            // 
             this.ReloadButton.Location = new System.Drawing.Point(4, 49);
             this.ReloadButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ReloadButton.Name = "ReloadButton";
@@ -159,23 +134,14 @@ namespace WindowsFormsApplication2.GUI
             this.ReloadButton.Text = "Reload";
             this.ReloadButton.UseVisualStyleBackColor = true;
             this.ReloadButton.Click += new System.EventHandler(this.ReloadButton_Click);
-            // 
-            // WebPageTitleLabel
-            // 
             this.WebPageTitleLabel.Location = new System.Drawing.Point(4, 136);
             this.WebPageTitleLabel.Name = "WebPageTitleLabel";
             this.WebPageTitleLabel.Size = new System.Drawing.Size(536, 31);
             this.WebPageTitleLabel.TabIndex = 14;
-            // 
-            // StatusCodeLabel
-            // 
             this.StatusCodeLabel.Location = new System.Drawing.Point(547, 136);
             this.StatusCodeLabel.Name = "StatusCodeLabel";
             this.StatusCodeLabel.Size = new System.Drawing.Size(133, 31);
             this.StatusCodeLabel.TabIndex = 15;
-            // 
-            // DisplayTypeDropdown
-            // 
             this.DisplayTypeDropdown.FormattingEnabled = true;
             this.DisplayTypeDropdown.Location = new System.Drawing.Point(680, 134);
             this.DisplayTypeDropdown.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -184,9 +150,6 @@ namespace WindowsFormsApplication2.GUI
             this.DisplayTypeDropdown.TabIndex = 16;
             this.DisplayTypeDropdown.Text = "Raw HTML";
             this.DisplayTypeDropdown.Visible = false;
-            // 
-            // AddFavouriteButton
-            // 
             this.AddFavouriteButton.Location = new System.Drawing.Point(717, 514);
             this.AddFavouriteButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AddFavouriteButton.Name = "AddFavouriteButton";
@@ -195,9 +158,6 @@ namespace WindowsFormsApplication2.GUI
             this.AddFavouriteButton.Text = "Add Favourite";
             this.AddFavouriteButton.UseVisualStyleBackColor = true;
             this.AddFavouriteButton.Click += new System.EventHandler(this.AddFavouriteButton_Click);
-            // 
-            // BrowserPageUrlDisplay
-            // 
             this.BrowserPageUrlDisplay.FormattingEnabled = true;
             this.BrowserPageUrlDisplay.ItemHeight = 15;
             this.BrowserPageUrlDisplay.Location = new System.Drawing.Point(195, 196);
@@ -209,9 +169,6 @@ namespace WindowsFormsApplication2.GUI
                 new System.Windows.Forms.MouseEventHandler(this.BrowserPageUrlDisplay_MouseClick);
             this.BrowserPageUrlDisplay.MouseDoubleClick +=
                 new System.Windows.Forms.MouseEventHandler(this.BrowserPageUrlDisplay_MouseDoubleClick);
-            // 
-            // NextButton
-            // 
             this.NextButton.Location = new System.Drawing.Point(616, 49);
             this.NextButton.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
             this.NextButton.Name = "NextButton";
@@ -220,9 +177,6 @@ namespace WindowsFormsApplication2.GUI
             this.NextButton.Text = "Next";
             this.NextButton.UseVisualStyleBackColor = true;
             this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
-            // BackButton
-            // 
             this.BackButton.Location = new System.Drawing.Point(563, 49);
             this.BackButton.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
             this.BackButton.Name = "BackButton";
@@ -231,9 +185,6 @@ namespace WindowsFormsApplication2.GUI
             this.BackButton.Text = "Back";
             this.BackButton.UseVisualStyleBackColor = true;
             this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
-            // 
-            // HtmlPageDisplay
-            // 
             this.HtmlPageDisplay.Location = new System.Drawing.Point(8, 163);
             this.HtmlPageDisplay.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
             this.HtmlPageDisplay.Multiline = true;
@@ -241,47 +192,29 @@ namespace WindowsFormsApplication2.GUI
             this.HtmlPageDisplay.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.HtmlPageDisplay.Size = new System.Drawing.Size(824, 338);
             this.HtmlPageDisplay.TabIndex = 29;
-            // 
-            // FavouriteHandlerStrip
-            // 
             this.FavouriteHandlerStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.FavouriteHandlerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
                 {this.editToolStripMenuItem, this.searchToolStripMenuItem});
             this.FavouriteHandlerStrip.Name = "contextMenuStrip1";
             this.FavouriteHandlerStrip.Size = new System.Drawing.Size(110, 48);
-            // 
-            // editToolStripMenuItem
-            // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
-            // 
-            // searchToolStripMenuItem
-            // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
             this.searchToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.searchToolStripMenuItem.Text = "Search";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
-            // 
-            // BrowswerPageUrlLabel
-            // 
             this.BrowswerPageUrlLabel.Location = new System.Drawing.Point(195, 174);
             this.BrowswerPageUrlLabel.Name = "BrowswerPageUrlLabel";
             this.BrowswerPageUrlLabel.Size = new System.Drawing.Size(168, 21);
             this.BrowswerPageUrlLabel.TabIndex = 21;
             this.BrowswerPageUrlLabel.Text = "URL";
-            // 
-            // BrowserPageTitleLabel
-            // 
             this.BrowserPageTitleLabel.Location = new System.Drawing.Point(11, 174);
             this.BrowserPageTitleLabel.Name = "BrowserPageTitleLabel";
             this.BrowserPageTitleLabel.Size = new System.Drawing.Size(144, 21);
             this.BrowserPageTitleLabel.TabIndex = 27;
             this.BrowserPageTitleLabel.Text = "Title";
-            // 
-            // BrowserPageTitleDisplay
-            // 
             this.BrowserPageTitleDisplay.FormattingEnabled = true;
             this.BrowserPageTitleDisplay.ItemHeight = 15;
             this.BrowserPageTitleDisplay.Location = new System.Drawing.Point(11, 196);
@@ -289,17 +222,11 @@ namespace WindowsFormsApplication2.GUI
             this.BrowserPageTitleDisplay.Name = "BrowserPageTitleDisplay";
             this.BrowserPageTitleDisplay.Size = new System.Drawing.Size(172, 304);
             this.BrowserPageTitleDisplay.TabIndex = 28;
-            // 
-            // BrowserPageDateLabel
-            // 
             this.BrowserPageDateLabel.Location = new System.Drawing.Point(564, 174);
             this.BrowserPageDateLabel.Name = "BrowserPageDateLabel";
             this.BrowserPageDateLabel.Size = new System.Drawing.Size(112, 21);
             this.BrowserPageDateLabel.TabIndex = 22;
             this.BrowserPageDateLabel.Text = "Date";
-            // 
-            // BrowserPageDateDisplay
-            // 
             this.BrowserPageDateDisplay.FormattingEnabled = true;
             this.BrowserPageDateDisplay.ItemHeight = 15;
             this.BrowserPageDateDisplay.Location = new System.Drawing.Point(564, 196);
@@ -307,17 +234,11 @@ namespace WindowsFormsApplication2.GUI
             this.BrowserPageDateDisplay.Name = "BrowserPageDateDisplay";
             this.BrowserPageDateDisplay.Size = new System.Drawing.Size(147, 304);
             this.BrowserPageDateDisplay.TabIndex = 19;
-            // 
-            // BrowserPageVisitsLabel
-            // 
             this.BrowserPageVisitsLabel.Location = new System.Drawing.Point(722, 174);
             this.BrowserPageVisitsLabel.Name = "BrowserPageVisitsLabel";
             this.BrowserPageVisitsLabel.Size = new System.Drawing.Size(76, 16);
             this.BrowserPageVisitsLabel.TabIndex = 23;
             this.BrowserPageVisitsLabel.Text = "Visits";
-            // 
-            // BrowserPageVisitsDisplay
-            // 
             this.BrowserPageVisitsDisplay.FormattingEnabled = true;
             this.BrowserPageVisitsDisplay.ItemHeight = 15;
             this.BrowserPageVisitsDisplay.Location = new System.Drawing.Point(721, 196);
@@ -325,9 +246,6 @@ namespace WindowsFormsApplication2.GUI
             this.BrowserPageVisitsDisplay.Name = "BrowserPageVisitsDisplay";
             this.BrowserPageVisitsDisplay.Size = new System.Drawing.Size(112, 304);
             this.BrowserPageVisitsDisplay.TabIndex = 20;
-            // 
-            // BrowserWindow
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;

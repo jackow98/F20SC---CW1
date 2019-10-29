@@ -75,7 +75,11 @@ namespace Browser
     [ Table ( Name = "Home") ]
     public class Home
     {
-        [ Column (Name = "Url", IsPrimaryKey=true)]
+        [Column(Name = "Id",  IsPrimaryKey = true)]
+        public int? Id { get; set; }
+        [ Column (Name = "Url")]
         public string Url { get ; set ; }
+        [ Column (Name = "Title")]
+        public  string Title { get ; set ; }
     }
 }

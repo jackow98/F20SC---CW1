@@ -114,7 +114,7 @@ namespace WindowsFormsApplication2.GUI
         private void HomeButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(_db.HomeUrl, false));
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(_db.LoadHome(), false));
         }
 
         /// <summary>
@@ -322,6 +322,19 @@ namespace WindowsFormsApplication2.GUI
         {
             
             UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(false));
+        }
+
+        private void HomeButton_Hover(object sender, EventArgs e)
+        {
+            //TODO: Implement correct functionality
+            //FavouriteHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
+            
+            HTMLPage home = EditFavouritePopUp.ShowDialog(
+                "Edit Home",
+                _db.LoadHome()
+            );
+            
+            _db.UpdateHome(home.url);
         }
     }
 }
