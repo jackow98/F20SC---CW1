@@ -10,9 +10,11 @@ namespace WindowsFormsApplication2.Functionality
     {
         public HTMLPage CurrentPage;
         public HttpFunctionality Http;
+        public DatabaseFunctionality db;
 
-        public TabFunctionality(HTMLPage page)
+        public TabFunctionality(ref DatabaseFunctionality db, HTMLPage page)
         {
+            this.db = db;
             CurrentPage = page;
         }
         
@@ -27,7 +29,9 @@ namespace WindowsFormsApplication2.Functionality
         /// <returns>The HTML Page retrieved after making the request</returns>
         public HTMLPage load_page()
         {
-            return Http.MakeRequest();
+            HTMLPage loadedPage = Http.MakeRequest();
+            db.AddHistory(loadedPage.url, loadedPage.title);
+            return loadedPage;
         }
 
         /// <summary>
@@ -44,7 +48,7 @@ namespace WindowsFormsApplication2.Functionality
                 CurrentPage = load_page();
                 return CurrentPage;
             }
-            
+
             //TODO: Handle exceptions
             return new HTMLPage("Enter URL", "", "", "");
         }

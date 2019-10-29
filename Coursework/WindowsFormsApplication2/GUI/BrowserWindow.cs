@@ -138,7 +138,19 @@ namespace WindowsFormsApplication2.GUI
             }
             UpdateBrowserPageGui("Favourites");
         }
-
+        
+        private void DisplayHistory()
+        {
+            DisplayLoadingState();
+            foreach (var history in _db.getTableAsList<History>())
+            {
+                this.BrowserPageTitleDisplay.Items.Add(history.Title);
+                this.BrowserPageUrlDisplay.Items.Add(history.Url);
+                this.BrowserPageDateDisplay.Items.Add(history.LastLoad);
+                this.BrowserPageVisitsDisplay.Items.Add(history.Visits);
+            }
+            UpdateBrowserPageGui("History");
+        }
         /// <summary>
         /// When user clicks history button, loads history and details associated with them
         /// </summary>
@@ -146,14 +158,7 @@ namespace WindowsFormsApplication2.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void HistoryButton_Click(object sender, EventArgs e)
         {
-            DisplayLoadingState();
-            foreach (var history in _db.HistoryTable)
-            {
-                this.BrowserPageUrlDisplay.Items.Add(history.Url);
-                this.BrowserPageDateDisplay.Items.Add(history.LastLoad);
-                this.BrowserPageVisitsDisplay.Items.Add(history.Visits);
-            }
-            UpdateBrowserPageGui("History");
+            DisplayHistory();
         }
         
         /// <summary>

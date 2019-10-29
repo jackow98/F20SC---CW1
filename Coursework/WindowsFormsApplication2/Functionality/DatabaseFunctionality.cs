@@ -112,6 +112,25 @@ namespace WindowsFormsApplication2.Functionality
             }
         }
 
+        public void AddHistory(string url, string title)
+        {
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+
+                History history = new History
+                {
+                    Url = url,
+                    Title = title,
+                    Visits = 0,
+                    LastLoad = ""
+                };
+
+                Table<History> his = db.GetTable<History>();
+                his.InsertOnSubmit(history);
+                db.SubmitChanges();
+            }
+        }
+        
         public void UpdateFavourite(int index, string url, string title)
         {
             using (DataContext db = new DataContext(_connectedDatabase))

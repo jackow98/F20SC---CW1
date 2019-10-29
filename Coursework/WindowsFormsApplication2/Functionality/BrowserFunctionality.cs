@@ -20,6 +20,7 @@ namespace WindowsFormsApplication2.Functionality
             {    
                 Tabs.Add(
                     new TabFunctionality<HTMLPage>(
+                        ref db,
                         new HTMLPage(tab.Url, tab.Title, "", "")
                         )
                     );
