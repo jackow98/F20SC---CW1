@@ -68,6 +68,7 @@ namespace Coursework.Functionality
             if (moveBack)
                 currentNode = currentNode.Previous;
             else
+            //TODO: Fix next cretaing new pages
                 currentNode = currentNode.Next;
 
             CurrentPage = currentNode.Value;

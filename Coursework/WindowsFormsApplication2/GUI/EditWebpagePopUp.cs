@@ -34,7 +34,7 @@ namespace Coursework.GUI
             }
             
             var confirmation = new Button
-                {Text = "Add", Left = 350, Width = 100, Top = 130, DialogResult = DialogResult.OK};
+                {Text = "Save Changes", Left = 350, Width = 100, Top = 130, DialogResult = DialogResult.OK};
             confirmation.Click += (sender, e) => { sddFavouritePopUp.Close(); };
 
             sddFavouritePopUp.Controls.Add(confirmation);
@@ -42,7 +42,7 @@ namespace Coursework.GUI
 
             return sddFavouritePopUp.ShowDialog() == DialogResult.OK
                 ? new HTMLPage(
-                    nameDisplayText == null ? "" : urlTextBox.Text, 
+                    urlDisplayText == null ? "" : urlTextBox.Text, 
                     nameDisplayText == null ? "" : nameTextBox.Text, 
                     "", 
                     ""
