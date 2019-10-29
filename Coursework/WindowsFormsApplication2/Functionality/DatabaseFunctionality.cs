@@ -93,22 +93,23 @@ namespace WindowsFormsApplication2.Functionality
         /// <param name="title"> A string of the title corresponding to the new favourite to be added </param>
         public void AddFavourite(string url, string title)
         {
-            if (FavouritesTable.Any(favourite => favourite.Url == url)) return;
-            
-            Favourites fav = new Favourites
-            {
-                Url = url,
-                Title = title,
-                Visits = 0,
-                LastLoad = ""
-            };
-
             using (DataContext db = new DataContext(_connectedDatabase))
             {
-                Table<Favourites> favs = db.GetTable<Favourites>();
-                favs.InsertOnSubmit(fav);
-                db.SubmitChanges();
-            }
+
+                if (db.GetTable<Favourites>().Any(favourite => favourite.Url == url)) return;
+            
+                Favourites fav = new Favourites
+                {
+                    Url = url,
+                    Title = title,
+                    Visits = 0,
+                    LastLoad = ""
+                };
+
+                    Table<Favourites> favs = db.GetTable<Favourites>();
+                    favs.InsertOnSubmit(fav);
+                    db.SubmitChanges();
+                }
 
         }
         
@@ -117,7 +118,9 @@ namespace WindowsFormsApplication2.Functionality
         /// </summary>
         public void AddTab()
         {
-            Tabs tab = new Tabs()
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                Tabs tab = new Tabs()
             {
                 Url = "",
                 Title = "",
@@ -126,8 +129,7 @@ namespace WindowsFormsApplication2.Functionality
                 Id = null
             };
 
-            using (DataContext db = new DataContext(_connectedDatabase))
-            {
+           
                 Table<Tabs> tabs = db.GetTable<Tabs>();
                 tabs.InsertOnSubmit(tab);
                 db.SubmitChanges();

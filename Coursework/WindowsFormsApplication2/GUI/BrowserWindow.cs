@@ -123,7 +123,7 @@ namespace WindowsFormsApplication2.GUI
         private void FavouritesButton_Click(object sender, EventArgs e)
         {
             DisplayLoadingState();
-            foreach (var favourite in _db.FavouritesTable)
+            foreach (var favourite in _db.getTableAsList<Favourites>())
             {
                 this.BrowserPageTitleDisplay.Items.Add(favourite.Title);
                 this.BrowserPageUrlDisplay.Items.Add(favourite.Url);
