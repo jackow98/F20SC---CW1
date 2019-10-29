@@ -89,7 +89,7 @@
     <Compile Include="Functionality\DatabaseFunctionality.cs" />
     <Compile Include="Functionality\HTTPFunctionality.cs" />
     <Compile Include="Functionality\TabFunctionality.cs" />
-    <Compile Include="GUI\EditFavouritePopUp.cs" />
+    <Compile Include="GUI\EditWebpagePopUp.cs" />
     <Compile Include="GUI\BrowserWindow.cs">
       <SubType>Form</SubType>
     </Compile>

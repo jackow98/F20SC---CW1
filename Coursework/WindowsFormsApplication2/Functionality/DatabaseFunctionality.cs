@@ -86,7 +86,9 @@ namespace Coursework.Functionality
         /// <param name="url"> A string of the URL corresponding to the new favourite to be added </param>
         /// <param name="title"> A string of the title corresponding to the new favourite to be added </param>
         public void AddFavourite(string url, string title)
+        //TODO: Make Generic
         {
+            //TODO: Handle cases for no HTML, need to load page, 404 etc.
             using (var db = new DataContext(_connectedDatabase))
             {
                 if (db.GetTable<Favourites>().Any(favourite => favourite.Url == url)) return;

@@ -210,8 +210,6 @@ namespace Coursework.GUI
             this.BrowserPageUrlDisplay.TabIndex = 18;
             this.BrowserPageUrlDisplay.MouseClick +=
                 new System.Windows.Forms.MouseEventHandler(this.BrowserPageUrlDisplay_MouseClick);
-            this.BrowserPageUrlDisplay.MouseDoubleClick +=
-                new System.Windows.Forms.MouseEventHandler(this.BrowserPageUrlDisplay_MouseDoubleClick);
             // 
             // NextButton
             // 

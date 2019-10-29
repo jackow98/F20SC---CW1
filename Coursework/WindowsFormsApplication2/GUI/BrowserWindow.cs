@@ -99,6 +99,50 @@ namespace Coursework.GUI
             DisplayTable<Favourites>("Favourites");
         }
         
+        /// <summary>
+        ///     When user clicks history button, loads history and details associated with them
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
+        private void HistoryButton_Click(object sender, EventArgs e)
+        {
+            DisplayTable<History>("Favourites");
+        }
+        
+        /// <summary>
+        ///     Loads pop up for favourites 
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
+        private void AddFavouriteButton_Click(object sender, EventArgs e)
+        {
+            EditWebpagePopUp("Add Favourite");
+        }
+        
+        /// <summary>
+        ///     When user clicks add tab button, adds a blank tab
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
+        private void AddTabButton_Click(object sender, EventArgs e)
+        {
+            AddBlankTab();
+        }
+        
+        /// <summary>
+        ///     On change of tab, get tab and load the associated HTML page
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
+        private void TabsDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _browser.CurrentTabIndex = TabsDropdown.SelectedIndex;
+            _browser.CurrentTab = _browser.GetTabFromIndex(_browser.CurrentTabIndex);
+            SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
+
+            //TODO: Input check
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
+        }
         #endregion
         
         #region Browser GUI Methods
@@ -135,73 +179,40 @@ namespace Coursework.GUI
         /// <typeparam name="TTable">The type of the table that inherit WebPageTable</typeparam>
         private void DisplayTable<TTable>(string title) where TTable : WebPageTable
         {
-            DisplayLoadingState();
-            foreach (var element in _db.getTableAsList<TTable>())
+            SafeExecution.UpdateGui(() =>
             {
-                BrowserPageTitleDisplay.Items.Add(element.Title);
-                BrowserPageUrlDisplay.Items.Add(element.Url);
-                BrowserPageDateDisplay.Items.Add(element.LastLoad);
-                BrowserPageVisitsDisplay.Items.Add(element.Visits);
-            }
+                DisplayLoadingState();
+                foreach (var element in _db.getTableAsList<TTable>())
+                {
+                    BrowserPageTitleDisplay.Items.Add(element.Title);
+                    BrowserPageUrlDisplay.Items.Add(element.Url);
+                    BrowserPageDateDisplay.Items.Add(element.LastLoad);
+                    BrowserPageVisitsDisplay.Items.Add(element.Visits);
+                }
 
-            UpdateBrowserPageGui(title);
+                UpdateBrowserPageGui(title);
+            });
+            
         }
         
-        #endregion
-
-       
-
         /// <summary>
-        ///     When user clicks history button, loads history and details associated with them
+        ///     Loads pop up prompting user to make any changes then updates database accordingly
         /// </summary>
-        /// <param name="sender">Auto generated argument by windows forms</param>
-        /// <param name="e">Auto generated argument by windows forms</param>
-        private void HistoryButton_Click(object sender, EventArgs e)
+        /// <param name="caption"></param>
+        private void EditWebpagePopUp(string caption)
         {
-            DisplayTable<History>("Favourites");
-        }
-
-        /// <summary>
-        ///     Loads a pop up prompting user to make any changes to favourite before adding to database
-        /// </summary>
-        /// <param name="sender">Auto generated argument by windows forms</param>
-        /// <param name="e">Auto generated argument by windows forms</param>
-        private void AddFavouriteButton_Click(object sender, EventArgs e)
-        {
-            //TODO: Handle cases for no HTML, need to load page, 404 etc.
-            var favourite = EditFavouritePopUp.ShowDialog(
-                "Add Favourite",
+            var favourite = GUI.EditWebpagePopUp.ShowDialog(
+                caption,
                 WebPageTitleLabel.Text,
                 SearchBar.Text
             );
 
+            //TODO: Input check
             _db.AddFavourite(favourite.url, favourite.title);
+            MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
             //TODO: Add some sort of feedback for user
         }
-
-        /// <summary>
-        ///     When user clicks add tab button, adds a blank tab
-        /// </summary>
-        /// <param name="sender">Auto generated argument by windows forms</param>
-        /// <param name="e">Auto generated argument by windows forms</param>
-        private void AddTabButton_Click(object sender, EventArgs e)
-        {
-            AddBlankTab();
-        }
-
-        /// <summary>
-        ///     On change of tab, get tab and load the associated HTML page
-        /// </summary>
-        /// <param name="sender">Auto generated argument by windows forms</param>
-        /// <param name="e">Auto generated argument by windows forms</param>
-        private void TabsDropdown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var tab = _browser.GetTabFromIndex(TabsDropdown.SelectedIndex);
-            SearchBar.Text = tab.CurrentPage.url;
-
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
-        }
-
+        
         /// <summary>
         ///     Updates browser GUI to and adds tab to database
         /// </summary>
@@ -213,7 +224,7 @@ namespace Coursework.GUI
             UpdateHtmlPageGui(new HTMLPage("", "", "", ""));
             LoadTabsToGui();
         }
-
+        
         /// <summary>
         ///     Updates the GUI to display a HTML page and its associated information
         /// </summary>
@@ -241,7 +252,7 @@ namespace Coursework.GUI
                 SearchBar.Text = newPage.url;
             });
         }
-
+        
         /// <summary>
         ///     Updates the GUI to display information data from a Web page table
         /// </summary>
@@ -266,7 +277,7 @@ namespace Coursework.GUI
                 WebPageTitleLabel.Text = title;
             });
         }
-
+        
         /// <summary>
         ///     Updates the GUI to clear elements and display loading to user
         /// </summary>
@@ -282,14 +293,8 @@ namespace Coursework.GUI
                 BrowserPageVisitsDisplay.Items.Clear();
             });
         }
-
-        private void BrowserPageUrlDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            var index = BrowserPageUrlDisplay.IndexFromPoint(e.Location);
-            if (index != ListBox.NoMatches)    
-                UpdateHtmlPageGui(
-                    _browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString(), false));
-        }
+        #endregion
+        
 
         private void BrowserPageUrlDisplay_MouseClick(object sender, MouseEventArgs e)
         {
@@ -301,7 +306,7 @@ namespace Coursework.GUI
         {
             var index = BrowserPageUrlDisplay.SelectedIndex;
 
-            var favourite = EditFavouritePopUp.ShowDialog(
+            var favourite = GUI.EditWebpagePopUp.ShowDialog(
                 "Edit Favourite",
                 BrowserPageTitleDisplay.Items[index].ToString(),
                 BrowserPageUrlDisplay.Items[index].ToString()
@@ -332,7 +337,7 @@ namespace Coursework.GUI
             //TODO: Implement correct functionality
             //FavouriteHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
 
-            var home = EditFavouritePopUp.ShowDialog(
+            var home = GUI.EditWebpagePopUp.ShowDialog(
                 "Edit Home",
                 _db.LoadHome()
             );
