@@ -16,7 +16,7 @@ namespace WindowsFormsApplication2.Functionality
         /// <param name="db"></param>
         public void LoadTabs(DatabaseFunctionality db)
         {
-            foreach (var tab in db.TabsTable)
+            foreach (var tab in db.getTableAsList<Tabs>())
             {    
                 Tabs.Add(
                     new TabFunctionality<HTMLPage>(
@@ -25,7 +25,7 @@ namespace WindowsFormsApplication2.Functionality
                     );
             }
             
-            CurrentTabIndex = db.TabsTable.Count() - 1;
+            CurrentTabIndex = db.getTableSize<Tabs>() - 1;
             CurrentTab = Tabs[CurrentTabIndex];
         }
 

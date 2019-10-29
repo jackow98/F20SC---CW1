@@ -16,7 +16,6 @@ namespace WindowsFormsApplication2.Functionality
     {
         private SQLiteConnection _connectedDatabase;
         public Table<Favourites> FavouritesTable;
-        public Table<Tabs> TabsTable;
         public Table<History> HistoryTable;
         public string HomeUrl;
 
@@ -24,7 +23,6 @@ namespace WindowsFormsApplication2.Functionality
         {
             this.MakeConnection();
             FavouritesTable = loadTable<Favourites>();
-            TabsTable = loadTable<Tabs>();
             HistoryTable = loadTable<History>();
             this.LoadHome();
         }
@@ -45,10 +43,30 @@ namespace WindowsFormsApplication2.Functionality
         /// </summary>
         /// <typeparam name="TTable"> The type of the table to be fetched and returned </typeparam>
         /// <returns> A LINQ table of the type provided</returns>
-        private Table<TTable> loadTable<TTable>() where TTable : WebPageTable
+        public Table<TTable> loadTable<TTable>() where TTable : WebPageTable
         {
             //TODO: Handle exceptions
-            return new MappedDatabase(_connectedDatabase).GetWebPageNameTable<TTable>();
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                return db.GetTable<TTable>();
+            }
+        }
+
+        public List<TTable> getTableAsList<TTable>() where TTable : WebPageTable
+        {
+            //TODO: Handle exceptions
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                return db.GetTable<TTable>().ToList();
+            }
+        }
+
+        public int getTableSize<TTable>() where TTable : WebPageTable
+        {
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                return db.GetTable<TTable>().ToList().Count;
+            }
         }
 
         /// <summary>
@@ -57,11 +75,15 @@ namespace WindowsFormsApplication2.Functionality
         private void LoadHome()
         {
             //TODO: Handle exceptions
-            Table<Home> homeTable = new MappedDatabase(_connectedDatabase).GetHomeTable();
-            foreach (var home in homeTable)
+            using (DataContext db = new DataContext(_connectedDatabase))
             {
-                HomeUrl = home.Url;
-            }
+                Table<Home> homeTable = db.GetTable<Home>();
+
+                foreach (var home in homeTable)
+                {
+                    HomeUrl = home.Url;
+                }
+            }    
         }
         
         /// <summary>
@@ -80,9 +102,14 @@ namespace WindowsFormsApplication2.Functionality
                 Visits = 0,
                 LastLoad = ""
             };
-            FavouritesTable.InsertOnSubmit(fav);
-            WriteToDatabase();
-            loadTable<Favourites>();
+
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                Table<Favourites> favs = db.GetTable<Favourites>();
+                favs.InsertOnSubmit(fav);
+                db.SubmitChanges();
+            }
+
         }
         
         /// <summary>
@@ -99,46 +126,54 @@ namespace WindowsFormsApplication2.Functionality
                 Id = null
             };
 
-            
-            TabsTable.InsertOnSubmit(tab);
-            WriteToDatabase();
-            loadTable<Tabs>();
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                Table<Tabs> tabs = db.GetTable<Tabs>();
+                tabs.InsertOnSubmit(tab);
+                db.SubmitChanges();
+            }
+
         }
         
         public void CloseTab(int index)
         {
-            int count = 0;
-            foreach (var tab in TabsTable)
+            using (DataContext db = new DataContext(_connectedDatabase))
             {
-                if (index == count)
+                Table<Tabs> tabs = db.GetTable<Tabs>();
+
+                int count = 0;
+                foreach (var tab in tabs)
                 {
-                    TabsTable.DeleteOnSubmit(tab);
-                    break;
+                    if (index == count)
+                    {
+                        tabs.DeleteOnSubmit(tab);
+                        break;
+                    }
+                    count++;
                 }
-                count++;
+
+                db.SubmitChanges();
             }
-            WriteToDatabase();
-            loadTable<Tabs>();
         }
 
         /// <summary>
         /// Writes changes to the SQLite database 
         /// </summary>
-        private void WriteToDatabase()
-        {
-            try
-            {
-                MappedDatabase db = new MappedDatabase(_connectedDatabase);
-                db.WriteChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-             
-                MappedDatabase db = new MappedDatabase(_connectedDatabase);
-                db.WriteChanges();
-            }
-            
-        }
+        //private void WriteToDatabase()
+        //{
+        //    try
+        //    {
+        //        MappedDatabase db = new MappedDatabase(_connectedDatabase);
+        //        db.WriteChanges();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //     
+        //        MappedDatabase db = new MappedDatabase(_connectedDatabase);
+        //        db.WriteChanges();
+        //    }
+        //    
+        //}
     }
 }

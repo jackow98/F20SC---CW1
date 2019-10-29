@@ -55,7 +55,7 @@ namespace Browser
     [ Table ( Name = "Tabs") ]
     public class Tabs : WebPageTable
     {
-        [Column(Name = "Id",  IsPrimaryKey = true, IsDbGenerated = true)]
+        [Column(Name = "Id",  IsPrimaryKey = true)]
         public override int? Id { get; set; }
             [ Column (Name = "Url")]
         public override string Url { get ; set ; }

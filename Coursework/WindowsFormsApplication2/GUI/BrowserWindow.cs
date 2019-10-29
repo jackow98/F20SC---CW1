@@ -87,7 +87,7 @@ namespace WindowsFormsApplication2.GUI
             TabsDropdown.Items.Clear();
 
             //todo: Better error handling
-            if (!_db.TabsTable.Any())
+            if (_db.getTableSize<Tabs>() == 0)
             {
                 AddBlankTab();
             }
