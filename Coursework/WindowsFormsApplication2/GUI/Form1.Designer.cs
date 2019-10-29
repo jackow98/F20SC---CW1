@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Browser;
 
-namespace WindowsFormsApplication2.GUI
+namespace Coursework.GUI
 {
     partial class BrowserWindow<TWebPage> : Form  where TWebPage : IWebpage
     {

@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SafeExecution.cs" />
     <Compile Include="Functionality\BrowserFunctionality.cs" />
     <Compile Include="Functionality\DatabaseFunctionality.cs" />
     <Compile Include="Functionality\HTTPFunctionality.cs" />

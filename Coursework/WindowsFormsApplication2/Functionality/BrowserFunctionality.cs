@@ -2,7 +2,7 @@
 using System.Linq;
 using Browser;
 
-namespace WindowsFormsApplication2.Functionality
+namespace Coursework.Functionality
 {
     public class BrowserFunctionality
     {
@@ -25,6 +25,8 @@ namespace WindowsFormsApplication2.Functionality
                         )
                     );
             }
+            
+            
             
             CurrentTabIndex = db.getTableSize<Tabs>() - 1;
             CurrentTab = Tabs[CurrentTabIndex];

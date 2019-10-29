@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Browser;
 
-namespace WindowsFormsApplication2.Functionality
+namespace Coursework.Functionality
 {
     /// <summary>
     /// Class that tracks the information associated with a tab 

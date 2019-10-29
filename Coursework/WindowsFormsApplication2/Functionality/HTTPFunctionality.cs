@@ -3,7 +3,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Browser;
 
-namespace WindowsFormsApplication2.Functionality
+namespace Coursework.Functionality
 {
     public class HttpFunctionality
     {

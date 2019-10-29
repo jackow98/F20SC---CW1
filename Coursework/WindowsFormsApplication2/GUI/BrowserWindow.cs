@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using WindowsFormsApplication2.Functionality;
 using Browser;
 using System.Drawing;
+using Coursework.Functionality;
 
-namespace WindowsFormsApplication2.GUI
+namespace Coursework.GUI
 {
     /// <summary>
     /// Class to handle changes to the GUI split into Tab and Browser interactions 
@@ -15,6 +15,7 @@ namespace WindowsFormsApplication2.GUI
     //TODO: Handle GUI exception cases in this class
     public partial class BrowserWindow <TWebPage> where TWebPage : IWebpage
     {
+        
         private readonly DatabaseFunctionality _db;
         private BrowserFunctionality _browser = new BrowserFunctionality();
 
@@ -25,8 +26,8 @@ namespace WindowsFormsApplication2.GUI
             LoadTabsToGui();
         }
 
-        //Tab GUI 
-        
+        #region Tab GUI
+
         /// <summary>
         /// When user clicks search button, searches URL in search bar using current tab and loads web page
         /// </summary>
@@ -37,6 +38,10 @@ namespace WindowsFormsApplication2.GUI
             DisplayLoadingState();
             UpdateHtmlPageGui(_browser.CurrentTab .search_string(this.SearchBar.Text, false));
         }
+
+        #endregion
+        
+        
         
         /// <summary>
         /// When user clicks reload button, reloads page using current tab and displays newly retrieved web page
@@ -86,24 +91,24 @@ namespace WindowsFormsApplication2.GUI
         /// </summary>
         private void LoadTabsToGui()
         {
-            TabsDropdown.Items.Clear();
-
-            //todo: Better error handling
-            if (_db.getTableSize<Tabs>() == 0)
+            SafeExecution.UpdateGui(() =>
             {
-                AddBlankTab();
-            }
-            else
-            {
-                _browser.LoadTabs(_db);
-                foreach (var tab in _browser.Tabs)
+                TabsDropdown.Items.Clear();
+                
+                if (_db.getTableSize<Tabs>() == 0) { AddBlankTab(); }
+                else
                 {
-                    TabsDropdown.Items.Add(tab.CurrentPage.title);
+                    _browser.LoadTabs(_db);
+                    foreach (var tab in _browser.Tabs)
+                    {
+                        TabsDropdown.Items.Add(tab.CurrentPage.title);
+                    }
+
+                    TabsDropdown.SelectedIndex = _browser.CurrentTabIndex;
+                    SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
+                    WebPageTitleLabel.Text = _browser.CurrentTab.CurrentPage.title;
                 }
-                TabsDropdown.SelectedIndex = _browser.CurrentTabIndex;
-                SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
-                WebPageTitleLabel.Text = _browser.CurrentTab.CurrentPage.title;
-            }
+            };
         }
         
         /// <summary>
@@ -266,13 +271,17 @@ namespace WindowsFormsApplication2.GUI
         /// Updates the GUI to clear elements and display loading to user
         /// </summary>
         private void DisplayLoadingState()
-        {;
-            StatusCodeLabel.Text =  "";
-            WebPageTitleLabel.Text =  "Loading...";
-            BrowserPageTitleDisplay.Items.Clear();
-            BrowserPageUrlDisplay.Items.Clear();
-            BrowserPageDateDisplay.Items.Clear();
-            BrowserPageVisitsDisplay.Items.Clear();
+        {
+            SafeExecution.UpdateGui(() =>
+            {
+                StatusCodeLabel.Text = "";
+                WebPageTitleLabel.Text = "Loading...";
+                BrowserPageTitleDisplay.Items.Clear();
+                BrowserPageUrlDisplay.Items.Clear();
+                BrowserPageDateDisplay.Items.Clear();
+                BrowserPageVisitsDisplay.Items.Clear();
+                throw new Exception();
+            });
         }
         
         private void BrowserPageUrlDisplay_MouseDoubleClick(object sender, MouseEventArgs e)

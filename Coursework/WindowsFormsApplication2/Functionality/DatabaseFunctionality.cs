@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Browser;
 
-namespace WindowsFormsApplication2.Functionality
+namespace Coursework.Functionality
 {
     /// <summary>
     /// Class to handle connection and transactions with local SQLite database
@@ -58,6 +58,7 @@ namespace WindowsFormsApplication2.Functionality
 
         public int getTableSize<TTable>() where TTable : WebPageTable
         {
+            //todo: must return int
             using (DataContext db = new DataContext(_connectedDatabase))
             {
                 return db.GetTable<TTable>().ToList().Count;

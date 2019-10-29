@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using Browser;
 
-namespace WindowsFormsApplication2.GUI
+namespace Coursework.GUI
 {
     public static class EditFavouritePopUp
     {

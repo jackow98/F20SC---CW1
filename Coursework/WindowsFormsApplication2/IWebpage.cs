@@ -6,6 +6,6 @@ namespace Browser
     public interface IWebpage
     {
         //TODO: Make generic
-        GroupBox DisplayElement();
+        
     }
 }

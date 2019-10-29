@@ -17,7 +17,6 @@ C:\Users\Owner\.ssh\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\En
 C:\Users\Owner\.ssh\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\System.Data.SQLite.xml
 C:\Users\Owner\.ssh\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\System.Data.SQLite.dll.config
 C:\Users\Owner\.ssh\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\F20SCCoursework1.csproj.CopyComplete
-C:\Users\Owner\.ssh\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.GUI.BrowserWindow.resources
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\WindowsFormsApplication2.exe.config
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.exe
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.pdb
@@ -35,3 +34,4 @@ C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\D
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.GUI.BrowserWindow.resources
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Properties.Resources.resources
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\F20SCCoursework1.csproj.GenerateResource.Cache
+C:\Users\Owner\.ssh\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\Coursework.GUI.BrowserWindow.resources
