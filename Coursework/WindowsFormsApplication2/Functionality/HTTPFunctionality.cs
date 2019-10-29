@@ -27,7 +27,7 @@ namespace WindowsFormsApplication2.Functionality
             {
                 response = (HttpWebResponse)request.GetResponse();
                 
-                status = ((HttpWebResponse)response).StatusDescription;
+                status = ((int)((HttpWebResponse)response).StatusCode).ToString() + "-" + ((HttpWebResponse)response).StatusCode;
                 
                 // Get the stream containing content returned by the server. 
                 // The using block ensures the stream is automatically closed. 
@@ -47,12 +47,12 @@ namespace WindowsFormsApplication2.Functionality
                 if (exception.Status == WebExceptionStatus.ProtocolError)
                 {
                     response = (HttpWebResponse)exception.Response;
-                    this.status = response.StatusDescription;
+                    this.status = ((int) response.StatusCode).ToString() +"-" + response.StatusCode.ToString();
                 }
                 else
                 {
                     //TODO: Handle exception caused by hw.ac.uk
-                    this.status = response.StatusDescription;
+                    this.status = ((int)response.StatusCode).ToString() +"-" + response.StatusCode.ToString();
                 }
             }
             finally
@@ -64,8 +64,13 @@ namespace WindowsFormsApplication2.Functionality
             }
             
             //Regex code sourced from https://stackoverflow.com/questions/329307/how-to-get-website-title-from-c-sharp
-            string title = Regex.Match(this.html, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", 
-                RegexOptions.IgnoreCase).Groups["Title"].Value;
+            string title = "";
+            if (html != null)
+            {
+                title = Regex.Match(this.html, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", 
+                                RegexOptions.IgnoreCase).Groups["Title"].Value;
+            }
+            
             
             HTMLPage returnPage = new HTMLPage(this.url, title, this.status, this.html);
             return returnPage;
