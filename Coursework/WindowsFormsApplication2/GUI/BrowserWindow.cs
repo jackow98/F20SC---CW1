@@ -123,6 +123,11 @@ namespace WindowsFormsApplication2.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void FavouritesButton_Click(object sender, EventArgs e)
         {
+            DisplayFavourites();
+        }
+
+        private void DisplayFavourites()
+        {
             DisplayLoadingState();
             foreach (var favourite in _db.getTableAsList<Favourites>())
             {
@@ -133,7 +138,7 @@ namespace WindowsFormsApplication2.GUI
             }
             UpdateBrowserPageGui("Favourites");
         }
-        
+
         /// <summary>
         /// When user clicks history button, loads history and details associated with them
         /// </summary>
@@ -159,7 +164,7 @@ namespace WindowsFormsApplication2.GUI
         private void AddFavouriteButton_Click(object sender, EventArgs e)
         {
             //TODO: Handle cases for no HTML, need to load page, 404 etc.
-            HTMLPage favourite = AddFavouritePopUp.ShowDialog(
+            HTMLPage favourite = EditFavouritePopUp.ShowDialog(
                 "Add Favourite", 
                 WebPageTitleLabel.Text, 
                 SearchBar.Text
@@ -275,8 +280,31 @@ namespace WindowsFormsApplication2.GUI
 
         private void BrowserPageUrlDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            FavouriteHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
+            int index = this.BrowserPageUrlDisplay.IndexFromPoint(e.Location);
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                FavouriteHandlerStrip.Show(BrowserPageUrlDisplay, new Point(0, 0));    
+            }
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = BrowserPageUrlDisplay.SelectedIndex;
+            
+            HTMLPage favourite = EditFavouritePopUp.ShowDialog(
+                "Edit Favourite", 
+                BrowserPageTitleDisplay.Items[index].ToString(), 
+                BrowserPageUrlDisplay.Items[index].ToString()
+            );
+            
+            _db.UpdateFavourite(index, favourite.url, favourite.title);
+            DisplayFavourites();
         }
         
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = BrowserPageUrlDisplay.SelectedIndex;
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString()));
+        }
     }
 }

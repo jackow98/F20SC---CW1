@@ -109,10 +109,31 @@ namespace WindowsFormsApplication2.Functionality
                     Table<Favourites> favs = db.GetTable<Favourites>();
                     favs.InsertOnSubmit(fav);
                     db.SubmitChanges();
-                }
-
+            }
         }
-        
+
+        public void UpdateFavourite(int index, string url, string title)
+        {
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                Table<Favourites> favourites = db.GetTable<Favourites>();
+
+                int count = 0;
+                foreach (var favourite in favourites)
+                {
+                    if (index == count)
+                    {
+                        favourite.Url = url;
+                        favourite.Title = title;
+                        break;
+                    }
+                    count++;
+                }
+                
+                db.SubmitChanges();
+            }
+        }
+
         /// <summary>
         /// Adds a new blank tab to the database
         /// </summary>

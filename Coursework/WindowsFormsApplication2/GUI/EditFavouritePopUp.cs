@@ -3,7 +3,7 @@ using Browser;
 
 namespace WindowsFormsApplication2.GUI
 {
-    public static class AddFavouritePopUp
+    public static class EditFavouritePopUp
     {
         public static HTMLPage ShowDialog(string caption, string nameDisplayText="", string urlDisplayText="")
         {
