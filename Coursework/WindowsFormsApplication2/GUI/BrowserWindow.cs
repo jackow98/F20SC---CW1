@@ -336,5 +336,13 @@ namespace WindowsFormsApplication2.GUI
             
             _db.UpdateHome(home.url);
         }
+
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = BrowserPageUrlDisplay.SelectedIndex;
+            _db.DeleteFavoutite(index);
+            DisplayFavourites();
+        }
     }
 }

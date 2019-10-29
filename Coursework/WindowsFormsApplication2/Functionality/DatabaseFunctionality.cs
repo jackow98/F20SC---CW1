@@ -186,7 +186,27 @@ namespace WindowsFormsApplication2.Functionality
                 tabs.InsertOnSubmit(tab);
                 db.SubmitChanges();
             }
+        }
 
+        public void DeleteFavoutite(int index)
+        {
+            using (DataContext db = new DataContext(_connectedDatabase))
+            {
+                Table<Favourites> favs = db.GetTable<Favourites>();
+
+                int count = 0;
+                foreach (var fav in favs)
+                {
+                    if (index == count)
+                    {
+                        favs.DeleteOnSubmit(fav);
+                    }
+
+                    count ++;
+                }
+                
+                db.SubmitChanges();
+            }
         }
         
         public void CloseTab(int index)
