@@ -7,10 +7,10 @@ namespace Browser
     {
         public delegate string GetStringMethod();
         public delegate void UpdateGuiMethod();
-        public delegate void DatabaseConnectionMethod();
+        public delegate bool DatabaseConnectionMethod();
         public delegate TDatabaseReturn DatabaseInteractionMethod<TDatabaseReturn>();
 
-        public static void DisplayErrorAndExit(Exception e, string msg, string caption)
+        public static void DisplayErrorAndExit(Exception e, string msg, string caption, bool exit)
         {
             MessageBox.Show(
                 msg,
@@ -18,7 +18,7 @@ namespace Browser
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
             );
-            Application.Exit();
+            if (exit) Application.Exit();
         }
 
         public static void UpdateGui(UpdateGuiMethod update)
@@ -32,24 +32,27 @@ namespace Browser
                 DisplayErrorAndExit(
                     e,
                     "There has been an issue displaying your web browser, please restart the application",
-                    "Application Error"
+                    "Application Error",
+                    true
                 );
             }
         }
 
-        public static void DatabaseConnection(DatabaseConnectionMethod connect)
+        public static bool DatabaseConnection(DatabaseConnectionMethod connect)
         {
             try
             {
-                connect();
+                return connect();
             }
             catch (Exception e)
             {
                 DisplayErrorAndExit(
                     e,
-                    "There has been an issue connecting to the database, please restart the application",
-                    "Database Connection error"
+                    "There has been an issue connecting to the database, please try again",
+                    "Database Connection error",
+                    false
                 );
+                return false;
             }
         }
 

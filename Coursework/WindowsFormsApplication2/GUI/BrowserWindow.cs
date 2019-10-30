@@ -71,7 +71,7 @@ namespace Coursework.GUI
             TabsDropdown.Items.RemoveAt(tabToCloseIndex);
 
             _browser.CloseTab(tabToCloseIndex, TabsDropdown.SelectedIndex);
-            _db.CloseTab(tabToCloseIndex);
+            _db.DeleteWebpage<Tabs>(tabToCloseIndex);
             DisplayLoadingState();
             _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.url, false);
         }
@@ -122,8 +122,8 @@ namespace Coursework.GUI
                 SearchBar.Text
             );
             //TODO: Input check
-            _db.AddWebPage<Favourites>(favourite.url, favourite.title, true);
-            MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
+            bool added = _db.AddWebPage<Favourites>(favourite.url, favourite.title, true);
+            if(added) MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
             //TODO: Add some sort of feedback for user
         }
         
@@ -179,7 +179,7 @@ namespace Coursework.GUI
             );
 
             //TODO: Make Generic
-            _db.UpdateFavourite(index, favourite.url, favourite.title);
+            _db.UpdateTable<Favourites>(index, favourite.url, favourite.title);
             DisplayTable<Favourites>("Favourites");
         }
         
@@ -203,7 +203,7 @@ namespace Coursework.GUI
         {
             //TODO: Make generic
             var index = BrowserPageUrlDisplay.SelectedIndex;
-            _db.DeleteFavoutite(index);
+            _db.DeleteWebpage<Favourites>(index);
             DisplayTable<Favourites>("Favourites");
         }
         

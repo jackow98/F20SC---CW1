@@ -24,9 +24,9 @@ namespace Coursework.Functionality
         /// <summary>
         ///     Connects and maps SQLite database using LINQ
         /// </summary>
-        private void MakeConnection()
+        private bool MakeConnection()
         {
-            SafeExecution.DatabaseConnection(() =>
+            return SafeExecution.DatabaseConnection(() =>
             {
                 string parentDir = Path.GetDirectoryName(Application.StartupPath);
                 if (parentDir != null)
@@ -39,6 +39,8 @@ namespace Coursework.Functionality
                 {
                     throw new SafeExecution.DatabseException("Directory of database is not valid");
                 }
+
+                return true;
             });
         }
 
@@ -49,7 +51,7 @@ namespace Coursework.Functionality
         {
             try
             {
-                using (var db = new DataContext(_connectedDatabase))
+                using (DataContext db = new DataContext(_connectedDatabase))
                 {
                     Table<Home> homeTable = db.GetTable<Home>();
                     foreach (var home in homeTable) return home.Url;
@@ -69,17 +71,17 @@ namespace Coursework.Functionality
         {
             try
             {
-                using (var db = new DataContext(_connectedDatabase))
+                using (DataContext db = new DataContext(_connectedDatabase))
                 {
                     return db.GetTable<TTable>().ToList();
                 }
             }
-            catch(NullReferenceException e)
+            catch (NullReferenceException e)
             {
                 return new List<TTable>();
             }
         }
-  
+
         /// <summary>
         ///     Returns size of table, 0 if not present
         /// </summary>
@@ -87,7 +89,7 @@ namespace Coursework.Functionality
         {
             try
             {
-                using (var db = new DataContext(_connectedDatabase))
+                using (DataContext db = new DataContext(_connectedDatabase))
                 {
                     return db.GetTable<TTable>().ToList().Count;
                 }
@@ -102,125 +104,124 @@ namespace Coursework.Functionality
         /// <summary>
         ///     Adds a new entry to the database
         /// </summary>
-        /// <param name="url"> A string of the URL corresponding to the new favourite to be added </param>
-        /// <param name="title"> A string of the title corresponding to the new favourite to be added </param>
-        public void AddWebPage<TTable>(string url = "", string title = "", bool uniqueUrl = false) where TTable : WebPageTable, new()
+        /// <param name="url"> A string of the URL corresponding to the new entry to be added </param>
+        /// <param name="title"> A string of the title corresponding to the new entry to be added </param>
+        public bool AddWebPage<TTable>(string url = "", string title = "", bool uniqueUrl = false)
+            where TTable : WebPageTable, new()
         {
-            using (var db = new DataContext(_connectedDatabase))
+            return SafeExecution.DatabaseConnection(() =>
             {
-                if (uniqueUrl) { if (db.GetTable<TTable>().Any(row => row.Url == url)) return; }
-                
-
-                TTable entry = new TTable
+                using (DataContext db = new DataContext(_connectedDatabase))
                 {
-                    Url = url,
-                    Title = title,
-                    Visits = 0,
-                    LastLoad = ""
-                };
-
-                Table<TTable> table = db.GetTable<TTable>();
-                table.InsertOnSubmit(entry);
-                db.SubmitChanges();
-            }
-        }
-
-        public void UpdateFavourite(int index, string url, string title)
-        {
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                var favourites = db.GetTable<Favourites>();
-
-                var count = 0;
-                foreach (var favourite in favourites)
-                {
-                    if (index == count)
+                    //If unique URL required, checks table for existing entry
+                    if (uniqueUrl)
                     {
-                        favourite.Url = url;
-                        favourite.Title = title;
-                        break;
+                        if (db.GetTable<TTable>().Any(row => row.Url == url)) return false;
                     }
 
-                    count++;
-                }
-
-                db.SubmitChanges();
-            }
-        }
-
-        public void UpdateHome(string url)
-        {
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                var homeTable = db.GetTable<Home>();
-
-                foreach (var home in homeTable) home.Url = url;
-
-                db.SubmitChanges();
-            }
-        }
-
- 
-
-        public void DeleteFavoutite(int index)
-        {
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                var favs = db.GetTable<Favourites>();
-
-                var count = 0;
-                foreach (var fav in favs)
-                {
-                    if (index == count) favs.DeleteOnSubmit(fav);
-
-                    count++;
-                }
-
-                db.SubmitChanges();
-            }
-        }
-
-        public void CloseTab(int index)
-        {
-            //TODO: LINQ error handling
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                var tabs = db.GetTable<Tabs>();
-
-                var count = 0;
-                foreach (var tab in tabs)
-                {
-                    if (index == count)
+                    TTable entry = new TTable
                     {
-                        tabs.DeleteOnSubmit(tab);
-                        break;
-                    }
+                        Url = url,
+                        Title = title,
+                        Visits = 0,
+                        LastLoad = ""
+                    };
 
-                    count++;
+                    Table<TTable> table = db.GetTable<TTable>();
+                    table.InsertOnSubmit(entry);
+                    db.SubmitChanges();
                 }
 
-                db.SubmitChanges();
-            }
+                return true;
+            });
         }
 
         /// <summary>
-        /// Writes changes to the SQLite database 
+        ///     Updates an entry in the database
         /// </summary>
-        //private void WriteToDatabase()
-        //{
-        //    try
-        //    {
-        //        MappedDatabase db = new MappedDatabase(_connectedDatabase);
-        //        db.WriteChanges();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //     
-        //        MappedDatabase db = new MappedDatabase(_connectedDatabase);
-        //        db.WriteChanges();
-        //    }
-        //    
-        //}
+        /// <param name="index">The index of the entry to be updated</param>
+        /// <param name="url"> A unique string of the URL corresponding to the entry to be updated </param>
+        /// <param name="title"> A string of the title corresponding to the entry to be updated </param>
+        public bool UpdateTable<TTable>(int index, string url, string title) where TTable : WebPageTable
+        {
+            return SafeExecution.DatabaseConnection(() =>
+            {
+                using (DataContext db = new DataContext(_connectedDatabase))
+                {
+                    Table<TTable> table = db.GetTable<TTable>();
+
+                    int count = 0;
+                    foreach (TTable entry in table)
+                    {
+                        if (index == count)
+                        {
+                            entry.Url = url;
+                            entry.Title = title;
+                            break;
+                        }
+
+                        count++;
+                    }
+
+                    db.SubmitChanges();
+                }
+
+                return true;
+            });
+        }
+
+        /// <summary>
+        ///     Updates home page database
+        /// </summary>
+        /// <param name="url"> A string of the URL corresponding to the new home page </param>
+        public bool UpdateHome(string url)
+        {
+            return SafeExecution.DatabaseConnection(() =>
+            {
+                using (DataContext db = new DataContext(_connectedDatabase))
+                {
+                    var homeTable = db.GetTable<Home>();
+
+                    foreach (Home home in homeTable) home.Url = url;
+
+                    db.SubmitChanges();
+                }
+
+                return true;
+            });
+        }
+
+        /// <summary>
+        ///     Delete a web page from table in databse by unique ID
+        /// </summary>
+        /// <param name="index"></param>
+        /// <typeparam name="TTable"></typeparam>
+        /// <returns></returns>
+        public bool DeleteWebpage<TTable>(int index) where TTable : WebPageTable
+        {
+            return SafeExecution.DatabaseConnection(() =>
+            {
+                using (DataContext db = new DataContext(_connectedDatabase))
+                {
+                    Table<TTable> table = db.GetTable<TTable>();
+
+                    int count = 0;
+                    foreach (TTable entry in table)
+                    {
+                        if (index == count)
+                        {
+                            table.DeleteOnSubmit(entry);
+                            break;
+                        }
+
+                        count++;
+                    }
+
+                    db.SubmitChanges();
+                }
+
+                return true;
+            });
+        }
     }
 }
