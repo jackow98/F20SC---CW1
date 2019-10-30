@@ -11,7 +11,7 @@ namespace WindowsFormsApplication2
         ///     https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
         /// </summary>
         /// <param name="url">The url string to be checked</param>
-        /// <returns>True if correctly formatted and false otherwise</returns>
+        /// <returns>Empty string if correctly formatted or instructions on how to format correctly otherwise</returns>
         public static string CheckUrl(string url)
         {
             return SafeExecution.CheckText(() =>
@@ -25,12 +25,17 @@ namespace WindowsFormsApplication2
             });
         }
 
-        public static string CheckTitle(string url)
+        /// <summary>
+        ///     Checks title string to ensure it is formatted correctly
+        /// </summary>
+        /// <param name="title">The title string to be checked</param>
+        /// <returns>Empty string if correctly formatted or instructions on how to format correctly otherwise</returns>
+        public static string CheckTitle(string title)
         {
             return SafeExecution.CheckText(() =>
             {
                 var titleFormatted = Regex.Match(
-                    url,
+                    title,
                     @"[a-zA-Z\s0-9()]",
                     RegexOptions.IgnoreCase);
 

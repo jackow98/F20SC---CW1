@@ -4,7 +4,7 @@ using Browser;
 namespace WindowsFormsApplication2.Functionality
 {
     /// <summary>
-    ///     Class that tracks the information associated with a tab
+    ///     Class to handle any tab level operations that don't involve the GUI
     /// </summary>
     public class TabFunctionality
     {
@@ -13,8 +13,14 @@ namespace WindowsFormsApplication2.Functionality
         private readonly DatabaseFunctionality _db;
         private HttpFunctionality _http;
         private readonly LinkedList<HtmlPage> _recentHistPages;
-        private int _tabIndex;
+        private readonly int _tabIndex;
 
+        /// <summary>
+        ///      Constructor initialises all values associated with the tab
+        /// </summary>
+        /// <param name="db">The database connection that the tab uses</param>
+        /// <param name="page">The HTML page to be associated with the tab</param>
+        /// <param name="tabIndex">The index of the current tab</param>
         public TabFunctionality(ref DatabaseFunctionality db, HtmlPage page, int tabIndex)
         {
             this._db = db;
@@ -70,6 +76,11 @@ namespace WindowsFormsApplication2.Functionality
             
         }
 
+       /// <summary>
+       ///     Navigates backwards and forwards through doubly linked list representing tabs history
+       /// </summary>
+       /// <param name="moveBack">Boolean that is true if moving backwards and false if moving forward</param>
+       /// <returns>The HTML page next up in navigation, blank if no node</returns>
         public HtmlPage MoveThroughHistory(bool moveBack)
         {
             _currentNode = moveBack ? _currentNode.Previous : _currentNode.Next;

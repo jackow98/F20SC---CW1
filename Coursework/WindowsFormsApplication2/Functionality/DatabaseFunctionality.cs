@@ -54,6 +54,7 @@ namespace WindowsFormsApplication2.Functionality
                 using (DataContext db = new DataContext(_connectedDatabase))
                 {
                     Table<Home> homeTable = db.GetTable<Home>();
+                    //TODO: Better implement storage/recovery of home page
                     foreach (var home in homeTable) return home.Url;
                     throw new SafeExecution.DatabaseException("No Home page found");
                 }
@@ -83,7 +84,7 @@ namespace WindowsFormsApplication2.Functionality
         }
 
         /// <summary>
-        ///     Returns size of table, 0 if not present
+        ///     Returns size of table, 0 if not present. Table must implement WebPageTable
         /// </summary>
         public int GetTableSize<TTable>() where TTable : WebPageTable
         {
@@ -102,7 +103,7 @@ namespace WindowsFormsApplication2.Functionality
         }
 
         /// <summary>
-        ///     Adds a new entry to the database
+        ///     Adds a new web page entry to the database
         /// </summary>
         /// <param name="url"> A string of the URL corresponding to the new entry to be added </param>
         /// <param name="title"> A string of the title corresponding to the new entry to be added </param>
@@ -143,6 +144,7 @@ namespace WindowsFormsApplication2.Functionality
         /// <param name="index">The index of the entry to be updated</param>
         /// <param name="url"> A unique string of the URL corresponding to the entry to be updated </param>
         /// <param name="title"> A string of the title corresponding to the entry to be updated </param>
+        /// <typeparam name="TTable">Table type ensures table has required columns for a web page</typeparam>
         public void UpdateTable<TTable>(int index, string url, string title) where TTable : WebPageTable
         {
             SafeExecution.DatabaseConnection(() =>
@@ -172,7 +174,7 @@ namespace WindowsFormsApplication2.Functionality
         }
 
         /// <summary>
-        ///     Updates home page database
+        ///     Updates home page table in database
         /// </summary>
         /// <param name="url"> A string of the URL corresponding to the new home page </param>
         public void UpdateHome(string url)
@@ -189,6 +191,7 @@ namespace WindowsFormsApplication2.Functionality
                         count++;
                         home.Url = url;
                     }
+                    //Insert Blank Home Page if no Home page present in table
                     if (count == 0)
                     {
                         homeTable.InsertOnSubmit(new Home()
@@ -208,8 +211,8 @@ namespace WindowsFormsApplication2.Functionality
         /// <summary>
         ///     Delete a web page from table in database by unique ID
         /// </summary>
-        /// <param name="index"></param>
-        /// <typeparam name="TTable"></typeparam>
+        /// <param name="index">The index of the entry to be deleted</param>
+        /// <typeparam name="TTable">Table type ensures table has required columns for a web page</typeparam>
         /// <returns></returns>
         public void DeleteWebpage<TTable>(int index) where TTable : WebPageTable
         {

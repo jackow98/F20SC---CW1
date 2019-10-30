@@ -3,9 +3,11 @@ using Browser;
 
 namespace WindowsFormsApplication2.Functionality
 {
+    /// <summary>
+    ///     Class to handle any browser level operations that don't involve the GUI
+    /// </summary>
     public class BrowserFunctionality
     {
-        //TODO: All need default values
         public TabFunctionality CurrentTab;
         public int CurrentTabIndex;
         public readonly List<TabFunctionality> Tabs = new List<TabFunctionality>();

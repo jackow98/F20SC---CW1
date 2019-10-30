@@ -2,11 +2,11 @@
 
 namespace WindowsFormsApplication2
 {
-    /// <summary>
-    ///     Abstract class that stores details of a web page including a URL, Title, NO. of Visits and LastLoad
-    /// </summary>
-    
     //TODO: Implement visits and last load
+    /// <summary>
+    ///    Abstract class that stores details of a web page including a URL, Title, NO. of Visits and LastLoad
+    ///    The WebPageTable is subclassed by History, Tabs and favourites  
+    /// </summary>
     public abstract class WebPageTable
     {
         public abstract string TableName { get; }
@@ -23,6 +23,9 @@ namespace WindowsFormsApplication2
         [Column(Name = "LastLoad")] public abstract string LastLoad { get; set; }
     }
 
+    /// <summary>
+    ///     Favourites table that implements all of the methods in WebPageTable
+    /// </summary>
     [Table(Name = "Favourites")]
     public class Favourites : WebPageTable
     {
@@ -45,6 +48,9 @@ namespace WindowsFormsApplication2
         [Column(Name = "LastLoad")] public override string LastLoad { get; set; }
     }
 
+    /// <summary>
+    ///     History table that implements all of the methods in WebPageTable
+    /// </summary>
     [Table(Name = "History")]
     public class History : WebPageTable
     {
@@ -67,6 +73,9 @@ namespace WindowsFormsApplication2
         [Column(Name = "LastLoad")] public override string LastLoad { get; set; }
     }
 
+    /// <summary>
+    ///     Tabs table that implements all of the methods in WebPageTable
+    /// </summary>
     [Table(Name = "Tabs")]
     public class Tabs : WebPageTable
     {
@@ -89,6 +98,9 @@ namespace WindowsFormsApplication2
         [Column(Name = "LastLoad")] public override string LastLoad { get; set; }
     }
 
+    /// <summary>
+    ///     Home table that is designed to store only one home page
+    /// </summary>
     [Table(Name = "Home")]
     public class Home
     {

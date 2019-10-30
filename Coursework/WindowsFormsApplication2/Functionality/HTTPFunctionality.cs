@@ -23,7 +23,7 @@ namespace WindowsFormsApplication2.Functionality
         /// <summary>
         ///     Makes a http request for URL associated with instantiation and returns a HTML Page
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a Html Page with information associated with response</returns>
         public HtmlPage MakeRequest()
         {
             try
