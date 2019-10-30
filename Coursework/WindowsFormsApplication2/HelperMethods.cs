@@ -21,5 +21,19 @@ namespace Browser
 
             return urlFormatted.Success;
         }
+
+        /// <summary>
+        ///     Uses regex to find title tag in HTML, returns null if no title found
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        public static string GetTitleFromHtml(string html)
+        {
+            //Regex code sourced from https://stackoverflow.com/questions/329307/how-to-get-website-title-from-c-sharp
+            if (html != null)
+                return  Regex.Match(html, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>",
+                    RegexOptions.IgnoreCase).Groups["Title"].Value;
+            return null;
+        }
     }
 }

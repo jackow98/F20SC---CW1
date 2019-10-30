@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Linq;
 using System.Data.SQLite;
 using System.IO;
@@ -18,7 +19,6 @@ namespace Coursework.Functionality
         public DatabaseFunctionality()
         {
             MakeConnection();
-            LoadHome();
         }
 
         /// <summary>
@@ -26,60 +26,100 @@ namespace Coursework.Functionality
         /// </summary>
         private void MakeConnection()
         {
-            var parentdir = Path.GetDirectoryName(Application.StartupPath);
-            var absolutePath = Path.Combine(parentdir, "Debug", "demo.DB");
-            var connectionString = string.Format("Data Source={0}", absolutePath);
-            _connectedDatabase = new SQLiteConnection(connectionString);
+            SafeExecution.DatabaseConnection(() =>
+            {
+                string parentDir = Path.GetDirectoryName(Application.StartupPath);
+                if (parentDir != null)
+                {
+                    string absolutePath = Path.Combine(parentDir, "Debug", "demo.DB");
+                    string connectionString = string.Format("Data Source={0}", absolutePath);
+                    _connectedDatabase = new SQLiteConnection(connectionString);
+                }
+                else
+                {
+                    throw new SafeExecution.DatabseException("Directory of database is not valid");
+                }
+            });
         }
 
         /// <summary>
-        ///     Maps SQLite table to LINQ table
-        /// </summary>
-        /// <typeparam name="TTable"> The type of the table to be fetched and returned </typeparam>
-        /// <returns> A LINQ table of the type provided</returns>
-        public Table<TTable> loadTable<TTable>() where TTable : WebPageTable
-        {
-            //TODO: Handle exceptions
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                return db.GetTable<TTable>();
-            }
-        }
-
-        public List<TTable> getTableAsList<TTable>() where TTable : WebPageTable
-        {
-            //TODO: Handle exceptions, must return iterable
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                return db.GetTable<TTable>().ToList();
-            }
-        }
-  
-        public int getTableSize<TTable>() where TTable : WebPageTable
-        {
-            //todo: must return int
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                return db.GetTable<TTable>().ToList().Count;
-            }
-        }
-
-        /// <summary>
-        ///     Gets homepage URL from SQLite
+        ///     Gets homepage URL from SQLite, returns empty string if no home page
         /// </summary>
         public string LoadHome()
         {
-            //TODO: Handle exceptions
-            using (var db = new DataContext(_connectedDatabase))
+            try
             {
-                var homeTable = db.GetTable<Home>();
-
-                foreach (var home in homeTable) return home.Url;
-
+                using (var db = new DataContext(_connectedDatabase))
+                {
+                    Table<Home> homeTable = db.GetTable<Home>();
+                    foreach (var home in homeTable) return home.Url;
+                    throw new SafeExecution.DatabseException("No Home page found");
+                }
+            }
+            catch (SafeExecution.DatabseException e)
+            {
                 return "";
             }
         }
 
+        /// <summary>
+        ///     Gets generic table from SQLite, returns empty list if there is no table
+        /// </summary>
+        public List<TTable> GetTableAsList<TTable>() where TTable : WebPageTable
+        {
+            try
+            {
+                using (var db = new DataContext(_connectedDatabase))
+                {
+                    return db.GetTable<TTable>().ToList();
+                }
+            }
+            catch(NullReferenceException e)
+            {
+                return new List<TTable>();
+            }
+        }
+  
+        /// <summary>
+        ///     Returns size of table, 0 if not present
+        /// </summary>
+        public int GetTableSize<TTable>() where TTable : WebPageTable
+        {
+            try
+            {
+                using (var db = new DataContext(_connectedDatabase))
+                {
+                    return db.GetTable<TTable>().ToList().Count;
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                return 0;
+            }
+
+        }
+
+        public void AddWebPage<TTable>(string url = "", string title = "", bool uniqueUrl = false) where TTable : WebPageTable, new()
+        {
+            using (var db = new DataContext(_connectedDatabase))
+            {
+                if (uniqueUrl) { if (db.GetTable<TTable>().Any(row => row.Url == url)) return; }
+                
+
+                TTable entry = new TTable
+                {
+                    Url = url,
+                    Title = title,
+                    Visits = 0,
+                    LastLoad = ""
+                };
+
+                Table<TTable> table = db.GetTable<TTable>();
+                table.InsertOnSubmit(entry);
+                db.SubmitChanges();
+            }
+        }
+        
         /// <summary>
         ///     Adds a new favourite to the database if no entry with the same URL already exists
         /// </summary>
@@ -125,6 +165,29 @@ namespace Coursework.Functionality
             }
         }
 
+        /// <summary>
+        ///     Adds a new blank tab to the database
+        /// </summary>
+        public void AddTab()
+        {
+            using (var db = new DataContext(_connectedDatabase))
+            {
+                var tab = new Tabs
+                {
+                    Url = "",
+                    Title = "",
+                    Visits = 0,
+                    LastLoad = "",
+                    Id = null
+                };
+
+
+                var tabs = db.GetTable<Tabs>();
+                tabs.InsertOnSubmit(tab);
+                db.SubmitChanges();
+            }
+        }
+        
         public void UpdateFavourite(int index, string url, string title)
         {
             using (var db = new DataContext(_connectedDatabase))
@@ -160,28 +223,7 @@ namespace Coursework.Functionality
             }
         }
 
-        /// <summary>
-        ///     Adds a new blank tab to the database
-        /// </summary>
-        public void AddTab()
-        {
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                var tab = new Tabs
-                {
-                    Url = "",
-                    Title = "",
-                    Visits = 0,
-                    LastLoad = "",
-                    Id = null
-                };
-
-
-                var tabs = db.GetTable<Tabs>();
-                tabs.InsertOnSubmit(tab);
-                db.SubmitChanges();
-            }
-        }
+ 
 
         public void DeleteFavoutite(int index)
         {

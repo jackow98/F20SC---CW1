@@ -50,7 +50,7 @@ namespace Coursework.GUI
             this.NextButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
             this.HtmlPageDisplay = new System.Windows.Forms.TextBox();
-            this.FavouriteHandlerStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.WebPageHandlerStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,7 +61,10 @@ namespace Coursework.GUI
             this.BrowserPageDateDisplay = new System.Windows.Forms.ListBox();
             this.BrowserPageVisitsLabel = new System.Windows.Forms.Label();
             this.BrowserPageVisitsDisplay = new System.Windows.Forms.ListBox();
-            this.FavouriteHandlerStrip.SuspendLayout();
+            this.HomePageHandlerStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.WebPageHandlerStrip.SuspendLayout();
+            this.HomePageHandlerStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // SearchButton
@@ -95,7 +98,7 @@ namespace Coursework.GUI
             this.HomeButton.Text = "Home";
             this.HomeButton.UseVisualStyleBackColor = true;
             this.HomeButton.Click += new System.EventHandler(this.HomeButton_Click);
-            this.HomeButton.MouseHover += new System.EventHandler(this.HomeButton_Hover);
+            this.HomeButton.MouseHover += new System.EventHandler(this.HomeButton_MouseHover);
             // 
             // FavouritesButton
             // 
@@ -243,32 +246,32 @@ namespace Coursework.GUI
             this.HtmlPageDisplay.Size = new System.Drawing.Size(824, 338);
             this.HtmlPageDisplay.TabIndex = 29;
             // 
-            // FavouriteHandlerStrip
+            // WebPageHandlerStrip
             // 
-            this.FavouriteHandlerStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.FavouriteHandlerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            this.WebPageHandlerStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.WebPageHandlerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
                 {this.editToolStripMenuItem, this.searchToolStripMenuItem, this.deleteToolStripMenuItem});
-            this.FavouriteHandlerStrip.Name = "contextMenuStrip1";
-            this.FavouriteHandlerStrip.Size = new System.Drawing.Size(153, 92);
+            this.WebPageHandlerStrip.Name = "contextMenuStrip1";
+            this.WebPageHandlerStrip.Size = new System.Drawing.Size(110, 70);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.searchToolStripMenuItem.Text = "Search";
             this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -334,6 +337,20 @@ namespace Coursework.GUI
             this.BrowserPageVisitsDisplay.Size = new System.Drawing.Size(112, 304);
             this.BrowserPageVisitsDisplay.TabIndex = 20;
             // 
+            // HomePageHandlerStrip
+            // 
+            this.HomePageHandlerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {this.editToolStripMenuItem1});
+            this.HomePageHandlerStrip.Name = "HomePageHandlerStrip";
+            this.HomePageHandlerStrip.Size = new System.Drawing.Size(95, 26);
+            // 
+            // editToolStripMenuItem1
+            // 
+            this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(94, 22);
+            this.editToolStripMenuItem1.Text = "Edit";
+            this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
+            // 
             // BrowserWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -367,7 +384,8 @@ namespace Coursework.GUI
             this.Location = new System.Drawing.Point(15, 15);
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "BrowserWindow";
-            this.FavouriteHandlerStrip.ResumeLayout(false);
+            this.WebPageHandlerStrip.ResumeLayout(false);
+            this.HomePageHandlerStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -393,7 +411,7 @@ namespace Coursework.GUI
         private System.Windows.Forms.TextBox HtmlPageDisplay;
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip FavouriteHandlerStrip;
+        private System.Windows.Forms.ContextMenuStrip WebPageHandlerStrip;
         private System.Windows.Forms.ListBox BrowserPageVisitsDisplay;
         private System.Windows.Forms.Label BrowserPageVisitsLabel;
         private System.Windows.Forms.ListBox BrowserPageDateDisplay;
@@ -402,6 +420,8 @@ namespace Coursework.GUI
         private System.Windows.Forms.Label BrowserPageTitleLabel;
         private System.Windows.Forms.Label BrowswerPageUrlLabel;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip HomePageHandlerStrip;
     }
 }
 

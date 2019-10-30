@@ -16,7 +16,7 @@ namespace Coursework.Functionality
         /// <param name="db"></param>
         public void LoadTabs(DatabaseFunctionality db)
         {
-            foreach (var tab in db.getTableAsList<Tabs>())
+            foreach (var tab in db.GetTableAsList<Tabs>())
                 Tabs.Add(
                     new TabFunctionality<HTMLPage>(
                         ref db,
@@ -25,7 +25,7 @@ namespace Coursework.Functionality
                 );
 
 
-            CurrentTabIndex = db.getTableSize<Tabs>() - 1;
+            CurrentTabIndex = db.GetTableSize<Tabs>() - 1;
             CurrentTab = Tabs[CurrentTabIndex];
         }
 

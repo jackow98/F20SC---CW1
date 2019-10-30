@@ -1,74 +1,85 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using Browser;
 
 namespace Coursework.Functionality
 {
+    /// <summary>
+    ///     Class that handles HTTP requests for a given URL
+    /// </summary>
     public class HttpFunctionality
     {
-        private string html;
-        private HttpWebRequest request;
-        private HttpWebResponse response;
-        private string status;
-        private readonly string url;
+        private string _html;
+        private HttpWebRequest _request;
+        private HttpWebResponse _response;
+        private string _status;
+        private readonly string _url;
 
         public HttpFunctionality(string url)
         {
-            this.url = url;
+            this._url = url;
         }
 
+        /// <summary>
+        ///     Makes a http request for URL associated with instantiation and returns a HTML Page
+        /// </summary>
+        /// <returns></returns>
         public HTMLPage MakeRequest()
         {
-            request = (HttpWebRequest) WebRequest.Create(url);
-
-            // Get the response
             try
             {
-                response = (HttpWebResponse) request.GetResponse();
-
-                status = (int) response.StatusCode + "-" + response.StatusCode;
-
-                // Get the stream containing content returned by the server. 
-                // The using block ensures the stream is automatically closed. 
-                using (var dataStream = response.GetResponseStream())
+                // Get the response
+                try
                 {
-                    // Open the stream using a StreamReader for easy access.  
-                    var reader = new StreamReader(dataStream);
-                    // Read the content.  
-                    html = reader.ReadToEnd();
-                    // Display the content
+                    _request = (HttpWebRequest) WebRequest.Create(_url);
+                    _response = (HttpWebResponse) _request.GetResponse();
+                    _status = (int) _response.StatusCode + "-" + _response.StatusCode;
+
+                    // Get the stream containing content returned by the server. 
+                    using (var dataStream = _response.GetResponseStream())
+                    {
+                        // Open the stream using a StreamReader for easy access.  
+                        var reader = new StreamReader(dataStream);
+                        // Read the content.  
+                        _html = reader.ReadToEnd();
+                        // Display the content
+                    }
+
+                    _response.Close();
+                }
+                //Catches any error codes and returns them alongside the error message
+                catch (WebException exception)
+                {
+                    if (exception.Status == WebExceptionStatus.ProtocolError)
+                    {
+                        _response = (HttpWebResponse) exception.Response;
+                        _status = (int) _response.StatusCode + "-" + _response.StatusCode;
+                    }
+                    else if (_response != null)
+                    {
+                        _status = (int) _response.StatusCode + "-" + _response.StatusCode;
+                    }
+                    else
+                    {
+                        //Throws exception if response is null
+                        throw new SafeExecution.HttpRequestException(exception.Message);
+                    }
+                }
+                finally
+                {
+                    if (_response != null) _response.Close();
                 }
 
-                response.Close();
+                //Safely gets title ensuring empty string returned if no title tag
+                string title = SafeExecution.GetString(() => HelperMethods.GetTitleFromHtml(_html));
+                return new HTMLPage(_url, title, _status, _html);
             }
-            catch (WebException exception)
+            catch (SafeExecution.HttpRequestException e)
             {
-                if (exception.Status == WebExceptionStatus.ProtocolError)
-                {
-                    response = (HttpWebResponse) exception.Response;
-                    status = (int) response.StatusCode + "-" + response.StatusCode;
-                }
-                else
-                {
-                    //TODO: Handle exception caused by hw.ac.uk
-                    status = (int) response.StatusCode + "-" + response.StatusCode;
-                }
+                return new HTMLPage(_url, "", "", e.Message);
             }
-            finally
-            {
-                if (response != null) response.Close();
-            }
-
-            //Regex code sourced from https://stackoverflow.com/questions/329307/how-to-get-website-title-from-c-sharp
-            var title = "";
-            if (html != null)
-                title = Regex.Match(html, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>",
-                    RegexOptions.IgnoreCase).Groups["Title"].Value;
-
-
-            var returnPage = new HTMLPage(url, title, status, html);
-            return returnPage;
         }
     }
 }

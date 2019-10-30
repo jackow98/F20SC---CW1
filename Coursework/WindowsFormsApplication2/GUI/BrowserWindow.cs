@@ -110,13 +110,21 @@ namespace Coursework.GUI
         }
         
         /// <summary>
-        ///     Loads pop up for favourites 
+        ///     Loads pop up for favourites to amend details before adding to database
         /// </summary>
         /// <param name="sender">Auto generated argument by windows forms</param>
         /// <param name="e">Auto generated argument by windows forms</param>
         private void AddFavouriteButton_Click(object sender, EventArgs e)
         {
-            EditWebpagePopUp("Add Favourite");
+            var favourite = GUI.EditWebpagePopUp.ShowDialog(
+                "Add Favourite",
+                WebPageTitleLabel.Text,
+                SearchBar.Text
+            );
+            //TODO: Input check
+            _db.AddFavourite(favourite.url, favourite.title);
+            MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
+            //TODO: Add some sort of feedback for user
         }
         
         /// <summary>
@@ -143,6 +151,108 @@ namespace Coursework.GUI
             //TODO: Input check
             UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
         }
+        
+        /// <summary>
+        ///     On click of element in table, displays context menu with options for selected element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BrowserPageUrlDisplay_MouseClick(object sender, MouseEventArgs e)
+        {
+            int index = BrowserPageUrlDisplay.IndexFromPoint(e.Location);
+            if (index != ListBox.NoMatches) WebPageHandlerStrip.Show(BrowserPageUrlDisplay, new Point(0, 0));
+        }
+        
+        /// <summary>
+        ///     Loads pop up for favourites to amend details before updating in database
+        /// </summary>
+        /// <param name="sender">Auto generated argument by windows forms</param>
+        /// <param name="e">Auto generated argument by windows forms</param>
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int index = BrowserPageUrlDisplay.SelectedIndex;
+
+            var favourite = GUI.EditWebpagePopUp.ShowDialog(
+                "Edit Favourite",
+                BrowserPageTitleDisplay.Items[index].ToString(),
+                BrowserPageUrlDisplay.Items[index].ToString()
+            );
+
+            //TODO: Make Generic
+            _db.UpdateFavourite(index, favourite.url, favourite.title);
+            DisplayTable<Favourites>("Favourites");
+        }
+        
+        /// <summary>
+        ///     Searches for URL on click of element in a table
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var index = BrowserPageUrlDisplay.SelectedIndex;
+            UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString(), false));
+        }
+        
+        /// <summary>
+        ///     Deletes element in database on click of element in a table
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //TODO: Make generic
+            var index = BrowserPageUrlDisplay.SelectedIndex;
+            _db.DeleteFavoutite(index);
+            DisplayTable<Favourites>("Favourites");
+        }
+        
+        /// <summary>
+        ///     Navigates to and display previous visited web page with in tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(true));
+        }
+
+        /// <summary>
+        ///     Navigates to and displays next visited webpage within tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(false));
+        }
+        
+        /// <summary>
+        ///     Loads pop up for home to amend then updating in database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void editToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var home = GUI.EditWebpagePopUp.ShowDialog(
+                "Edit Home",
+                null,
+                _db.LoadHome()
+            );
+
+            _db.UpdateHome(home.url);
+            MessageBox.Show("Successfully updated home page to" + home.url);
+        }
+        
+        /// <summary>
+        ///     On hovering over Home button, context menu with option to edit appears
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HomeButton_MouseHover(object sender, EventArgs e)
+        {
+            HomePageHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
+        }
         #endregion
         
         #region Browser GUI Methods
@@ -155,7 +265,7 @@ namespace Coursework.GUI
                 {
                     TabsDropdown.Items.Clear();
 
-                    if (_db.getTableSize<Tabs>() == 0)
+                    if (_db.GetTableSize<Tabs>() == 0)
                     {
                         AddBlankTab();
                     }
@@ -182,7 +292,7 @@ namespace Coursework.GUI
             SafeExecution.UpdateGui(() =>
             {
                 DisplayLoadingState();
-                foreach (var element in _db.getTableAsList<TTable>())
+                foreach (var element in _db.GetTableAsList<TTable>())
                 {
                     BrowserPageTitleDisplay.Items.Add(element.Title);
                     BrowserPageUrlDisplay.Items.Add(element.Url);
@@ -192,27 +302,9 @@ namespace Coursework.GUI
 
                 UpdateBrowserPageGui(title);
             });
-            
-        }
-        
-        /// <summary>
-        ///     Loads pop up prompting user to make any changes then updates database accordingly
-        /// </summary>
-        /// <param name="caption"></param>
-        private void EditWebpagePopUp(string caption)
-        {
-            var favourite = GUI.EditWebpagePopUp.ShowDialog(
-                caption,
-                WebPageTitleLabel.Text,
-                SearchBar.Text
-            );
 
-            //TODO: Input check
-            _db.AddFavourite(favourite.url, favourite.title);
-            MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
-            //TODO: Add some sort of feedback for user
         }
-        
+
         /// <summary>
         ///     Updates browser GUI to and adds tab to database
         /// </summary>
@@ -294,63 +386,5 @@ namespace Coursework.GUI
             });
         }
         #endregion
-        
-
-        private void BrowserPageUrlDisplay_MouseClick(object sender, MouseEventArgs e)
-        {
-            var index = BrowserPageUrlDisplay.IndexFromPoint(e.Location);
-            if (index != ListBox.NoMatches) FavouriteHandlerStrip.Show(BrowserPageUrlDisplay, new Point(0, 0));
-        }
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var index = BrowserPageUrlDisplay.SelectedIndex;
-
-            var favourite = GUI.EditWebpagePopUp.ShowDialog(
-                "Edit Favourite",
-                BrowserPageTitleDisplay.Items[index].ToString(),
-                BrowserPageUrlDisplay.Items[index].ToString()
-            );
-
-            _db.UpdateFavourite(index, favourite.url, favourite.title);
-            DisplayTable<Favourites>("Favourites");
-        }
-
-        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var index = BrowserPageUrlDisplay.SelectedIndex;
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString(), false));
-        }
-
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(true));
-        }
-
-        private void NextButton_Click(object sender, EventArgs e)
-        {
-            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(false));
-        }
-
-        private void HomeButton_Hover(object sender, EventArgs e)
-        {
-            //TODO: Implement correct functionality
-            //FavouriteHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
-
-            var home = GUI.EditWebpagePopUp.ShowDialog(
-                "Edit Home",
-                _db.LoadHome()
-            );
-
-            _db.UpdateHome(home.url);
-        }
-
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var index = BrowserPageUrlDisplay.SelectedIndex;
-            _db.DeleteFavoutite(index);
-            DisplayTable<Favourites>("Favourites");
-        }
     }
 }
