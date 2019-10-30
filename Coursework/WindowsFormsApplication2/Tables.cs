@@ -1,13 +1,12 @@
 ﻿using System.Data.Linq.Mapping;
-using System.Reflection;
 
-namespace Browser
+namespace WindowsFormsApplication2
 {
     /// <summary>
     ///     Abstract class that stores details of a web page including a URL, Title, NO. of Visits and LastLoad
     /// </summary>
     
-    //TODO: Implement visits and lastload
+    //TODO: Implement visits and last load
     public abstract class WebPageTable
     {
         public abstract string TableName { get; }

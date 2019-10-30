@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using WindowsFormsApplication2;
+using WindowsFormsApplication2.Functionality;
 using Browser;
-using Coursework.Functionality;
 
 namespace Coursework.GUI
 {
@@ -81,7 +82,7 @@ namespace Coursework.GUI
                 _browser.CloseTab(tabToCloseIndex, TabsDropdown.SelectedIndex);
                 _db.DeleteWebpage<Tabs>(tabToCloseIndex);
                 DisplayLoadingState();
-                _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.url, false);
+                _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.Url, false);
             });
         }
 
@@ -140,17 +141,17 @@ namespace Coursework.GUI
                 
                 //TODO: Handle error caused when aborting operation
 
-                string validUrl = SanitiseInput.CheckUrl(favourite.url);
-                string validTitle = SanitiseInput.CheckTitle(favourite.title);
+                string validUrl = SanitiseInput.CheckUrl(favourite.Url);
+                string validTitle = SanitiseInput.CheckTitle(favourite.Title);
 
                 if (validTitle == "" && validUrl == "")
                 {
-                    var added = _db.AddWebPage<Favourites>(favourite.url, favourite.title, true);
-                    if (added) MessageBox.Show("Successfully saved " + favourite.title + ": " + favourite.url);
+                    var added = _db.AddWebPage<Favourites>(favourite.Url, favourite.Title, true);
+                    if (added) MessageBox.Show(@"Successfully saved " + favourite.Title + @": " + favourite.Url);
                 }
                 else
                 {
-                    MessageBox.Show(validUrl + " " + validTitle);
+                    MessageBox.Show(validUrl + @" " + validTitle);
                 }
             });
         }
@@ -176,7 +177,7 @@ namespace Coursework.GUI
             {
                 _browser.CurrentTabIndex = TabsDropdown.SelectedIndex;
                 _browser.CurrentTab = _browser.GetTabFromIndex(_browser.CurrentTabIndex);
-                SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
+                SearchBar.Text = _browser.CurrentTab.CurrentPage.Url;
                 UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
             });
             
@@ -213,7 +214,7 @@ namespace Coursework.GUI
                     BrowserPageUrlDisplay.Items[index].ToString()
                 );
 
-                _db.UpdateTable<Favourites>(index, favourite.url, favourite.title);
+                _db.UpdateTable<Favourites>(index, favourite.Url, favourite.Title);
                 DisplayTable<Favourites>("Favourites");
             });
             
@@ -259,7 +260,7 @@ namespace Coursework.GUI
         private void BackButton_Click(object sender, EventArgs e)
         {
             //TODO: Implement greying out when press back and no more pages
-            SafeExecution.UpdateGui(() => { UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(true)); });
+            SafeExecution.UpdateGui(() => { UpdateHtmlPageGui(_browser.CurrentTab.MoveThroughHistory(true)); });
         }
 
         /// <summary>
@@ -269,7 +270,7 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void NextButton_Click(object sender, EventArgs e)
         {
-            SafeExecution.UpdateGui(() => { UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(false)); });
+            SafeExecution.UpdateGui(() => { UpdateHtmlPageGui(_browser.CurrentTab.MoveThroughHistory(false)); });
         }
 
         /// <summary>
@@ -287,8 +288,8 @@ namespace Coursework.GUI
                                 _db.LoadHome()
                             );
                 
-                            _db.UpdateHome(home.url);
-                            MessageBox.Show("Successfully updated home page to" + home.url);
+                            _db.UpdateHome(home.Url);
+                            MessageBox.Show(@"Successfully updated home page to" + home.Url);
             });
         }
 
@@ -325,11 +326,11 @@ namespace Coursework.GUI
                     else
                     {
                         _browser.LoadTabs(_db);
-                        foreach (var tab in _browser.Tabs) TabsDropdown.Items.Add(tab.CurrentPage.title);
+                        foreach (var tab in _browser.Tabs) TabsDropdown.Items.Add(tab.CurrentPage.Title);
 
                         TabsDropdown.SelectedIndex = _browser.CurrentTabIndex;
-                        SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
-                        WebPageTitleLabel.Text = _browser.CurrentTab.CurrentPage.title;
+                        SearchBar.Text = _browser.CurrentTab.CurrentPage.Url;
+                        WebPageTitleLabel.Text = _browser.CurrentTab.CurrentPage.Title;
                     }
                 }
             );
@@ -365,7 +366,7 @@ namespace Coursework.GUI
                 _db.AddWebPage<Tabs>();
                 SearchBar.Text = "";
                 DisplayLoadingState();
-                UpdateHtmlPageGui(new HTMLPage("", "", "", ""));
+                UpdateHtmlPageGui(new HtmlPage("", "", "", ""));
                 LoadTabsToGui();
             });
             
@@ -375,7 +376,7 @@ namespace Coursework.GUI
         ///     Updates the GUI to display a HTML page and its associated information
         /// </summary>
         /// <param name="newPage"> The HTML page to display</param>
-        private void UpdateHtmlPageGui(HTMLPage newPage)
+        private void UpdateHtmlPageGui(HtmlPage newPage)
         {
             SafeExecution.UpdateGui(() =>
             {
@@ -386,10 +387,12 @@ namespace Coursework.GUI
                 BrowswerPageUrlLabel.Visible = false;
                 BrowserPageUrlDisplay.Visible = false;
 
-                HtmlPageDisplay.Text = newPage.rawHTML;
-                StatusCodeLabel.Text = newPage.status;
-                WebPageTitleLabel.Text = newPage.title;
-                SearchBar.Text = newPage.url;
+                HtmlPageDisplay.Text = newPage.RawHtml;
+                StatusCodeLabel.Text = newPage.Status;
+                WebPageTitleLabel.Text = newPage.Title;
+                SearchBar.Text = newPage.Url;
+
+                TabsDropdown.DisplayMember = newPage.Title;
             });
         }
 
@@ -420,7 +423,7 @@ namespace Coursework.GUI
             SafeExecution.UpdateGui(() =>
             {
                 StatusCodeLabel.Text = "";
-                WebPageTitleLabel.Text = "Loading...";
+                WebPageTitleLabel.Text = @"Loading...";
                 BrowserPageTitleDisplay.Items.Clear();
                 BrowserPageUrlDisplay.Items.Clear();
             });

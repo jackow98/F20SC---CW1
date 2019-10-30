@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Browser;
 
-namespace Coursework.Functionality
+namespace WindowsFormsApplication2.Functionality
 {
     /// <summary>
     ///     Class to handle connection and transactions with local SQLite database
@@ -24,9 +24,9 @@ namespace Coursework.Functionality
         /// <summary>
         ///     Connects and maps SQLite database using LINQ
         /// </summary>
-        private bool MakeConnection()
+        private void MakeConnection()
         {
-            return SafeExecution.DatabaseConnection(() =>
+            SafeExecution.DatabaseConnection(() =>
             {
                 string parentDir = Path.GetDirectoryName(Application.StartupPath);
                 if (parentDir != null)
@@ -37,7 +37,7 @@ namespace Coursework.Functionality
                 }
                 else
                 {
-                    throw new SafeExecution.DatabseException("Directory of database is not valid");
+                    throw new SafeExecution.DatabaseException("Directory of database is not valid");
                 }
 
                 return true;
@@ -55,10 +55,10 @@ namespace Coursework.Functionality
                 {
                     Table<Home> homeTable = db.GetTable<Home>();
                     foreach (var home in homeTable) return home.Url;
-                    throw new SafeExecution.DatabseException("No Home page found");
+                    throw new SafeExecution.DatabaseException("No Home page found");
                 }
             }
-            catch (SafeExecution.DatabseException e)
+            catch (SafeExecution.DatabaseException)
             {
                 return "";
             }
@@ -76,7 +76,7 @@ namespace Coursework.Functionality
                     return db.GetTable<TTable>().ToList();
                 }
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 return new List<TTable>();
             }
@@ -94,7 +94,7 @@ namespace Coursework.Functionality
                     return db.GetTable<TTable>().ToList().Count;
                 }
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 return 0;
             }
@@ -106,6 +106,7 @@ namespace Coursework.Functionality
         /// </summary>
         /// <param name="url"> A string of the URL corresponding to the new entry to be added </param>
         /// <param name="title"> A string of the title corresponding to the new entry to be added </param>
+        /// <param name="uniqueUrl">A boolean to determine if table should have a unique URLS</param>
         public bool AddWebPage<TTable>(string url = "", string title = "", bool uniqueUrl = false)
             where TTable : WebPageTable, new()
         {
@@ -142,9 +143,9 @@ namespace Coursework.Functionality
         /// <param name="index">The index of the entry to be updated</param>
         /// <param name="url"> A unique string of the URL corresponding to the entry to be updated </param>
         /// <param name="title"> A string of the title corresponding to the entry to be updated </param>
-        public bool UpdateTable<TTable>(int index, string url, string title) where TTable : WebPageTable
+        public void UpdateTable<TTable>(int index, string url, string title) where TTable : WebPageTable
         {
-            return SafeExecution.DatabaseConnection(() =>
+            SafeExecution.DatabaseConnection(() =>
             {
                 using (DataContext db = new DataContext(_connectedDatabase))
                 {
@@ -174,15 +175,28 @@ namespace Coursework.Functionality
         ///     Updates home page database
         /// </summary>
         /// <param name="url"> A string of the URL corresponding to the new home page </param>
-        public bool UpdateHome(string url)
+        public void UpdateHome(string url)
         {
-            return SafeExecution.DatabaseConnection(() =>
+            SafeExecution.DatabaseConnection(() =>
             {
                 using (DataContext db = new DataContext(_connectedDatabase))
                 {
                     var homeTable = db.GetTable<Home>();
 
-                    foreach (Home home in homeTable) home.Url = url;
+                    int count = 0;
+                    foreach (Home home in homeTable)
+                    {
+                        count++;
+                        home.Url = url;
+                    }
+                    if (count == 0)
+                    {
+                        homeTable.InsertOnSubmit(new Home()
+                        {
+                            Url = "No Home Page has been set"
+                        } );
+                    }
+                    
 
                     db.SubmitChanges();
                 }
@@ -192,14 +206,14 @@ namespace Coursework.Functionality
         }
 
         /// <summary>
-        ///     Delete a web page from table in databse by unique ID
+        ///     Delete a web page from table in database by unique ID
         /// </summary>
         /// <param name="index"></param>
         /// <typeparam name="TTable"></typeparam>
         /// <returns></returns>
-        public bool DeleteWebpage<TTable>(int index) where TTable : WebPageTable
+        public void DeleteWebpage<TTable>(int index) where TTable : WebPageTable
         {
-            return SafeExecution.DatabaseConnection(() =>
+            SafeExecution.DatabaseConnection(() =>
             {
                 using (DataContext db = new DataContext(_connectedDatabase))
                 {

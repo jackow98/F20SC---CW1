@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
-using System.Text.RegularExpressions;
 using Browser;
 
-namespace Coursework.Functionality
+namespace WindowsFormsApplication2.Functionality
 {
     /// <summary>
     ///     Class that handles HTTP requests for a given URL
@@ -26,7 +24,7 @@ namespace Coursework.Functionality
         ///     Makes a http request for URL associated with instantiation and returns a HTML Page
         /// </summary>
         /// <returns></returns>
-        public HTMLPage MakeRequest()
+        public HtmlPage MakeRequest()
         {
             try
             {
@@ -41,9 +39,13 @@ namespace Coursework.Functionality
                     using (var dataStream = _response.GetResponseStream())
                     {
                         // Open the stream using a StreamReader for easy access.  
-                        var reader = new StreamReader(dataStream);
-                        // Read the content.  
-                        _html = reader.ReadToEnd();
+                        if (dataStream != null)
+                        {
+                            var reader = new StreamReader(dataStream);
+                            // Read the content.  
+                            _html = reader.ReadToEnd();
+                        }
+
                         // Display the content
                     }
 
@@ -74,11 +76,11 @@ namespace Coursework.Functionality
 
                 //Safely gets title ensuring empty string returned if no title tag
                 string title = SafeExecution.GetText(() => SanitiseInput.GetTitleFromHtml(_html));
-                return new HTMLPage(_url, title, _status, _html);
+                return new HtmlPage(_url, title, _status, _html);
             }
             catch (SafeExecution.HttpRequestException e)
             {
-                return new HTMLPage(_url, "", "", e.Message);
+                return new HtmlPage(_url, "", "", e.Message);
             }
         }
     }

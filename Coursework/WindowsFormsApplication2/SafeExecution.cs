@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Browser
+namespace WindowsFormsApplication2
 {
     public static class SafeExecution
     {
@@ -16,7 +16,7 @@ namespace Browser
         
         #region Safe Execution Methods
 
-        public static void DisplayError(Exception e, string msg, string caption, bool exit)
+        private static void DisplayError(string msg, string caption, bool exit)
         {
             MessageBox.Show(
                 msg,
@@ -33,11 +33,9 @@ namespace Browser
             {
                 update();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                DisplayError(
-                    e,
-                    "There has been an issue displaying your web browser, please restart the application",
+                DisplayError("There has been an issue displaying your web browser, please restart the application",
                     "Application Error",
                     true
                 );
@@ -50,11 +48,9 @@ namespace Browser
             {
                 return connect();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                DisplayError(
-                    e,
-                    "There has been an issue connecting to the database, please try again",
+                DisplayError("There has been an issue connecting to the database, please try again",
                     "Database Connection error",
                     false
                 );
@@ -68,7 +64,7 @@ namespace Browser
             {
                 return get();
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 return "";
             }
@@ -80,9 +76,9 @@ namespace Browser
             {
                 string valid = check();
                 if (valid == "") { return valid; }
-                else { throw new SafeExecution.MisformattedInput(valid); }
+                else { throw new BadlyFormattedInput(valid); }
             }
-            catch (SafeExecution.MisformattedInput e)
+            catch (BadlyFormattedInput e)
             {
                 return e.Message;
             }
@@ -98,15 +94,15 @@ namespace Browser
                 base(msg) {}
         }
         
-        public class DatabseException : Exception
+        public class DatabaseException : Exception
         {
-            public DatabseException(string msg) : 
+            public DatabaseException(string msg) : 
                 base(msg) {}
         }
-        
-        public class MisformattedInput : Exception
+
+        private class BadlyFormattedInput : Exception
         {
-            public MisformattedInput(string correctFormat) :
+            public BadlyFormattedInput(string correctFormat) :
                 base(correctFormat) { }
         }
 

@@ -1,78 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Browser;
 
-namespace Coursework.Functionality
+namespace WindowsFormsApplication2.Functionality
 {
     /// <summary>
     ///     Class that tracks the information associated with a tab
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class TabFunctionality
     {
-        private LinkedListNode<HTMLPage> currentNode;
-        public HTMLPage CurrentPage;
-        public DatabaseFunctionality db;
-        public HttpFunctionality Http;
-        public LinkedList<HTMLPage> RecentHistPages;
+        private LinkedListNode<HtmlPage> _currentNode;
+        public HtmlPage CurrentPage;
+        private readonly DatabaseFunctionality _db;
+        private HttpFunctionality _http;
+        private readonly LinkedList<HtmlPage> _recentHistPages;
+        private int _tabIndex;
 
-        public TabFunctionality(ref DatabaseFunctionality db, HTMLPage page)
+        public TabFunctionality(ref DatabaseFunctionality db, HtmlPage page, int tabIndex)
         {
-            this.db = db;
+            this._db = db;
             CurrentPage = page;
-            RecentHistPages = new LinkedList<HTMLPage>();
-            currentNode = RecentHistPages.Last;
+            _recentHistPages = new LinkedList<HtmlPage>();
+            _currentNode = _recentHistPages.Last;
+            _tabIndex = tabIndex;
         }
 
         /// <summary>
         ///     Makes HTTP request for the page currently associated with the tab
         /// </summary>
         /// <returns>The HTML Page retrieved after making the request</returns>
-        public HTMLPage load_page(bool navigateHistory)
+        public HtmlPage load_page(bool navigateHistory)
         {
             //TODO: Exception handler same as search string
-            //TODO: should update tab table
-            var loadedPage = Http.MakeRequest();
-            RecentHistPages.AddLast(loadedPage);
-            if (!navigateHistory) currentNode = RecentHistPages.Last;
-            db.AddWebPage<History>(loadedPage.url, loadedPage.title);
-            return loadedPage;
+            if (_http != null)
+            {
+                var loadedPage = _http.MakeRequest();
+                _recentHistPages.AddLast(loadedPage);
+                if (!navigateHistory) _currentNode = _recentHistPages.Last;
+                _db.AddWebPage<History>(loadedPage.Url, loadedPage.Title);
+                return loadedPage;
+            }
+            else
+            {
+                return new HtmlPage("", "", "", "");
+            }
         }
 
         /// <summary>
         ///     Loads page after checking format of URL passed in and returns a HTML page
         /// </summary>
         /// <param name="url"> The string of the URL to be searched </param>
-        /// <returns> A blank HTML Page if URL is badly formatted otherwise a filled HTTML Page</returns>
-        public HTMLPage search_string(string url, bool navigateHistory)
+        /// <param name="navigateHistory">A boolean to determine if search is navigating through history pages </param>
+        /// <returns> A blank HTML Page if URL is badly formatted otherwise a filled HTML Page</returns>
+        public HtmlPage search_string(string url, bool navigateHistory)
         {
             //TODO: Exception handler returns blank web page with error searching
             string valid = SanitiseInput.CheckUrl(url);
             if (SanitiseInput.CheckUrl(url) == "")
             {
                 
-                Http = new HttpFunctionality(url);
+                _http = new HttpFunctionality(url);
                 CurrentPage = load_page(navigateHistory);
+                _db.UpdateTable<Tabs>(_tabIndex,url,CurrentPage.Title);
                 return CurrentPage;
             }
             else
             {
-                return new HTMLPage(url, "", "", valid);
+                return new HtmlPage(url, "", "", valid);
             }
             
         }
 
-        public HTMLPage moveThroughHistory(bool moveBack)
+        public HtmlPage MoveThroughHistory(bool moveBack)
         {
-            if (moveBack)
-                currentNode = currentNode.Previous;
-            else
-            //TODO: Fix next cretaing new pages
-                currentNode = currentNode.Next;
+            _currentNode = moveBack ? _currentNode.Previous : _currentNode.Next;
 
-            CurrentPage = currentNode.Value;
-            search_string(CurrentPage.url, true);
-            return currentNode.Value;
+            if (_currentNode != null)
+            {
+                CurrentPage = _currentNode.Value;
+                search_string(CurrentPage.Url, true);
+                return _currentNode.Value;
+            }
+
+            return new HtmlPage("", "", "", "");
         }
     }
 }

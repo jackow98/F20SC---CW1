@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Windows.Forms;
 
-namespace Browser
+namespace WindowsFormsApplication2
 {
-    public class HTMLPage
+    public class HtmlPage
     {
-        public string rawHTML;
-        public string status;
-        public string title;
-        public string url;
-        public int visits;
-        public DateTime accessDateTime;
+        public readonly string RawHtml;
+        public readonly string Status;
+        public readonly string Title;
+        public readonly string Url;
+        public int Visits;
+        public DateTime AccessDateTime;
 
-        public HTMLPage(string url, string title, string status, string rawHtml)
+        public HtmlPage(string url, string title, string status, string rawHtml)
         {
-            this.url = url;
-            this.title = title;
-            this.status = status;
-            rawHTML = rawHtml;
-            visits = 0;
-            accessDateTime = DateTime.Now;
+            this.Url = url;
+            this.Title = title;
+            this.Status = status;
+            RawHtml = rawHtml;
+            Visits = 0;
+            AccessDateTime = DateTime.Now;
         }
     }
 }

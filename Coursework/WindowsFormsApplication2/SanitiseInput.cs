@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace Browser
+namespace WindowsFormsApplication2
 {
     public static class SanitiseInput
     {
