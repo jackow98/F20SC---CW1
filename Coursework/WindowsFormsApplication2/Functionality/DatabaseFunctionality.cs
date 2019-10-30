@@ -99,6 +99,11 @@ namespace Coursework.Functionality
 
         }
 
+        /// <summary>
+        ///     Adds a new entry to the database
+        /// </summary>
+        /// <param name="url"> A string of the URL corresponding to the new favourite to be added </param>
+        /// <param name="title"> A string of the title corresponding to the new favourite to be added </param>
         public void AddWebPage<TTable>(string url = "", string title = "", bool uniqueUrl = false) where TTable : WebPageTable, new()
         {
             using (var db = new DataContext(_connectedDatabase))
@@ -119,75 +124,7 @@ namespace Coursework.Functionality
                 db.SubmitChanges();
             }
         }
-        
-        /// <summary>
-        ///     Adds a new favourite to the database if no entry with the same URL already exists
-        /// </summary>
-        /// <param name="url"> A string of the URL corresponding to the new favourite to be added </param>
-        /// <param name="title"> A string of the title corresponding to the new favourite to be added </param>
-        public void AddFavourite(string url, string title)
-        //TODO: Make Generic
-        {
-            //TODO: Handle cases for no HTML, need to load page, 404 etc.
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                if (db.GetTable<Favourites>().Any(favourite => favourite.Url == url)) return;
 
-                var fav = new Favourites
-                {
-                    Url = url,
-                    Title = title,
-                    Visits = 0,
-                    LastLoad = ""
-                };
-
-                var favs = db.GetTable<Favourites>();
-                favs.InsertOnSubmit(fav);
-                db.SubmitChanges();
-            }
-        }
-
-        public void AddHistory(string url, string title)
-        {
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                var history = new History
-                {
-                    Url = url,
-                    Title = title,
-                    Visits = 0,
-                    LastLoad = ""
-                };
-
-                var his = db.GetTable<History>();
-                his.InsertOnSubmit(history);
-                db.SubmitChanges();
-            }
-        }
-
-        /// <summary>
-        ///     Adds a new blank tab to the database
-        /// </summary>
-        public void AddTab()
-        {
-            using (var db = new DataContext(_connectedDatabase))
-            {
-                var tab = new Tabs
-                {
-                    Url = "",
-                    Title = "",
-                    Visits = 0,
-                    LastLoad = "",
-                    Id = null
-                };
-
-
-                var tabs = db.GetTable<Tabs>();
-                tabs.InsertOnSubmit(tab);
-                db.SubmitChanges();
-            }
-        }
-        
         public void UpdateFavourite(int index, string url, string title)
         {
             using (var db = new DataContext(_connectedDatabase))

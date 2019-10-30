@@ -39,7 +39,7 @@ namespace Coursework.Functionality
             var loadedPage = Http.MakeRequest();
             RecentHistPages.AddLast(loadedPage);
             if (!navigateHistory) currentNode = RecentHistPages.Last;
-            db.AddHistory(loadedPage.url, loadedPage.title);
+            db.AddWebPage<History>(loadedPage.url, loadedPage.title);
             return loadedPage;
         }
 

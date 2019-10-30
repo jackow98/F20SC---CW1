@@ -122,7 +122,7 @@ namespace Coursework.GUI
                 SearchBar.Text
             );
             //TODO: Input check
-            _db.AddFavourite(favourite.url, favourite.title);
+            _db.AddWebPage<Favourites>(favourite.url, favourite.title, true);
             MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
             //TODO: Add some sort of feedback for user
         }
@@ -310,7 +310,7 @@ namespace Coursework.GUI
         /// </summary>
         private void AddBlankTab()
         {
-            _db.AddTab();
+            _db.AddWebPage<Tabs>();
             SearchBar.Text = "";
             DisplayLoadingState();
             UpdateHtmlPageGui(new HTMLPage("", "", "", ""));
