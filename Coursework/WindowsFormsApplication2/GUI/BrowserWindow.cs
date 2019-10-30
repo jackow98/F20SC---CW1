@@ -137,6 +137,8 @@ namespace Coursework.GUI
                     WebPageTitleLabel.Text,
                     SearchBar.Text
                 );
+                
+                //TODO: Handle error caused when aborting operation
 
                 string validUrl = SanitiseInput.CheckUrl(favourite.url);
                 string validTitle = SanitiseInput.CheckTitle(favourite.title);
@@ -347,8 +349,6 @@ namespace Coursework.GUI
                 {
                     BrowserPageTitleDisplay.Items.Add(element.Title);
                     BrowserPageUrlDisplay.Items.Add(element.Url);
-                    BrowserPageDateDisplay.Items.Add(element.LastLoad);
-                    BrowserPageVisitsDisplay.Items.Add(element.Visits);
                 }
 
                 UpdateBrowserPageGui(title);
@@ -379,18 +379,12 @@ namespace Coursework.GUI
         {
             SafeExecution.UpdateGui(() =>
             {
-                DisplayTypeDropdown.Visible = true;
-                AddFavouriteButton.Visible = true;
                 HtmlPageDisplay.Visible = true;
 
                 BrowserPageTitleDisplay.Visible = false;
                 BrowserPageTitleDisplay.Visible = false;
                 BrowswerPageUrlLabel.Visible = false;
                 BrowserPageUrlDisplay.Visible = false;
-                BrowserPageDateDisplay.Visible = false;
-                BrowserPageDateLabel.Visible = false;
-                BrowserPageVisitsDisplay.Visible = false;
-                BrowserPageVisitsLabel.Visible = false;
 
                 HtmlPageDisplay.Text = newPage.rawHTML;
                 StatusCodeLabel.Text = newPage.status;
@@ -411,13 +405,7 @@ namespace Coursework.GUI
                 BrowserPageTitleDisplay.Visible = true;
                 BrowswerPageUrlLabel.Visible = true;
                 BrowserPageUrlDisplay.Visible = true;
-                BrowserPageDateDisplay.Visible = true;
-                BrowserPageDateLabel.Visible = true;
-                BrowserPageVisitsDisplay.Visible = true;
-                BrowserPageVisitsLabel.Visible = true;
 
-                DisplayTypeDropdown.Visible = false;
-                AddFavouriteButton.Visible = false;
                 HtmlPageDisplay.Visible = false;
 
                 WebPageTitleLabel.Text = title;
@@ -435,8 +423,6 @@ namespace Coursework.GUI
                 WebPageTitleLabel.Text = "Loading...";
                 BrowserPageTitleDisplay.Items.Clear();
                 BrowserPageUrlDisplay.Items.Clear();
-                BrowserPageDateDisplay.Items.Clear();
-                BrowserPageVisitsDisplay.Items.Clear();
             });
         }
 
