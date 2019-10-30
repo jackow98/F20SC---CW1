@@ -26,6 +26,7 @@ namespace Coursework.GUI
         }
 
         #region Tab GUI Interaction
+
         /// <summary>
         ///     When user clicks search button, searches URL in search bar using current tab and loads web page
         /// </summary>
@@ -33,8 +34,11 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            DisplayLoadingState();
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
+            SafeExecution.UpdateGui(() =>
+            {
+                DisplayLoadingState();
+                UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
+            });
         }
 
         /// <summary>
@@ -44,8 +48,11 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void ReloadButton_Click(object sender, EventArgs e)
         {
-            DisplayLoadingState();
-            UpdateHtmlPageGui(_browser.CurrentTab.load_page(false));
+            SafeExecution.UpdateGui(() =>
+            {
+                DisplayLoadingState();
+                UpdateHtmlPageGui(_browser.CurrentTab.load_page(false));
+            });
         }
 
 
@@ -56,27 +63,32 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void CloseTabButton_Click(object sender, EventArgs e)
         {
-            int tabToCloseIndex = TabsDropdown.SelectedIndex;
+            SafeExecution.UpdateGui(() =>
+            {
+                var tabToCloseIndex = TabsDropdown.SelectedIndex;
 
-            // If closing first tab, select next tab if it exists otherwise add blank tab
-            if (tabToCloseIndex == 0 && TabsDropdown.Items.Count > 1)
-                TabsDropdown.SelectedIndex = 1;
-            else if (tabToCloseIndex == 0 && TabsDropdown.Items.Count == 1)
-                AddBlankTab();
-            //If closing any other tab, select previous tab
-            else
-                TabsDropdown.SelectedIndex = tabToCloseIndex - 1;
+                // If closing first tab, select next tab if it exists otherwise add blank tab
+                if (tabToCloseIndex == 0 && TabsDropdown.Items.Count > 1)
+                    TabsDropdown.SelectedIndex = 1;
+                else if (tabToCloseIndex == 0 && TabsDropdown.Items.Count == 1)
+                    AddBlankTab();
+                //If closing any other tab, select previous tab
+                else
+                    TabsDropdown.SelectedIndex = tabToCloseIndex - 1;
 
-            TabsDropdown.Items.RemoveAt(tabToCloseIndex);
+                TabsDropdown.Items.RemoveAt(tabToCloseIndex);
 
-            _browser.CloseTab(tabToCloseIndex, TabsDropdown.SelectedIndex);
-            _db.DeleteWebpage<Tabs>(tabToCloseIndex);
-            DisplayLoadingState();
-            _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.url, false);
+                _browser.CloseTab(tabToCloseIndex, TabsDropdown.SelectedIndex);
+                _db.DeleteWebpage<Tabs>(tabToCloseIndex);
+                DisplayLoadingState();
+                _browser.CurrentTab.search_string(_browser.CurrentTab.CurrentPage.url, false);
+            });
         }
+
         #endregion
-        
+
         #region Browser GUI interaction
+
         /// <summary>
         ///     When user clicks home button, loads home page associated with browser
         /// </summary>
@@ -84,10 +96,13 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void HomeButton_Click(object sender, EventArgs e)
         {
-            DisplayLoadingState();
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(_db.LoadHome(), false));
+            SafeExecution.UpdateGui(() =>
+            {
+                DisplayLoadingState();
+                UpdateHtmlPageGui(_browser.CurrentTab.search_string(_db.LoadHome(), false));
+            });
         }
-        
+
         /// <summary>
         ///     When user clicks favourite button, calls function to display favourites
         /// </summary>
@@ -95,9 +110,9 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void FavouritesButton_Click(object sender, EventArgs e)
         {
-            DisplayTable<Favourites>("Favourites");
+            SafeExecution.UpdateGui(() => { DisplayTable<Favourites>("Favourites"); });
         }
-        
+
         /// <summary>
         ///     When user clicks history button, loads history and details associated with them
         /// </summary>
@@ -105,9 +120,9 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void HistoryButton_Click(object sender, EventArgs e)
         {
-            DisplayTable<History>("Favourites");
+            SafeExecution.UpdateGui(() => { DisplayTable<History>("Favourites"); });
         }
-        
+
         /// <summary>
         ///     Loads pop up for favourites to amend details before adding to database
         /// </summary>
@@ -115,16 +130,29 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void AddFavouriteButton_Click(object sender, EventArgs e)
         {
-            var favourite = GUI.EditWebpagePopUp.ShowDialog(
-                "Add Favourite",
-                WebPageTitleLabel.Text,
-                SearchBar.Text
-            );
-            //TODO: Input check
-            bool added = _db.AddWebPage<Favourites>(favourite.url, favourite.title, true);
-            if(added) MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
+            SafeExecution.UpdateGui(() =>
+            {
+                var favourite = EditWebpagePopUp.ShowDialog(
+                    "Add Favourite",
+                    WebPageTitleLabel.Text,
+                    SearchBar.Text
+                );
+
+                string validUrl = SanitiseInput.CheckUrl(favourite.url);
+                string validTitle = SanitiseInput.CheckTitle(favourite.title);
+
+                if (validTitle == "" && validUrl == "")
+                {
+                    var added = _db.AddWebPage<Favourites>(favourite.url, favourite.title, true);
+                    if (added) MessageBox.Show("Successfully saved " + favourite.title + ": " + favourite.url);
+                }
+                else
+                {
+                    MessageBox.Show(validUrl + " " + validTitle);
+                }
+            });
         }
-        
+
         /// <summary>
         ///     When user clicks add tab button, adds a blank tab
         /// </summary>
@@ -132,9 +160,9 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void AddTabButton_Click(object sender, EventArgs e)
         {
-            AddBlankTab();
+            SafeExecution.UpdateGui(() => { AddBlankTab(); });
         }
-        
+
         /// <summary>
         ///     On change of tab, get tab and load the associated HTML page
         /// </summary>
@@ -142,14 +170,16 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void TabsDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _browser.CurrentTabIndex = TabsDropdown.SelectedIndex;
-            _browser.CurrentTab = _browser.GetTabFromIndex(_browser.CurrentTabIndex);
-            SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
-
-            //TODO: Input check
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
+            SafeExecution.UpdateGui(() =>
+            {
+                _browser.CurrentTabIndex = TabsDropdown.SelectedIndex;
+                _browser.CurrentTab = _browser.GetTabFromIndex(_browser.CurrentTabIndex);
+                SearchBar.Text = _browser.CurrentTab.CurrentPage.url;
+                UpdateHtmlPageGui(_browser.CurrentTab.search_string(SearchBar.Text, false));
+            });
+            
         }
-        
+
         /// <summary>
         ///     On click of element in table, displays context menu with options for selected element
         /// </summary>
@@ -157,10 +187,13 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void BrowserPageUrlDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            int index = BrowserPageUrlDisplay.IndexFromPoint(e.Location);
-            if (index != ListBox.NoMatches) WebPageHandlerStrip.Show(BrowserPageUrlDisplay, new Point(0, 0));
+            SafeExecution.UpdateGui(() =>
+            {
+                var index = BrowserPageUrlDisplay.IndexFromPoint(e.Location);
+                if (index != ListBox.NoMatches) WebPageHandlerStrip.Show(BrowserPageUrlDisplay, new Point(0, 0));
+            });
         }
-        
+
         /// <summary>
         ///     Loads pop up for favourites to amend details before updating in database
         /// </summary>
@@ -168,18 +201,22 @@ namespace Coursework.GUI
         /// <param name="e">Auto generated argument by windows forms</param>
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int index = BrowserPageUrlDisplay.SelectedIndex;
+            SafeExecution.UpdateGui(() =>
+            {
+                var index = BrowserPageUrlDisplay.SelectedIndex;
+                
+                var favourite = EditWebpagePopUp.ShowDialog(
+                    "Edit Favourite",
+                    BrowserPageTitleDisplay.Items[index].ToString(),
+                    BrowserPageUrlDisplay.Items[index].ToString()
+                );
 
-            var favourite = GUI.EditWebpagePopUp.ShowDialog(
-                "Edit Favourite",
-                BrowserPageTitleDisplay.Items[index].ToString(),
-                BrowserPageUrlDisplay.Items[index].ToString()
-            );
+                _db.UpdateTable<Favourites>(index, favourite.url, favourite.title);
+                DisplayTable<Favourites>("Favourites");
+            });
             
-            _db.UpdateTable<Favourites>(index, favourite.url, favourite.title);
-            DisplayTable<Favourites>("Favourites");
         }
-        
+
         /// <summary>
         ///     Searches for URL on click of element in a table
         /// </summary>
@@ -187,10 +224,15 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void searchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var index = BrowserPageUrlDisplay.SelectedIndex;
-            UpdateHtmlPageGui(_browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString(), false));
+            SafeExecution.UpdateGui(() =>
+            {
+                var index = BrowserPageUrlDisplay.SelectedIndex;
+                UpdateHtmlPageGui(
+                    _browser.CurrentTab.search_string(BrowserPageUrlDisplay.Items[index].ToString(), false));
+
+            });
         }
-        
+
         /// <summary>
         ///     Deletes element in database on click of element in a table
         /// </summary>
@@ -198,11 +240,15 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var index = BrowserPageUrlDisplay.SelectedIndex;
-            _db.DeleteWebpage<Favourites>(index);
-            DisplayTable<Favourites>("Favourites");
+            SafeExecution.UpdateGui(() =>
+            {
+                var index = BrowserPageUrlDisplay.SelectedIndex;
+                _db.DeleteWebpage<Favourites>(index);
+                DisplayTable<Favourites>("Favourites");
+            });
+            
         }
-        
+
         /// <summary>
         ///     Navigates to and display previous visited web page with in tab
         /// </summary>
@@ -210,7 +256,8 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void BackButton_Click(object sender, EventArgs e)
         {
-            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(true));
+            //TODO: Implement greying out when press back and no more pages
+            SafeExecution.UpdateGui(() => { UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(true)); });
         }
 
         /// <summary>
@@ -220,9 +267,9 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void NextButton_Click(object sender, EventArgs e)
         {
-            UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(false));
+            SafeExecution.UpdateGui(() => { UpdateHtmlPageGui(_browser.CurrentTab.moveThroughHistory(false)); });
         }
-        
+
         /// <summary>
         ///     Loads pop up for home to amend then updating in database
         /// </summary>
@@ -230,16 +277,19 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void editToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var home = GUI.EditWebpagePopUp.ShowDialog(
-                "Edit Home",
-                null,
-                _db.LoadHome()
-            );
-
-            _db.UpdateHome(home.url);
-            MessageBox.Show("Successfully updated home page to" + home.url);
+            SafeExecution.UpdateGui(() =>
+            {
+                 var home = EditWebpagePopUp.ShowDialog(
+                                "Edit Home",
+                                null,
+                                _db.LoadHome()
+                            );
+                
+                            _db.UpdateHome(home.url);
+                            MessageBox.Show("Successfully updated home page to" + home.url);
+            });
         }
-        
+
         /// <summary>
         ///     On hovering over Home button, context menu with option to edit appears
         /// </summary>
@@ -247,11 +297,16 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void HomeButton_MouseHover(object sender, EventArgs e)
         {
-            HomePageHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
+            SafeExecution.UpdateGui(() =>
+            {
+                HomePageHandlerStrip.Show(HomeButton, new Point(0, HomeButton.Height));
+            });
         }
+
         #endregion
-        
+
         #region Browser GUI Methods
+
         /// <summary>
         ///     Load the tabs associated with the browser to the dropdown, adds a blank if no tabs associated to browser
         /// </summary>
@@ -298,7 +353,6 @@ namespace Coursework.GUI
 
                 UpdateBrowserPageGui(title);
             });
-
         }
 
         /// <summary>
@@ -306,13 +360,17 @@ namespace Coursework.GUI
         /// </summary>
         private void AddBlankTab()
         {
-            _db.AddWebPage<Tabs>();
-            SearchBar.Text = "";
-            DisplayLoadingState();
-            UpdateHtmlPageGui(new HTMLPage("", "", "", ""));
-            LoadTabsToGui();
+            SafeExecution.UpdateGui(() =>
+            {
+                _db.AddWebPage<Tabs>();
+                SearchBar.Text = "";
+                DisplayLoadingState();
+                UpdateHtmlPageGui(new HTMLPage("", "", "", ""));
+                LoadTabsToGui();
+            });
+            
         }
-        
+
         /// <summary>
         ///     Updates the GUI to display a HTML page and its associated information
         /// </summary>
@@ -340,7 +398,7 @@ namespace Coursework.GUI
                 SearchBar.Text = newPage.url;
             });
         }
-        
+
         /// <summary>
         ///     Updates the GUI to display information data from a Web page table
         /// </summary>
@@ -365,7 +423,7 @@ namespace Coursework.GUI
                 WebPageTitleLabel.Text = title;
             });
         }
-        
+
         /// <summary>
         ///     Updates the GUI to clear elements and display loading to user
         /// </summary>
@@ -381,6 +439,7 @@ namespace Coursework.GUI
                 BrowserPageVisitsDisplay.Items.Clear();
             });
         }
+
         #endregion
     }
 }

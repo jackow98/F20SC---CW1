@@ -47,15 +47,19 @@ namespace Coursework.Functionality
         public HTMLPage search_string(string url, bool navigateHistory)
         {
             //TODO: Exception handler returns blank web page with error searching
-            if (HelperMethods.checkUrl(url))
+            string valid = SanitiseInput.CheckUrl(url);
+            if (SanitiseInput.CheckUrl(url) == "")
             {
                 
                 Http = new HttpFunctionality(url);
                 CurrentPage = load_page(navigateHistory);
                 return CurrentPage;
             }
+            else
+            {
+                return new HTMLPage(url, "", "", valid);
+            }
             
-            return new HTMLPage("Enter URL", "", "", "");
         }
 
         public HTMLPage moveThroughHistory(bool moveBack)

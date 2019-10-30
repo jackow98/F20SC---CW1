@@ -1,9 +1,11 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Browser
 {
-    public static class HelperMethods
+    public static class SanitiseInput
     {
+        
         /// <summary>
         ///     Checks URL to ensure it is formatted correctly
         ///     Regex code sourced from:
@@ -11,15 +13,30 @@ namespace Browser
         /// </summary>
         /// <param name="url">The url string to be checked</param>
         /// <returns>True if correctly formatted and false otherwise</returns>
-        public static bool checkUrl(string url)
+        public static string CheckUrl(string url)
         {
-            //TODO: Formatting of url should be less strict
-            var urlFormatted = Regex.Match(
-                url,
-                @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
-                RegexOptions.IgnoreCase);
+            return SafeExecution.CheckText(() =>
+            {
+                var urlFormatted = Regex.Match(
+                    url,
+                    @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)",
+                    RegexOptions.IgnoreCase);
 
-            return urlFormatted.Success;
+                return urlFormatted.Success?"":"A URL must be of the form HTTPS or HTTP followed by ://[Your domain]";
+            });
+        }
+
+        public static string CheckTitle(string url)
+        {
+            return SafeExecution.CheckText(() =>
+            {
+                var titleFormatted = Regex.Match(
+                    url,
+                    @"[a-zA-Z\s0-9()]",
+                    RegexOptions.IgnoreCase);
+
+                return titleFormatted.Success ? "" : "A title may only contain letters, numbers spaces and parentheses";
+            });
         }
 
         /// <summary>

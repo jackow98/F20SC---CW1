@@ -10,6 +10,7 @@ namespace Browser
         public delegate string GetStringMethod();
         public delegate void UpdateGuiMethod();
         public delegate bool DatabaseConnectionMethod();
+        public delegate string CheckTextMethod();
 
         #endregion
         
@@ -61,7 +62,7 @@ namespace Browser
             }
         }
 
-        public static string GetString(GetStringMethod get)
+        public static string GetText(GetStringMethod get)
         {
             try
             {
@@ -70,6 +71,20 @@ namespace Browser
             catch (NullReferenceException e)
             {
                 return "";
+            }
+        }
+        
+        public static string CheckText(CheckTextMethod check)
+        {
+            try
+            {
+                string valid = check();
+                if (valid == "") { return valid; }
+                else { throw new SafeExecution.MisformattedInput(valid); }
+            }
+            catch (SafeExecution.MisformattedInput e)
+            {
+                return e.Message;
             }
         }
 
@@ -88,8 +103,13 @@ namespace Browser
             public DatabseException(string msg) : 
                 base(msg) {}
         }
+        
+        public class MisformattedInput : Exception
+        {
+            public MisformattedInput(string correctFormat) :
+                base(correctFormat) { }
+        }
 
         #endregion
-        
     }
 }

@@ -73,7 +73,7 @@ namespace Coursework.Functionality
                 }
 
                 //Safely gets title ensuring empty string returned if no title tag
-                string title = SafeExecution.GetString(() => HelperMethods.GetTitleFromHtml(_html));
+                string title = SafeExecution.GetText(() => SanitiseInput.GetTitleFromHtml(_html));
                 return new HTMLPage(_url, title, _status, _html);
             }
             catch (SafeExecution.HttpRequestException e)
