@@ -24,11 +24,6 @@ namespace Coursework.Functionality
             currentNode = RecentHistPages.Last;
         }
 
-        public string load_home_page()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         ///     Makes HTTP request for the page currently associated with the tab
         /// </summary>
@@ -36,6 +31,7 @@ namespace Coursework.Functionality
         public HTMLPage load_page(bool navigateHistory)
         {
             //TODO: Exception handler same as search string
+            //TODO: should update tab table
             var loadedPage = Http.MakeRequest();
             RecentHistPages.AddLast(loadedPage);
             if (!navigateHistory) currentNode = RecentHistPages.Last;
@@ -53,13 +49,12 @@ namespace Coursework.Functionality
             //TODO: Exception handler returns blank web page with error searching
             if (HelperMethods.checkUrl(url))
             {
-                //TODO: should add to history and update tab table and favourites visits
+                
                 Http = new HttpFunctionality(url);
                 CurrentPage = load_page(navigateHistory);
                 return CurrentPage;
             }
-
-            //TODO: Handle exceptions
+            
             return new HTMLPage("Enter URL", "", "", "");
         }
 

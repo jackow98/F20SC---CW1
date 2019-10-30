@@ -9,7 +9,6 @@ namespace Coursework.GUI
     /// <summary>
     ///     Class to handle changes to the GUI split into Tab and Browser interactions
     /// </summary>
-    /// <typeparam name="TWebPage">The generic that implements a Web Page</typeparam>
     //TODO: Handle GUI exception cases in this class
     public partial class BrowserWindow
     {
@@ -124,7 +123,6 @@ namespace Coursework.GUI
             //TODO: Input check
             bool added = _db.AddWebPage<Favourites>(favourite.url, favourite.title, true);
             if(added) MessageBox.Show("Successfully added " + favourite.title + ": " + favourite.url);
-            //TODO: Add some sort of feedback for user
         }
         
         /// <summary>
@@ -177,8 +175,7 @@ namespace Coursework.GUI
                 BrowserPageTitleDisplay.Items[index].ToString(),
                 BrowserPageUrlDisplay.Items[index].ToString()
             );
-
-            //TODO: Make Generic
+            
             _db.UpdateTable<Favourites>(index, favourite.url, favourite.title);
             DisplayTable<Favourites>("Favourites");
         }
@@ -201,7 +198,6 @@ namespace Coursework.GUI
         /// <param name="e"></param>
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO: Make generic
             var index = BrowserPageUrlDisplay.SelectedIndex;
             _db.DeleteWebpage<Favourites>(index);
             DisplayTable<Favourites>("Favourites");

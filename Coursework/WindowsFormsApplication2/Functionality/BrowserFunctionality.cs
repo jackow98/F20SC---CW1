@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Browser;
 
 namespace Coursework.Functionality
@@ -11,35 +12,45 @@ namespace Coursework.Functionality
         public List<TabFunctionality> Tabs = new List<TabFunctionality>();
 
         /// <summary>
-        ///     Loads tabs into
+        ///     Loads tabs into drop down and updates current tab to last tab in list
         /// </summary>
-        /// <param name="db"></param>
+        /// <param name="db">The database associated with the browser</param>
         public void LoadTabs(DatabaseFunctionality db)
         {
-            foreach (var tab in db.GetTableAsList<Tabs>())
-                Tabs.Add(
-                    new TabFunctionality(
-                        ref db,
-                        new HTMLPage(tab.Url, tab.Title, "", "")
-                    )
-                );
+            List<Tabs> tabs = db.GetTableAsList<Tabs>();
 
-
-            CurrentTabIndex = db.GetTableSize<Tabs>() - 1;
-            CurrentTab = Tabs[CurrentTabIndex];
+            if (tabs.Count > 0)
+            {
+                foreach (var tab in tabs)
+                    Tabs.Add(
+                        new TabFunctionality(
+                            ref db,
+                            new HTMLPage(tab.Url, tab.Title, "", "")
+                        )
+                    );
+                
+                CurrentTabIndex = db.GetTableSize<Tabs>() - 1;
+                CurrentTab = Tabs[CurrentTabIndex];
+            }
         }
 
+        /// <summary>
+        ///     Closes a tab and calls removes from database
+        /// </summary>
+        /// <param name="tabToCloseIndex">The unique index of the tab to be closed</param>
+        /// <param name="newTabIndex">The index of the new tab to be selected</param>
         public void CloseTab(int tabToCloseIndex, int newTabIndex)
         {
-            //TODO: Exception for functionality returning void
             CurrentTabIndex = newTabIndex;
             CurrentTab = Tabs[newTabIndex];
             Tabs.RemoveAt(tabToCloseIndex);
         }
 
-        public TabFunctionality GetTabFromIndex(int index)
-        {
-            return Tabs[index];
-        }
+        /// <summary>
+        ///     Return tab stored at provided index
+        /// </summary>
+        /// <param name="index">The unique index of the tab to be retrived</param>
+        /// <returns></returns>
+        public TabFunctionality GetTabFromIndex(int index) { return Tabs[index]; }
     }
 }
