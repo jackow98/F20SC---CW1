@@ -6,9 +6,9 @@ namespace Coursework.Functionality
     public class BrowserFunctionality
     {
         //TODO: All need default values
-        public TabFunctionality<HTMLPage> CurrentTab;
+        public TabFunctionality CurrentTab;
         public int CurrentTabIndex;
-        public List<TabFunctionality<HTMLPage>> Tabs = new List<TabFunctionality<HTMLPage>>();
+        public List<TabFunctionality> Tabs = new List<TabFunctionality>();
 
         /// <summary>
         ///     Loads tabs into
@@ -18,7 +18,7 @@ namespace Coursework.Functionality
         {
             foreach (var tab in db.GetTableAsList<Tabs>())
                 Tabs.Add(
-                    new TabFunctionality<HTMLPage>(
+                    new TabFunctionality(
                         ref db,
                         new HTMLPage(tab.Url, tab.Title, "", "")
                     )
@@ -37,7 +37,7 @@ namespace Coursework.Functionality
             Tabs.RemoveAt(tabToCloseIndex);
         }
 
-        public TabFunctionality<HTMLPage> GetTabFromIndex(int index)
+        public TabFunctionality GetTabFromIndex(int index)
         {
             return Tabs[index];
         }

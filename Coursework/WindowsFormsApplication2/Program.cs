@@ -15,7 +15,7 @@ namespace Browser
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //TODO: Make generic
-            Application.Run(new BrowserWindow<HTMLPage>());
+            Application.Run(new BrowserWindow());
         }
     }
 }

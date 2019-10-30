@@ -5,12 +5,17 @@ namespace Browser
 {
     public static class SafeExecution
     {
+        #region Delegates
+
         public delegate string GetStringMethod();
         public delegate void UpdateGuiMethod();
         public delegate bool DatabaseConnectionMethod();
-        public delegate TDatabaseReturn DatabaseInteractionMethod<TDatabaseReturn>();
 
-        public static void DisplayErrorAndExit(Exception e, string msg, string caption, bool exit)
+        #endregion
+        
+        #region Safe Execution Methods
+
+        public static void DisplayError(Exception e, string msg, string caption, bool exit)
         {
             MessageBox.Show(
                 msg,
@@ -29,7 +34,7 @@ namespace Browser
             }
             catch (Exception e)
             {
-                DisplayErrorAndExit(
+                DisplayError(
                     e,
                     "There has been an issue displaying your web browser, please restart the application",
                     "Application Error",
@@ -46,7 +51,7 @@ namespace Browser
             }
             catch (Exception e)
             {
-                DisplayErrorAndExit(
+                DisplayError(
                     e,
                     "There has been an issue connecting to the database, please try again",
                     "Database Connection error",
@@ -68,6 +73,10 @@ namespace Browser
             }
         }
 
+        #endregion
+
+        #region Exceptions
+
         public class HttpRequestException : Exception
         {
             public HttpRequestException(string msg) : 
@@ -79,5 +88,8 @@ namespace Browser
             public DatabseException(string msg) : 
                 base(msg) {}
         }
+
+        #endregion
+        
     }
 }

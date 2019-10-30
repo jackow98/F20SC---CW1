@@ -11,7 +11,7 @@ namespace Coursework.GUI
     /// </summary>
     /// <typeparam name="TWebPage">The generic that implements a Web Page</typeparam>
     //TODO: Handle GUI exception cases in this class
-    public partial class BrowserWindow<TWebPage> where TWebPage : IWebpage
+    public partial class BrowserWindow
     {
         private readonly BrowserFunctionality _browser = new BrowserFunctionality();
         private readonly DatabaseFunctionality _db;

@@ -6,6 +6,8 @@ namespace Browser
     /// <summary>
     ///     Abstract class that stores details of a web page including a URL, Title, NO. of Visits and LastLoad
     /// </summary>
+    
+    //TODO: Implement visits and lastload
     public abstract class WebPageTable
     {
         public abstract string TableName { get; }
@@ -86,11 +88,6 @@ namespace Browser
         [Column(Name = "Visits")] public override int Visits { get; set; }
 
         [Column(Name = "LastLoad")] public override string LastLoad { get; set; }
-
-        public void Detach()
-        {
-            GetType().GetMethod("Initialize", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(this, null);
-        }
     }
 
     [Table(Name = "Home")]

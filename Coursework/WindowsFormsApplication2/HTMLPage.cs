@@ -3,14 +3,14 @@ using System.Windows.Forms;
 
 namespace Browser
 {
-    public class HTMLPage : IWebpage
+    public class HTMLPage
     {
-        public DateTime accessDateTime;
         public string rawHTML;
         public string status;
         public string title;
         public string url;
         public int visits;
+        public DateTime accessDateTime;
 
         public HTMLPage(string url, string title, string status, string rawHtml)
         {
@@ -20,11 +20,6 @@ namespace Browser
             rawHTML = rawHtml;
             visits = 0;
             accessDateTime = DateTime.Now;
-        }
-
-        public GroupBox DisplayElement()
-        {
-            throw new NotImplementedException();
         }
     }
 }

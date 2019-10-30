@@ -8,7 +8,7 @@ namespace Coursework.Functionality
     ///     Class that tracks the information associated with a tab
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TabFunctionality<T> where T : IWebpage
+    public class TabFunctionality
     {
         private LinkedListNode<HTMLPage> currentNode;
         public HTMLPage CurrentPage;

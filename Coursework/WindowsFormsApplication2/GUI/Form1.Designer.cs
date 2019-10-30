@@ -4,7 +4,7 @@ using Browser;
 
 namespace Coursework.GUI
 {
-    partial class BrowserWindow<TWebPage> : Form  where TWebPage : IWebpage
+    partial class BrowserWindow : Form
     {
         /// <summary>
         /// Required designer variable.
