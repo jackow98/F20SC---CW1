@@ -9,6 +9,7 @@ using Browser;
 
 namespace WindowsFormsApplication2.Functionality
 {
+    //TODO: Finish implementing exception handling at this level
     /// <summary>
     ///     Class to handle connection and transactions with local SQLite database
     /// </summary>

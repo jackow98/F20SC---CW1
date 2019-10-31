@@ -31,7 +31,7 @@ C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\D
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\bin\Debug\System.Data.SQLite.xml
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\F20SCCoursework1.csprojResolveAssemblyReference.cache
-C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.GUI.BrowserWindow.resources
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\WindowsFormsApplication2.Properties.Resources.resources
 C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\F20SCCoursework1.csproj.GenerateResource.Cache
 C:\Users\Owner\.ssh\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\Coursework.GUI.BrowserWindow.resources
+C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsFormsApplication2\obj\Debug\Coursework.GUI.BrowserWindow.resources

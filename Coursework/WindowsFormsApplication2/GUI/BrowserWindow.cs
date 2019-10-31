@@ -343,6 +343,7 @@ namespace Coursework.GUI
         /// <typeparam name="TTable">The type of the table that inherit WebPageTable</typeparam>
         private void DisplayTable<TTable>(string title) where TTable : WebPageTable
         {
+            //TODO: Display table in correct order
             SafeExecution.UpdateGui(() =>
             {
                 DisplayLoadingState();
