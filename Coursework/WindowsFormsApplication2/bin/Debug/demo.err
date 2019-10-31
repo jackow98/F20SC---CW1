@@ -1,0 +1,10 @@
+/COM,ANSYS RELEASE Release 17.2      BUILD 17.2      UP20160718       10:56:39
+
+ *** ERROR ***                           CP =       0.750   TIME= 10:56:40
+ Data file C:\Users\jw50\Source\Repos\F20SC---CW1\Coursework\WindowsForms
+ Application2\bin\Debug\demo.DB has incorrect format, is missing         
+ READ/WRITE permission, or is empty for RESUME.                          
+
+ *** WARNING ***                         CP =       0.750   TIME= 10:56:40
+ WHILE PROCESSING FILE BASED INPUT (/INPUT OR MACRO) AN ERROR HAS        
+ OCCURRED.  SHOULD INPUT PROCESSING BE SUSPENDED?                        

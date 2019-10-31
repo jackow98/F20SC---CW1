@@ -1,16 +1,34 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
+    <e p="C:\Users\Owner\.Rider2019.2\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\Owner\.Rider2019.2\config\extensions" t="IncludeRecursive" />
     <e p="C:\Users\Owner\.Rider2019.2\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Owner\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Coursework.-2113797704.00" t="ExcludeRecursive" />
     <e p="C:\Users\Owner\.ssh\F20SC---CW1\Coursework" t="IncludeFlat">
-      <e p="Coursework" t="IncludeRecursive">
+      <e p="Coursework.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="WindowsFormsApplication2" t="IncludeRecursive">
         <e p="App.config" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Coursework.csproj" t="IncludeRecursive" />
-        <e p="Form1.cs" t="Include" />
-        <e p="Form1.Designer.cs" t="Include" />
+        <e p="F20SCCoursework1.csproj" t="IncludeRecursive" />
+        <e p="Functionality" t="Include">
+          <e p="BrowserFunctionality.cs" t="Include" />
+          <e p="DatabaseFunctionality.cs" t="Include" />
+          <e p="HTTPFunctionality.cs" t="Include" />
+          <e p="TabFunctionality.cs" t="Include" />
+        </e>
+        <e p="GUI" t="Include">
+          <e p="AddFavouritePopUp.cs" t="Include" />
+          <e p="BrowserWindow.cs" t="Include" />
+          <e p="Form1.Designer.cs" t="Include" />
+          <e p="Form1.resx" t="Include" />
+        </e>
+        <e p="HelperMethods.cs" t="Include" />
+        <e p="HTMLPage.cs" t="Include" />
+        <e p="IWebpage.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
@@ -19,9 +37,8 @@
           <e p="Settings.Designer.cs" t="Include" />
           <e p="Settings.settings" t="Include" />
         </e>
+        <e p="Tables.cs" t="Include" />
       </e>
-      <e p="Coursework.sln" t="IncludeFlat" />
-      <e p="packages" t="ExcludeRecursive" />
     </e>
   </component>
 </project>
